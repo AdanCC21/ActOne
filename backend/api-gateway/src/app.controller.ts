@@ -1,14 +1,16 @@
 import { Controller, Get, Inject } from '@nestjs/common';
-import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
-
+import { AppService } from './app.service';
 
 @Controller('user')
 export class AppController {
-  constructor(@Inject('USER_SERVICE') private client: ClientProxy, private readonly appService: AppService) {}
+  constructor(
+    @Inject('USER_SERVICE') private userClient: ClientProxy,
+    private appSer: AppService
+  ) { }
 
-  @Get(':id')
-  async getUser() {
-    return this.client.send({ cmd: 'get_user' }, { id: '123' });
+  @Get('user-hello')
+  async getUserHello() {
+    return this.userClient.send({ cmd: "user-hi" },{});
   }
 }

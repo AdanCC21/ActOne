@@ -5,13 +5,12 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Define communication with microservices (e.g., via TCP)
-  app.connectMicroservice({
-    transport: Transport.TCP,
-    options: { host: 'localhost', port: 3001 },
+  app.enableCors({  // Enable CORS
+    origin: 'http://localhost:5173', // Allow frontend route
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
   });
 
-  await app.startAllMicroservices();
   await app.listen(3000);
 }
 bootstrap();
