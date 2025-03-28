@@ -2,12 +2,12 @@ import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
 
-@Controller('stories')
+@Controller()
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @MessagePattern({ cmd: 'hello' })
+  @MessagePattern({ cmd: 'story-hi' })
   sayHello() {
-    return 'Hello from Public Service';
+    return {message:"Hi from the story microservice"};
   }
 }

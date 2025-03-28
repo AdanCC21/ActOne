@@ -4,15 +4,14 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/user/user-hello")
+    fetch("http://localhost:3000/api/story-hello")
       .then(res => res.json())
       .then(data => setUser(data));
   }, []);
 
   return (
-    <div>
-      <h1>Conectando papu</h1>
-      {user ? <p>Username: {user.message}</p> : <p>Loading...</p>}
+    <div className="flex flex-col w-screen h-screen justify-center items-center">
+      {user ? <h1 className="text-green-400">Message: {user.message}</h1> : <p className="text-red-600">Loading...</p>}
     </div>
   );
 }
