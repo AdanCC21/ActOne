@@ -4,16 +4,19 @@ FROM node:18-alpine AS builder
 WORKDIR /frontend
 
 # Copiar package.json y package-lock.json para instalar dependencias primero
-COPY package.json package-lock.json ./
+COPY frontend/package.json frontend/package-lock.json ./
 
 # Instalar dependencias
 RUN npm install --frozen-lockfile
 
 # Copiar el código fuente
-COPY . .
+COPY frontend ./  
 
 # Construir la aplicación
+RUN ls
 RUN npm run build
+RUN ls
+
 
 # Etapa de producción (Nginx para servir el contenido estático)
 FROM nginx:alpine
@@ -21,8 +24,8 @@ FROM nginx:alpine
 # Copiar los archivos generados por Vite a la carpeta de Nginx
 COPY --from=builder /frontend/dist /usr/share/nginx/html
 
-# Correct path for when nginx.conf is outside of the frontend folder
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+# Correct path for nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Exponer el puerto por donde servirá Nginx
 EXPOSE 80
