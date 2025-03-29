@@ -5,9 +5,8 @@ import { Transport } from '@nestjs/microservices';
 async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.TCP,
-    options : {host : "localhost",port : 3002}
-  })
-
-  await app.listen();
+    options: { host: "localhost", port: 3002 }
+  });
+  app.listen();
 }
 bootstrap();
