@@ -7,16 +7,27 @@ export class AppController {
   constructor(
     @Inject('USER_SERVICE') private userClient: ClientProxy,
     @Inject('STORY_SERVICE') private storyClient: ClientProxy,
+    @Inject('AUTH_SERVICE') private authClient: ClientProxy,
     private appSer: AppService
   ) { }
 
   @Get('user-hello')
   async getUserHello() {
-    return this.userClient.send({ cmd: "user-hi" },{});
+    return this.userClient.send({ cmd: "user-hi" }, {});
   }
-  
+
   @Get('story-hello')
   async getStorieHello() {
-    return this.storyClient.send({ cmd: "story-hi" },{});
+    return this.storyClient.send({ cmd: "story-hi" }, {});
+  }
+
+  @Get('up-all')
+  async getAllUsers() {
+    return this.userClient.send({ cmd: "get-all-users" }, {});
+  }
+
+  @Get('auth-hi')
+  async getAuthHello() {
+    return this.authClient.send({ cmd: "auth-hi" }, {});
   }
 }
