@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import LogIn from "./pages/LogIn";
 
 function App() {
   
 
   return (
-    <div className="flex flex-col w-screen h-screen justify-center items-center">
-      <h1>Hello World :D</h1>
+    <div>
+      <LogIn></LogIn>
     </div>
   );
 }
