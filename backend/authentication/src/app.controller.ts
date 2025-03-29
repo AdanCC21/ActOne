@@ -1,12 +1,20 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { MessagePattern } from '@nestjs/microservices';
 
-@Controller()
+@Controller('auth')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @MessagePattern({cmd:"auth-hi"})
+  getHi(){
+    return {message:"Auth ok"}
+  }
+
+  @MessagePattern({cmd:"try-upd"})
+  tryUPD() {
+    return fetch("http://localhost:3011/user-pd/test-user")
+      .then(data => data.json())
+      .catch(err => console.error(err));
   }
 }

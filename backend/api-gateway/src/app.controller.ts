@@ -1,6 +1,7 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
+import { get } from 'http';
 
 @Controller('api')
 export class AppController {
@@ -29,5 +30,10 @@ export class AppController {
   @Get('auth-hi')
   async getAuthHello() {
     return this.authClient.send({ cmd: "auth-hi" }, {});
+  }
+
+  @Get('try-upd')
+  async tryAuthToUdp() {
+    return this.authClient.send({ cmd: "try-upd" }, {});
   }
 }

@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
 
-@Controller('user')
+@Controller('user-pd')
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
@@ -12,7 +12,12 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'get-all-users' })
-  getAllUsers(){
+  getAllUsers() {
     return this.appService.findAll();
+  }
+
+  @Get('test-user')
+  test() {
+    return { message: "Hi from the usaer microservice :D" };
   }
 }
