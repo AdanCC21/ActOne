@@ -2,8 +2,30 @@
 
 body{
   margin: 0;
+  background-color: var(--dark-500);
+  color: white;
+  box-sizing: border-box;
 }
 
 :root{
-  --dark-500:#17171A;
+  --dark-100:#1A1A1A;
+  --dark-200:#17171C;
+  --dark-300:#141418;
+  --dark-400:#121216;
+  --dark-500:#101014;
+  --dark-600:#0D0D11;
+  --dark-700:#0B0B0E;
+  --dark-800:#060608;
+
+  --red-50:#fef3f2;
+  --red-100:#fee4e2;
+  --red-200:#ffcec9;
+  --red-300:#fdaca4;
+  --red-400:#fa7b6f;
+  --red-500:#f25041;
+  --red-600:#df3323;
+  --red-700:#bc2719;
+  --red-800:#9b2419;
+  --red-900:#81241b;
+  --red-950:#460e09;
 }
