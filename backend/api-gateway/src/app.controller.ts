@@ -1,4 +1,4 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { get } from 'http';
@@ -35,5 +35,10 @@ export class AppController {
   @Get('try-upd')
   async tryAuthToUdp() {
     return this.authClient.send({ cmd: "try-upd" }, {});
+  }
+
+  @Get('try-body/:userName')
+  async tryBody(@Param("userName") nombre:string){
+    return this.authClient.send({cmd:"create-user"},{name:nombre});
   }
 }
