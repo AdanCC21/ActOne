@@ -6,15 +6,20 @@ import { MessagePattern } from '@nestjs/microservices';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @MessagePattern({cmd:"auth-hi"})
-  getHi(){
-    return {message:"Auth ok"}
+  @MessagePattern({ cmd: "auth-hi" })
+  getHi() {
+    return { message: "Auth ok" }
   }
 
-  @MessagePattern({cmd:"try-upd"})
+  @MessagePattern({ cmd: "try-upd" })
   tryUPD() {
     return fetch("http://localhost:3011/user-pd/test-user")
       .then(data => data.json())
       .catch(err => console.error(err));
+  }
+
+  @MessagePattern({ cmd: "create-user" })
+  registerUser(data: { name: string }) {
+    return data.name;
   }
 }
