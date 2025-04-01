@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
+import { CreateUserDTO } from './DTO/create-user.dto';
 
 @Controller('user-pd')
 export class AppController {
@@ -19,5 +20,10 @@ export class AppController {
   @Get('test-user')
   test() {
     return { message: "Hi from the usaer microservice :D" };
+  }
+
+  @Post('create-upd')
+  createUserPublic(@Body() userData: CreateUserDTO) {
+    return this.appService.createUser(userData);
   }
 }

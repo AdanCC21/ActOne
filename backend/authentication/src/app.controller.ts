@@ -19,13 +19,12 @@ export class AppController {
       .catch(err => console.error(err));
   }
 
-  // @MessagePattern({ cmd: "create-user" })
-  // registerUser(data: { name: string }) {
-  //   return data.name;
-  // }
-
   @MessagePattern({ cmd: "reg-user" })
   async registerUser(data: { userData: CreateAuthDTO }) {
-    // let createUser = this.appService.createNewUser(data.userData);
+    const createdUser = this.appService.createNewUser(data.userData);
+    if (createdUser != null) {
+      return createdUser;
+    }
+    return { message: "Error, something is wrong with the auth service" }
   }
 }
