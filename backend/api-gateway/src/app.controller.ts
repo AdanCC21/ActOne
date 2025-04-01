@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { get } from 'http';
@@ -38,7 +38,12 @@ export class AppController {
   }
 
   @Get('try-body/:userName')
-  async tryBody(@Param("userName") nombre:string){
-    return this.authClient.send({cmd:"create-user"},{name:nombre});
+  async tryBody(@Param("userName") nombre: string) {
+    return this.authClient.send({ cmd: "create-user" }, { name: nombre });
+  }
+
+  @Post("reg-user")
+  async registerUser(@Body() data: JSON) {
+    return this.authClient.send({ cmd: "reg-user" }, { userData: data });
   }
 }

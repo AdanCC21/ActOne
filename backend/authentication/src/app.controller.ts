@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
+import { CreateAuthDTO } from './DTO/create-auth.dto';
 
 @Controller('auth')
 export class AppController {
@@ -18,8 +19,13 @@ export class AppController {
       .catch(err => console.error(err));
   }
 
-  @MessagePattern({ cmd: "create-user" })
-  registerUser(data: { name: string }) {
-    return data.name;
+  // @MessagePattern({ cmd: "create-user" })
+  // registerUser(data: { name: string }) {
+  //   return data.name;
+  // }
+
+  @MessagePattern({ cmd: "reg-user" })
+  async registerUser(data: { userData: CreateAuthDTO }) {
+    // let createUser = this.appService.createNewUser(data.userData);
   }
 }
