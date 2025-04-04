@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreateUserDTO } from './DTO/create-user.dto';
 
-@Controller('user-pd')
+@Controller('upd')
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
@@ -22,7 +22,7 @@ export class AppController {
     return { message: "Hi from the usaer microservice :D" };
   }
 
-  @Post('create-upd')
+  @Post('create')
   createUserPublic(@Body() userData: CreateUserDTO) {
     return this.appService.createUser(userData);
   }
