@@ -62,7 +62,7 @@ export default function LogIn({ }) {
                     <p>{alert}</p>
                     <div>
                         <label htmlFor="emailLog" >Email</label>
-                        <input id="emailLog" name="email" value={inputs.name} onChange={(e) => { handleChanges(e) }}
+                        <input id="emailLog" name="email" value={inputs.email} onChange={(e) => { handleChanges(e) }}
                             type="email" placeholder="user@gmail.com"></input>
                     </div>
 
@@ -77,7 +77,7 @@ export default function LogIn({ }) {
                     <button className="p-2 dark-button " type="button" aria-label="Continue with google">
                         <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
                         Continue with Google</button>
-                    <a className="m-4" href="/reg">Register</a>
+                    <a className="m-4" href="/register">Register</a>
                 </div>
                 <button className="red-button ml-auto" type="submit" >Continue</button>
             </form>

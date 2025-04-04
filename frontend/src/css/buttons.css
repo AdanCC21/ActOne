@@ -1,3 +1,17 @@
+.void-button{
+    display: flex;
+    
+    padding: 0px 16px;
+    height: calc(1rem + 22px);
+    align-items: center;
+    transition: all ease-in-out 0.2s;
+}
+
+.void-button img{
+    height: 80%;
+    margin: auto;
+}
+
 .dark-button {
     display: flex;
     background-color: var(--dark-50);

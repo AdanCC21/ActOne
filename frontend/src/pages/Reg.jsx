@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 export default function Reg({ }) {
 
+    const navigate = useNavigate();
+
     let [currentForm, setForm] = useState(1);
+
+    useEffect(() => {
+        setForm(1);
+    }, [])
+
     let [inputs, setInput] = useState({
         email: "",
         password: "",
@@ -15,30 +23,72 @@ export default function Reg({ }) {
     let [alert, setAlert] = useState("");
 
     const handleChanges = (e) => {
-        switch (e.target.name) {
-            case "email":
-                setInput(preventDefault => ({
-                    ...preventDefault,
-                    email: e.target.value
-                }))
-                break;
-            case "password":
-                setInput(preventDefault => ({
-                    ...preventDefault,
-                    password: e.target.value
-                }))
-                break;
+        const atribute = e.target.name;
+        const value = e.target.value;
+        
+        // if (atribute == 'password') {
+        //     const [ok, message] = validatePassword(value);
+        //     if (!ok) {
+        //         setAlert(message);
+        //         return;
+        //     }
+        // } else {
+        //     if (atribute == "email") {
+        //         const [ok, message] = validateEmail(value);
+        //         if (!ok) {
+        //             setAlert(message);
+        //             return;
+        //         }
+        //     } else {
+        //         const [ok, message] = validate(value);
+        //         if (!ok) {
+        //             setAlert(message);
+        //             return;
+        //         }
+        //     }
+        // }
+
+        setInput(prev => ({
+            ...prev,
+            [atribute]: e.target.value
+        }))
+    }
+
+    const validate = (text) => {
+        if (text === "") {
+            return [false, "pleace fill the input"];
+        }
+
+        // If text contains other letters than A-z or 0-9
+        if (!/^[A-Za-z 0-9]+$/.test(text)) {
+            return [false, "only A-z and 0-9 alowed"];
         }
     }
 
-    const validate = () => {
-        if (inputs.email != "") {
-            if (inputs.password != "" && inputs.password.length > 6) {
-                return ["Ok", true];
-            }
-            return ["Contraseña muy corta", false];
+    const validateEmail = (text) => {
+        if (text === "") {
+            return [false, "pleace fill the input"];
         }
-        return ["Correo vacio o invalido", false];
+
+        // If text contains other letters than A-z or 0-9
+        if (!/^[A-Za-z 0-9@]+$/.test(text)) {
+            return [false, "only A-z and 0-9 alowed"];
+        }
+    }
+
+    const validatePassword = (text) => {
+        if (text === "") {
+            return [false, "pleace fill the input"];
+        }
+        if (!/^[a-zA-Z0-9_.$]+$/.test(text)) {
+            return [false, 'only letters betwen A-z and only _ . $ special characters'];
+        }
+
+        if (!/[._$]/.test(text)) {
+            return [false, "password needs one special character"];
+        }
+
+        return true;
     }
 
     const handleSubmit = (e) => {
@@ -52,21 +102,22 @@ export default function Reg({ }) {
 
     const fase1 = () => {
         return (<form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-200) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
-            <legend className="text-center">New User fase 1</legend>
+            <legend className="text-center">Basic Data</legend>
+            <span>{alert}</span>
             <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
                 <div>
                     <label htmlFor="emailLog" >Email</label>
-                    <input id="emailReg" type="email" placeholder="user@gmail.com"></input>
+                    <input name="email" value={inputs.email} onChange={(e) => { handleChanges(e) }} id="emailReg" type="email" placeholder="user@gmail.com"></input>
                 </div>
 
                 <div>
                     <label htmlFor="passwordLog">Password</label>
-                    <input id="passwordReg" type="password" placeholder="example_$37"></input>
+                    <input name="password" value={inputs.password} onChange={(e) => { handleChanges(e) }} id="passwordReg" type="password" placeholder="example_$37"></input>
                 </div>
 
                 <div>
                     <label htmlFor="passwordLog">Confirm Password</label>
-                    <input id="confirmPasswordReg" type="password" placeholder="example_$37"></input>
+                    <input name="confPass" value={inputs.confPass} onChange={(e) => { handleChanges(e) }} id="confirmPasswordReg" type="password" placeholder="example_$37"></input>
                 </div>
             </fieldset>
 
@@ -74,46 +125,49 @@ export default function Reg({ }) {
                 <button className="p-2 dark-button " type="button" aria-label="Continue with google">
                     <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
                     Continue with Google</button>
-                <a className="m-4" href="/reg">Register</a>
+                <a className="m-4" href="/">Log In</a>
             </div>
-            <button className="red-button ml-auto" type="submit" onClick={() => { setForm(2) }}>Continue</button>
+            <button className="red-button ml-auto" type="submit" onClick={() => { handleSubmit() }}>Next</button>
         </form>)
     }
 
     const fase2 = () => {
-        return (<form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-200) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
-            <legend className="text-center">fase 2</legend>
-            <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
-                <div>
-                    <label htmlFor="emailLog" >Email</label>
-                    <input id="emailReg" type="email" placeholder="user@gmail.com"></input>
-                </div>
+        return (
+            <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-200) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
+                <legend className="text-center">Hi, what is your name?</legend>
+                <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
+                    <div>
+                        <label htmlFor="text" >Name</label>
+                        <input name="userName" value={inputs.userName} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
+                    </div>
+                </fieldset>
 
-                <div>
-                    <label htmlFor="passwordLog">Password</label>
-                    <input id="passwordReg" type="password" placeholder="example_$37"></input>
+                <div className="flex flex-col items-center w-full h-[20%] ">
+                    <button className="p-2 dark-button " type="button" aria-label="Continue with google">
+                        <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
+                        Continue with Google</button>
+                    <a className="m-4" href="/">Login</a>
                 </div>
-
-                <div>
-                    <label htmlFor="passwordLog">Confirm Password</label>
-                    <input id="confirmPasswordReg" type="password" placeholder="example_$37"></input>
+                <div className="flex w-full justify-between">
+                    <button className="red-button  " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
+                    <button className="red-button  " type="submit" onClick={() => { setForm(prev => (prev + 1)) }} >Next</button>
                 </div>
-            </fieldset>
-
-            <div className="flex flex-col items-center w-full h-[20%] ">
-                <button className="p-2 dark-button " type="button" aria-label="Continue with google">
-                    <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
-                    Continue with Google</button>
-                <a className="m-4" href="/reg">Register</a>
-            </div>
-            <button className="red-button ml-auto" type="submit" onClick={() => { setForm(3) }} >Continue</button>
-        </form>)
+            </form>)
     }
+
     const fase3 = () => {
         return (
             <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-200) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
-                <h2>Bienvenido</h2>
-                <button className="red-button ml-auto" type="submit" onClick={() => { setForm(1) }}>Continue</button>
+                <div className='flex flex-col m-auto text-center'>
+                    <h3>Bienvenido</h3>
+                    <h1 className='text-(--red-500) font-bold uppercase mx-2'>{inputs.userName}</h1>
+                    <h4>Have fun</h4>
+                </div>
+
+                <div className="flex w-full justify-between">
+                    <button className="red-button  " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
+                    <button className="red-button  " type="submit" onClick={() => { navigate('/') }} >Next</button>
+                </div>
             </form>)
     }
 
