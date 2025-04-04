@@ -18,14 +18,36 @@ export class AppService {
           email: userData.email,
           type_authentication: "email",
           authentication: userData.authentication,
-          user_id: this.getUPD()
+          user_id: await this.getUPD()
         }
       })
     }
     return null;
   }
 
-  getUPD():number{
-    return 1
+  /**
+   * @param nothing
+   * @returns the user public data or error
+   */
+  async getUPD() {
+    try {
+      const response = await fetch("http://localhost:3011", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_name: "new user" }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Something is wrong with the microservices ${response.status}`);
+      }
+
+      const res = await response.json();
+      return res;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 }
