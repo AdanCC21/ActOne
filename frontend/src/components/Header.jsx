@@ -14,7 +14,7 @@ export default function Header({ }) {
             </div>
 
             <div className='h-nav'>
-                <form className='flex flex-row bg-(--dark-700)' onSubmit={(e) => { e.preventDefault(); }}>
+                <form className='flex flex-row bg-(--dark-500)' onSubmit={(e) => { e.preventDefault(); }}>
                     <input className='rounded-2xl' id='searcher' type='text' ></input>
                     <button className="void-button m-auto " type="button" aria-label="search something">
                         <img src={searcher} alt='searcher' />

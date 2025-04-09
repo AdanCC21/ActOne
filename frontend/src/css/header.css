@@ -32,7 +32,10 @@
 .h-nav form input{
     width: 90%;
     border-radius: 32px 0px 0px 32px;
+    background-color: var(--dark-700);
 }
+
+
 
 .h-nav div{
     display: flex;
@@ -43,9 +46,9 @@
 }
 
 .h-nav div img{
-    height: 30%;
+    height: 25%;
 }
 
 .h-nav .user-icon{
-    height: 50%;
+    height: 35%;
 }
