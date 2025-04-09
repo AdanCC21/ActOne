@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { BackendRoute } from '../context/AppContext';
 
 export default function Reg({ }) {
 
     const navigate = useNavigate();
+    const backRoute = useContext(BackendRoute);
 
     let [currentForm, setForm] = useState(1);
 
@@ -25,28 +27,6 @@ export default function Reg({ }) {
     const handleChanges = (e) => {
         const atribute = e.target.name;
         const value = e.target.value;
-        
-        // if (atribute == 'password') {
-        //     const [ok, message] = validatePassword(value);
-        //     if (!ok) {
-        //         setAlert(message);
-        //         return;
-        //     }
-        // } else {
-        //     if (atribute == "email") {
-        //         const [ok, message] = validateEmail(value);
-        //         if (!ok) {
-        //             setAlert(message);
-        //             return;
-        //         }
-        //     } else {
-        //         const [ok, message] = validate(value);
-        //         if (!ok) {
-        //             setAlert(message);
-        //             return;
-        //         }
-        //     }
-        // }
 
         setInput(prev => ({
             ...prev,
@@ -63,6 +43,8 @@ export default function Reg({ }) {
         if (!/^[A-Za-z 0-9]+$/.test(text)) {
             return [false, "only A-z and 0-9 alowed"];
         }
+
+        return true;
     }
 
     const validateEmail = (text) => {
@@ -91,12 +73,33 @@ export default function Reg({ }) {
         return true;
     }
 
-    const handleSubmit = (e) => {
-        const [message, res] = validate();
-        if (res) {
-            setAlert("Working");
-        } else {
-            setAlert(message);
+    const handleSubmit = async (e) => {
+        const data = {
+            "userData":{
+                "email":inputs.email,
+                "authentication":inputs.password
+            },
+            "user_name":inputs.userName,
+            "description":inputs.description
+        }
+        
+        try{
+            const res = await fetch(`${backRoute}api/reg-user`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body: JSON.stringify(data)
+            })
+            if(!res.ok){
+                throw new Error("Something is wrong with the backend "+ res.status);
+            }
+            const dataRes = await res.json();
+            console.log(dataRes);
+            navigate('/');
+
+        }catch(error){
+            console.error(error)
         }
     }
 
@@ -127,7 +130,7 @@ export default function Reg({ }) {
                     Continue with Google</button>
                 <a className="m-4" href="/">Log In</a>
             </div>
-            <button className="red-button ml-auto" type="submit" onClick={() => { handleSubmit() }}>Next</button>
+            <button className="red-button ml-auto" type="submit" onClick={() => { setForm(prev => (prev + 1)) }}>Next</button>
         </form>)
     }
 
@@ -166,7 +169,7 @@ export default function Reg({ }) {
 
                 <div className="flex w-full justify-between">
                     <button className="red-button  " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
-                    <button className="red-button  " type="submit" onClick={() => { navigate('/') }} >Next</button>
+                    <button className="red-button  " type="submit" onClick={() => { handleSubmit() }} >Next</button>
                 </div>
             </form>)
     }
