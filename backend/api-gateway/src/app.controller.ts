@@ -12,38 +12,39 @@ export class AppController {
     private appSer: AppService
   ) { }
 
-  @Get('user-hello')
-  async getUserHello() {
-    return this.userClient.send({ cmd: "user-hi" }, {});
-  }
+  // @Get('user-hello')
+  // async getUserHello() {
+  //   return this.userClient.send({ cmd: "user-hi" }, {});
+  // }
 
-  @Get('story-hello')
-  async getStorieHello() {
-    return this.storyClient.send({ cmd: "story-hi" }, {});
-  }
+  // @Get('story-hello')
+  // async getStorieHello() {
+  //   return this.storyClient.send({ cmd: "story-hi" }, {});
+  // }
 
-  @Get('up-all')
-  async getAllUsers() {
-    return this.userClient.send({ cmd: "get-all-users" }, {});
-  }
+  // @Get('up-all')
+  // async getAllUsers() {
+  //   return this.userClient.send({ cmd: "get-all-users" }, {});
+  // }
 
-  @Get('auth-hi')
-  async getAuthHello() {
-    return this.authClient.send({ cmd: "auth-hi" }, {});
-  }
+  // @Get('auth-hi')
+  // async getAuthHello() {
+  //   return this.authClient.send({ cmd: "auth-hi" }, {});
+  // }
 
-  @Get('try-upd')
-  async tryAuthToUdp() {
-    return this.authClient.send({ cmd: "try-upd" }, {});
-  }
+  // @Get('try-upd')
+  // async tryAuthToUdp() {
+  //   return this.authClient.send({ cmd: "try-upd" }, {});
+  // }
 
-  @Get('try-body/:userName')
-  async tryBody(@Param("userName") nombre: string) {
-    return this.authClient.send({ cmd: "create-user" }, { name: nombre });
-  }
+  // @Get('try-body/:userName')
+  // async tryBody(@Param("userName") nombre: string) {
+  //   return this.authClient.send({ cmd: "create-user" }, { name: nombre });
+  // }
 
   @Post("reg-user")
-  async registerUser(@Body() data: JSON) {
-    return this.authClient.send({ cmd: "reg-user" }, { userData: data });
+  async registerUser(@Body() data: any) {
+    const { userData, user_name, description } = data;
+    return this.authClient.send({ cmd: "reg-user" }, { userData, user_name, description });
   }
 }

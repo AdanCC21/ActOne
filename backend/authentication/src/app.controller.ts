@@ -20,8 +20,8 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: "reg-user" })
-  async registerUser(data: { userData: CreateAuthDTO }) {
-    const createdUser = this.appService.createNewUser(data.userData);
+  async registerUser(data: { userData: CreateAuthDTO, user_name:string, description:string }) {
+    const createdUser = this.appService.createNewUser(data.userData, data.user_name, data.description);
     if (createdUser != null) {
       return createdUser;
     }

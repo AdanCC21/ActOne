@@ -9,11 +9,11 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async createNewUser(userData: CreateAuthDTO) {
+  async createNewUser(userData: CreateAuthDTO, user_name: string, description: string) {
     const userExist = await this.prismaSer.authentication.findUnique({ where: { email: userData.email } });
     if (!userExist) {
-      const upd = await this.getUPD();
-      
+      const upd = await this.getUPD(user_name, description);
+
       return await this.prismaSer.authentication.create({
         data: {
           email: userData.email,
@@ -30,14 +30,14 @@ export class AppService {
    * @param nothing
    * @returns the user public data or error
    */
-  async getUPD() {
+  async getUPD(user_name: string, description: string) {
     try {
       const response = await fetch("http://localhost:3011/upd/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user_name: "new user 2" }),
+        body: JSON.stringify({ user_name: user_name, description: description }),
       });
 
       if (!response.ok) {

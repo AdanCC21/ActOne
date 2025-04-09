@@ -15,7 +15,8 @@ export class AppService {
   async createUser(user: CreateUserDTO) {
     return await this.prismaSer.user.create({
       data: {
-        user_name: user.user_name
+        user_name: user.user_name,
+        description:user.description
       }
     })
   }
