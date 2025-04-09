@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { BackendRoute } from "../context/AppContext";
 
 export default function LogIn({ }) {
     let [inputs, setInput] = useState({
@@ -11,6 +12,7 @@ export default function LogIn({ }) {
     });
 
     let [alert, setAlert] = useState("");
+    const BackendRoute = useContext(BackendRoute);
 
     const handleChanges = (e) => {
         switch (e.target.name) {
@@ -42,9 +44,17 @@ export default function LogIn({ }) {
     const handleSubmit = (e) => {
         const [message,res] = validate();
         if(res){
-            setAlert("Working");
+            
         }else{
             setAlert(message);
+        }
+    }
+
+    const sendToBackend = async () =>{
+        try{
+            fetch(`${BackendRoute}/api/`)
+        }catch(error){
+
         }
     }
 

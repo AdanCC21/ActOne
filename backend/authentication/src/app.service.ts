@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuthDTO } from './DTO/create-auth.dto';
 import { PrismaService } from './prisma/prisma.service';
+import { LogIn } from './DTO/login-auth.dto';
 
 @Injectable()
 export class AppService {
   constructor(private prismaSer: PrismaService) { }
-  getHello(): string {
-    return 'Hello World!';
-  }
 
+  /**
+   * 
+   * @param userData 
+   * @param user_name 
+   * @param description 
+   * @returns The user created with the upd id
+   */
   async createNewUser(userData: CreateAuthDTO, user_name: string, description: string) {
     const userExist = await this.prismaSer.authentication.findUnique({ where: { email: userData.email } });
     if (!userExist) {
@@ -50,5 +55,16 @@ export class AppService {
       console.error(error);
       return null;
     }
+  }
+
+  async logIn(userData: LogIn) {
+    const userExist = await this.prismaSer.authentication.findUnique({ where: { email: userData.email } });
+    if (userExist) {
+      if (userExist.authentication == userData.authentication) {
+        return userExist;
+      }
+      return new Error("User authentication wrong");
+    }
+    return new Error("User not found");
   }
 }
