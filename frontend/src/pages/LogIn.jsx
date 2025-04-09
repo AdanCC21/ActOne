@@ -1,18 +1,17 @@
 import { useContext, useState } from "react";
 import { BackendRoute } from "../context/AppContext";
+import { useNavigate } from 'react-router';
 
 export default function LogIn({ }) {
     let [inputs, setInput] = useState({
         email: "",
-        password: "",
-        confPass: "",
-        userName: "",
-        userDesc: "",
-        imageUrl: "",
+        password: ""
     });
 
     let [alert, setAlert] = useState("");
-    const BackendRoute = useContext(BackendRoute);
+    
+    const backRoute = useContext(BackendRoute);
+    const navigate = useNavigate();
 
     const handleChanges = (e) => {
         switch (e.target.name) {
@@ -44,17 +43,36 @@ export default function LogIn({ }) {
     const handleSubmit = (e) => {
         const [message,res] = validate();
         if(res){
-            
+            setAlert("Login....");
+            sendToBackend();
         }else{
             setAlert(message);
         }
     }
 
     const sendToBackend = async () =>{
+        const data = {
+            "email":inputs.email,
+            "type_authentication":"email",
+            "authentication":inputs.password
+        }
         try{
-            fetch(`${BackendRoute}/api/`)
-        }catch(error){
+            const res = await fetch(`${backRoute}api/login`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify(data)
+            })
 
+            if(!res.ok){
+                throw new Error("Something is wrong with the backend "+ res.status);
+            }
+            const dataRes = await res.json();
+            console.log(dataRes);
+            navigate('/home');
+        }catch(error){
+            console.error(error);
         }
     }
 
