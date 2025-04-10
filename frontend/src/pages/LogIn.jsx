@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { BackendRoute } from "../context/AppContext";
 import { useNavigate } from 'react-router';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-
+import ParticlesBg from "../components/ParticlesBg";
 
 export default function LogIn({ }) {
     let [inputs, setInput] = useState({
@@ -80,6 +80,7 @@ export default function LogIn({ }) {
 
     return (
         <div className="flex flex-col min-h-screen min-w-screen items-center justify-center overflow-hidden">
+            <ParticlesBg></ParticlesBg>
             <header className="mb-[-40px] z-3">
                 <h5 className="text-center font-medium mb-[-20px]">Welcome to</h5>
                 <h1 className="text-center font-bold mt-0 text-(--red-500)">ActOne</h1>
@@ -110,7 +111,7 @@ export default function LogIn({ }) {
                 </fieldset>
 
                 <div className="flex flex-col items-center w-full h-[20%] ">
-                    <button className="p-2 dark-button " type="button" aria-label="Continue with google">
+                    <button className="p-2 btn" type="button" aria-label="Continue with google">
                         <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
                         Continue with Google</button>
                     <a className="m-4" href="/register">Register</a>

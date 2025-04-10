@@ -96,6 +96,18 @@ input{
 input:focus{
   outline:var(--gray) solid;
 }
+textarea{
+  background-color: var(--dark-700);
+  padding: 5px;
+  border-radius: 6px;
+  outline: solid rgb(0,0,0,0);
+  transition: all ease-in-out 0.3s;
+}
+
+textarea:focus{
+  outline:var(--gray) solid;
+}
+
 ::-ms-reveal{
   filter: invert(100%);
 }

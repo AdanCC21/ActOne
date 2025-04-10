@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { BackendRoute } from '../context/AppContext';
+import ParticlesBg from '../components/ParticlesBg';
 
 export default function Reg({ }) {
 
@@ -125,35 +126,34 @@ export default function Reg({ }) {
             </fieldset>
 
             <div className="flex flex-col items-center w-full h-[20%] ">
-                <button className="p-2 dark-button " type="button" aria-label="Continue with google">
+                <button className="p-2 btn " type="button" aria-label="Continue with google">
                     <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
                     Continue with Google</button>
                 <a className="m-4" href="/">Log In</a>
             </div>
-            <button className="red-button ml-auto" type="submit" onClick={() => { setForm(prev => (prev + 1)) }}>Next</button>
+            <button className="btn ml-auto" type="submit" onClick={() => { setForm(prev => (prev + 1)) }}>Next</button>
         </form>)
     }
 
     const fase2 = () => {
         return (
             <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
-                <legend className="text-center">Hi, what is your name?</legend>
-                <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
-                    <div>
+                <legend className="text-center mt-5 text-(--red-100)">Hi, what is your name?</legend>
+                <fieldset className="flex flex-col  h-[70%] max-h-[80%] mt-[10%]">
+                    <div className='mb-5'>
                         <label htmlFor="text" >Name</label>
                         <input name="userName" value={inputs.userName} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
                     </div>
+                    
+                    <div className='max-h-[60%] h-fit'>
+                        <label htmlFor="text" >Description</label>
+                        <textarea name="userName" value={inputs.description} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></textarea>
+                    </div>
                 </fieldset>
 
-                <div className="flex flex-col items-center w-full h-[20%] ">
-                    <button className="p-2 dark-button " type="button" aria-label="Continue with google">
-                        <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
-                        Continue with Google</button>
-                    <a className="m-4" href="/">Login</a>
-                </div>
                 <div className="flex w-full justify-between">
-                    <button className="red-button  " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
-                    <button className="red-button  " type="submit"onClick={()=>{handleSubmit();}} >Next</button>
+                    <button className="btn " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
+                    <button className="btn " type="submit"onClick={()=>{handleSubmit();}} >Next</button>
                 </div>
             </form>)
     }
@@ -171,6 +171,7 @@ export default function Reg({ }) {
 
     return (
         <div className="flex flex-col min-h-screen min-w-screen items-center justify-center overflow-hidden">
+            <ParticlesBg></ParticlesBg>
             <header className="mb-[-40px] z-3">
                 <h5 className="text-center font-medium mb-[-20px]">Welcome to</h5>
                 <h1 className="text-center font-bold mt-0 text-(--red-500)">ActOne</h1>
