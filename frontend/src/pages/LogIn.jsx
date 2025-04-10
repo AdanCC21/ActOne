@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { BackendRoute } from "../context/AppContext";
 import { useNavigate } from 'react-router';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
 
 export default function LogIn({ }) {
     let [inputs, setInput] = useState({
@@ -9,7 +11,7 @@ export default function LogIn({ }) {
     });
 
     let [alert, setAlert] = useState("");
-    
+
     const backRoute = useContext(BackendRoute);
     const navigate = useNavigate();
 
@@ -41,37 +43,37 @@ export default function LogIn({ }) {
     }
 
     const handleSubmit = (e) => {
-        const [message,res] = validate();
-        if(res){
-            setAlert("Login....");
+        const [message, res] = validate();
+        if (res) {
+            setAlert("Login");
             sendToBackend();
-        }else{
+        } else {
             setAlert(message);
         }
     }
 
-    const sendToBackend = async () =>{
+    const sendToBackend = async () => {
         const data = {
-            "email":inputs.email,
-            "type_authentication":"email",
-            "authentication":inputs.password
+            "email": inputs.email,
+            "type_authentication": "email",
+            "authentication": inputs.password
         }
-        try{
-            const res = await fetch(`${backRoute}api/login`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
+        try {
+            const res = await fetch(`${backRoute}api/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-                body:JSON.stringify(data)
+                body: JSON.stringify(data)
             })
 
-            if(!res.ok){
-                throw new Error("Something is wrong with the backend "+ res.status);
+            if (!res.ok) {
+                throw new Error("Something is wrong with the backend " + res.status);
             }
             const dataRes = await res.json();
             console.log(dataRes);
             navigate('/home');
-        }catch(error){
+        } catch (error) {
             console.error(error);
         }
     }
@@ -84,10 +86,16 @@ export default function LogIn({ }) {
             </header>
 
 
-            <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-200) rounded-2xl"
+            <form className="flex flex-col h-[70vh] min-w-[25vw] max-w-[80vw] justify-between p-4 bg-(--dark-400) rounded-2xl"
                 onSubmit={(e) => { handleSubmit(); e.preventDefault(); }}>
                 <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
-                    <p>{alert}</p>
+                    {alert == "Login" ? (<div className="max-h-[50px] w-fit mx-auto">
+                        <DotLottieReact
+                            src="https://lottie.host/d0314f19-be77-48f1-8299-44406cef8edc/ldhSr6NV2l.lottie"
+                            loop
+                            autoplay
+                        />
+                    </div>) : (<div></div>)}
                     <div>
                         <label htmlFor="emailLog" >Email</label>
                         <input id="emailLog" name="email" value={inputs.email} onChange={(e) => { handleChanges(e) }}

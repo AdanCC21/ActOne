@@ -2,21 +2,33 @@
 
 body{
   margin: 0;
-  background-color: var(--dark-500);
+  background-color: var(--dark-800);
   color: white;
   box-sizing: border-box;
 }
 
 :root{
+
+  /* --dark-50:#1F1F1F;
+  --dark-100:#1A1A1A;
+  --dark-200:#1c1717;
+  --dark-300:#181414;
+  --dark-400:#161212;
+  --dark-500:#141010;
+  --dark-600:#110d0d;
+  --dark-700:#0e0b0b;
+  --dark-800:#080606; */
+  
   --dark-50:#1F1F1F;
   --dark-100:#1A1A1A;
   --dark-200:#17171C;
   --dark-300:#141418;
   --dark-400:#121216;
+  --dark-450:#121215;
   --dark-500:#101014;
   --dark-600:#0D0D11;
   --dark-700:#0B0B0E;
-  --dark-800:#060608;
+  --dark-800:#060608; 
 
   --red-50:#fef3f2;
   --red-100:#fee4e2;

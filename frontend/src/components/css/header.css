@@ -9,6 +9,7 @@
     max-width: 100vw;
     
     height: 8vh;
+    background-color: var(--dark-300);
 }
 
 .h-nav{
@@ -25,14 +26,14 @@
 
 .h-nav form{
     width: 80%;
-    border-radius: 32px;
+    border-radius: 8px;
     height: 50%;
 }
 
 .h-nav form input{
     width: 90%;
-    border-radius: 32px 0px 0px 32px;
-    background-color: var(--dark-700);
+    border-radius: 8px 0px 0px 8px;
+    background-color: var(--dark-800);
 }
 
 

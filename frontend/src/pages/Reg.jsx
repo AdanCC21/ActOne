@@ -97,6 +97,7 @@ export default function Reg({ }) {
             const dataRes = await res.json();
             console.log(dataRes);
             navigate('/');
+            // navigate(`/welcome/${inputs.userName}`);
 
         }catch(error){
             console.error(error)
@@ -104,8 +105,7 @@ export default function Reg({ }) {
     }
 
     const fase1 = () => {
-        return (<form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-200) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
-            <legend className="text-center">Basic Data</legend>
+        return (<form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
             <span>{alert}</span>
             <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
                 <div>
@@ -136,7 +136,7 @@ export default function Reg({ }) {
 
     const fase2 = () => {
         return (
-            <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-200) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
+            <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
                 <legend className="text-center">Hi, what is your name?</legend>
                 <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
                     <div>
@@ -153,23 +153,7 @@ export default function Reg({ }) {
                 </div>
                 <div className="flex w-full justify-between">
                     <button className="red-button  " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
-                    <button className="red-button  " type="submit" onClick={() => { setForm(prev => (prev + 1)) }} >Next</button>
-                </div>
-            </form>)
-    }
-
-    const fase3 = () => {
-        return (
-            <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-200) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
-                <div className='flex flex-col m-auto text-center'>
-                    <h3>Bienvenido</h3>
-                    <h1 className='text-(--red-500) font-bold uppercase mx-2'>{inputs.userName}</h1>
-                    <h4>Have fun</h4>
-                </div>
-
-                <div className="flex w-full justify-between">
-                    <button className="red-button  " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
-                    <button className="red-button  " type="submit" onClick={() => { handleSubmit() }} >Next</button>
+                    <button className="red-button  " type="submit"onClick={()=>{handleSubmit();}} >Next</button>
                 </div>
             </form>)
     }
