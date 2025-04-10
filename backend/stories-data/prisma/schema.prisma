@@ -9,11 +9,14 @@ datasource db {
 }
 
 model StorieData {
-  id                  Int      @id @default(autoincrement())
-  user_id             Int      @unique
-  type_authentication String
-  authentication      String
-  email               String   @unique
-  create_date         DateTime @default(now())
-  hidden              Boolean  @default(false)
+  id            Int      @id @default(autoincrement())
+  title         String
+  author        String
+  Acts          Int
+  likes_count   Int
+  comments      Int
+  reports       Int
+  visibility    Boolean
+  creation_date DateTime @default(now())
+  mody_date     DateTime @default(now())
 }
