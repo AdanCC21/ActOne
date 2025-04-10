@@ -7,7 +7,7 @@ datasource db {
   url      = env("DB_CONECTION")
 }
 
-model User {
+model UserPublicData {
   id                Int    @id @default(autoincrement())
   user_name         String @unique
   description       String @default("")

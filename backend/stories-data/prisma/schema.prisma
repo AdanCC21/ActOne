@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_CONECTION")
+}
+
+model StorieData {
+  id                  Int      @id @default(autoincrement())
+  user_id             Int      @unique
+  type_authentication String
+  authentication      String
+  email               String   @unique
+  create_date         DateTime @default(now())
+  hidden              Boolean  @default(false)
+}
