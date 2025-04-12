@@ -53,6 +53,8 @@ html{
 
 h1{
   font-size: 3rem;
+  color: var(--red-500);
+  font-weight: 600;
 }
 
 h2{

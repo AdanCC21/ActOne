@@ -4,17 +4,25 @@ import notification from '../assets/notification.svg'
 import searcher from '../assets/buscador.png'
 import tempUser from '../assets/tempUser.png'
 import './css/header.css'
+import Modal from './Modal'
+import { useState } from 'react'
 
 export default function Header({ }) {
-    const showModal = () => {
-        return (
-            <div className=' bg-(--dark-400)' >
-                <h1>Titulo</h1>
-            </div>
-        )
-    }
+    let [openModal, setModal] = useState(false);
+    let [modalAnimation, setAnimation] = useState("hidden")
+
     return (
         <header className='header'>
+
+            <Modal extraClass={modalAnimation} >
+                <h1>Titulo</h1>
+                <input placeholder='Titulo' />
+                <div className='flex w-full ml-auto mt-auto'>
+                    <button className='btn w-fit ml-auto' onClick={() => { setAnimation("fadeOut"); }}>Cancelar</button>
+                    <button className='btn w-fit '>Subir</button>
+                </div>
+            </Modal>
+
             <div className='flex flex-row items-center h-full ml-3'>
                 <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' />
                 <h3 className='my-auto font-semibold text-(--red-500)'>ActOne</h3>
@@ -28,9 +36,7 @@ export default function Header({ }) {
                     </button>
                 </form>
                 <div>
-                    <button className='btn'  onClick={() => { showModal() }}>
-                        <img src={update} alt='update storie' />
-                    </button>
+                    <img src={update} alt='update storie' onClick={() => { setAnimation("show fadeIn") }} />
                     <img src={notification} alt='notification' />
                     <img className='user-icon' src={tempUser} alt='user' />
                 </div>

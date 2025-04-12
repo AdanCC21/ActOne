@@ -1,13 +1,13 @@
-export default function Modal({children}) {
+import { useEffect } from 'react'
+import './css/modal.css'
+
+export default function Modal({ isOpen, extraClass, children }) {
+
   return (
-    <dialog>
-        <div>
-            {children}
-        </div>
-        <div>
-            <button>Cancel</button>
-            <button >Continue</button>
-        </div>
-    </dialog>
+    <div className={`g-modal-bg ${extraClass}`}>
+      <div className="g-modal" >
+        {children}
+      </div>
+    </div>
   )
 }

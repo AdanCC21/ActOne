@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_CONECTION")
+}
+
+model Likes {
+  id               Int      @id @default(autoincrement())
+  user_id          Int
+  publication_type String
+  publication_id   Int
+  state            Boolean  @default(true)
+  create_date      DateTime @default(now())
+}
+
+model Comments {
+  id             Int      @id @default(autoincrement())
+  user_id        Int
+  publication_id Int
+  content        String
+  create_date    DateTime @default(now())
+  modify_date    DateTime @default(now())
+}
+
+model Reports {
+  id             Int      @id @default(autoincrement())
+  user_id        Int
+  publication_id Int
+  content        String
+  date           DateTime @default(now())
+}

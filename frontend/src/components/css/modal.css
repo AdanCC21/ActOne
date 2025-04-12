@@ -1,0 +1,66 @@
+.g-modal {
+    position: fixed;
+    z-index: 10;
+
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+    width: 30vw;
+    height: 30vh;
+
+    border-radius: 16px;
+    background-color: var(--dark-300);
+}
+
+.g-modal-bg {
+    position: absolute;
+    z-index: 9;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hidden{
+    display: none;
+}
+
+.show{
+    display: block;
+}
+
+.fadeIn{
+    animation: fadeIn 0.2s ease-in-out both;
+}
+
+.fadeOut{
+    animation: fadeOut 0.2s ease-in-out both;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 100%;
+    }
+
+    100% {
+        opacity: 0%;
+        display: none;
+    }
+}
