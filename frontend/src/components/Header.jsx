@@ -6,22 +6,58 @@ import tempUser from '../assets/tempUser.png'
 import './css/header.css'
 import Modal from './Modal'
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 
 export default function Header({ }) {
-    let [openModal, setModal] = useState(false);
-    let [modalAnimation, setAnimation] = useState("hidden")
+    let [modalAnimation, setAnimation] = useState("hidden");
+    let [title, setTitle] = useState("");
+    let [actTitle, setAct] = useState("");
+    let [alert, setAlert] = useState("");
+    let [currentMod, setModal] = useState(0);
+    const navigate = useNavigate();
+
+    const handleTitle = (e) => {
+        setTitle(e.target.value);
+    }
+
+    const handleAct = (e) => {
+        setAct(e.target.value);
+    }
+
+    const handleKey = (e) => {
+        if (e.key === "Enter") {
+            handleStorie();
+        }
+    }
+
+    const handleStorie = (e) => {
+        if (title.length == 0) {
+            setAlert("empty title");
+            return;
+        } else {
+            navigate(`/edit/${title}`);
+        }
+
+    }
 
     return (
         <header className='header'>
 
-            <Modal extraClass={modalAnimation} >
-                <h1>Titulo</h1>
-                <input placeholder='Titulo' />
-                <div className='flex w-full ml-auto mt-auto'>
-                    <button className='btn w-fit ml-auto' onClick={() => { setAnimation("fadeOut"); }}>Cancelar</button>
-                    <button className='btn w-fit '>Subir</button>
-                </div>
+            <Modal extraClass={modalAnimation}  >
+                <form className='flex flex-col h-full px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
+                    <label htmlFor='title'><h3 className='text-(--red-500) font-semibold my-2'>Titulo</h3></label>
+                    <div className='flex flex-col my-2'>
+                        <input id='title' placeholder='Titulo'
+                            name='title' value={title} onChange={(e) => { handleTitle(e) }} onKeyDown={(e) => { handleKey(e) }} />
+                        <span className='text-(--red-600) '>{alert}</span>
+                    </div>
+                    <div className='flex w-full ml-auto mt-auto'>
+                        <button type='button' className='btn void w-fit ml-auto' onClick={() => { setAnimation("fadeOut"); }}>Cancelar</button>
+                        <button type='submit' className='btn red w-fit ml-3'>Subir</button>
+                    </div>
+                </form>
             </Modal>
+
 
             <div className='flex flex-row items-center h-full ml-3'>
                 <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' />

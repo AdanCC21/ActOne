@@ -12,18 +12,24 @@
 }
 
 .e-acts{
+    padding: 10px 20px;
+    border-radius: 16px;
     flex-grow: 1;
     max-width: 15%;
     background-color: var(--dark-600);
 }
 
 .e-editor{
+    padding: 10px 20px;
+    border-radius: 16px;
     flex-grow: 12;
     margin: 0 30px;
     background-color: var(--dark-600);
 }
 
 .e-sug{
+    padding: 10px 20px;
+    border-radius: 16px;
     flex-grow: 1;
     max-width: 15%;
     text-overflow: ellipsis;

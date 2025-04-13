@@ -13,7 +13,7 @@ function App() {
       <Route path="/register" element={<Reg />} />
       <Route path="/welcome/:name" element={<WelcomeBack />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/edit" element={<Edit />} />
+      <Route path="/edit/:title" element={<Edit />} />
     </Routes>
   );
 }
