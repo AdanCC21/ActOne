@@ -27,7 +27,6 @@ export default function Reg({ }) {
 
     const handleChanges = (e) => {
         const atribute = e.target.name;
-        const value = e.target.value;
 
         setInput(prev => ({
             ...prev,
@@ -78,6 +77,7 @@ export default function Reg({ }) {
         const data = {
             "userData":{
                 "email":inputs.email,
+                "type_authentication":"email",
                 "authentication":inputs.password
             },
             "user_name":inputs.userName,
@@ -98,7 +98,6 @@ export default function Reg({ }) {
             const dataRes = await res.json();
             console.log(dataRes);
             navigate('/');
-            // navigate(`/welcome/${inputs.userName}`);
 
         }catch(error){
             console.error(error)
@@ -147,7 +146,7 @@ export default function Reg({ }) {
                     
                     <div className='max-h-[60%] h-fit'>
                         <label htmlFor="text" >Description</label>
-                        <textarea name="userName" value={inputs.description} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></textarea>
+                        <textarea name="description" value={inputs.description} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></textarea>
                     </div>
                 </fieldset>
 

@@ -8,18 +8,6 @@ import { LogIn } from './DTO/login-auth.dto';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  // @MessagePattern({ cmd: "auth-hi" })
-  // getHi() {
-  //   return { message: "Auth ok" }
-  // }
-
-  // @MessagePattern({ cmd: "try-upd" })
-  // tryUPD() {
-  //   return fetch("http://localhost:3011/user-pd/test-user")
-  //     .then(data => data.json())
-  //     .catch(err => console.error(err));
-  // }
-
   @MessagePattern({ cmd: "reg-user" })
   async registerUser(data: { userData: CreateAuthDTO, user_name:string, description:string }) {
     const createdUser = this.appService.createNewUser(data.userData, data.user_name, data.description);

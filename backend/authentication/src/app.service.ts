@@ -1,15 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuthDTO } from './DTO/create-auth.dto';
 import { PrismaService } from './prisma/prisma.service';
+
 import { LogIn } from './DTO/login-auth.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AppService {
   constructor(private prismaSer: PrismaService) { }
+  
+  private hashSaltRounds: number = 10
 
   /**
    * 
-   * @param userData 
+   * @param userData email and authentication (password or google id)
+   * @returns the user or null
+   */
+  async logIn(userData: LogIn) {
+    const userExist = await this.prismaSer.authentication.findUnique({ where: { email: userData.email } });
+    if (userExist) {
+      if (await bcrypt.compare(userExist.authentication, userData.authentication)) {
+        return userExist;
+      }
+      return new Error("User authentication wrong");
+    }
+    return new Error("User not found");
+  }
+
+  /**
+   * 
+   * @param userData email, type_authentication and authentication
    * @param user_name 
    * @param description 
    * @returns The user created with the upd id
@@ -19,14 +39,27 @@ export class AppService {
     if (!userExist) {
       const upd = await this.getUPD(user_name, description);
 
-      return await this.prismaSer.authentication.create({
-        data: {
-          email: userData.email,
-          type_authentication: "email",
-          authentication: userData.authentication,
-          user_id: upd.id
-        }
-      })
+      if (userData.type_authentication === "email") {
+        const password = await bcrypt.hash(userData.authentication, this.hashSaltRounds);
+
+        return await this.prismaSer.authentication.create({
+          data: {
+            email: userData.email,
+            type_authentication: userData.type_authentication,
+            authentication: password,
+            user_id: upd.id
+          }
+        })
+      } else {
+        return await this.prismaSer.authentication.create({
+          data: {
+            email: userData.email,
+            type_authentication: userData.type_authentication,
+            authentication: userData.authentication,
+            user_id: upd.id
+          }
+        })
+      }
     }
     return null;
   }
@@ -57,14 +90,4 @@ export class AppService {
     }
   }
 
-  async logIn(userData: LogIn) {
-    const userExist = await this.prismaSer.authentication.findUnique({ where: { email: userData.email } });
-    if (userExist) {
-      if (userExist.authentication == userData.authentication) {
-        return userExist;
-      }
-      return new Error("User authentication wrong");
-    }
-    return new Error("User not found");
-  }
 }

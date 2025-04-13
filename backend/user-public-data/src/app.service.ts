@@ -13,7 +13,7 @@ export class AppService {
    * @returns the user create
    */
   async createUser(user: CreateUserDTO) {
-    return await this.prismaSer.user.create({
+    return await this.prismaSer.userPublicData.create({
       data: {
         user_name: user.user_name,
         description:user.description
@@ -28,7 +28,7 @@ export class AppService {
    * @returns null or the user
    */
   async deleteUser(id:number) {
-    const userFound = await this.prismaSer.user.findUnique({ where: { id: id } }) || null;
+    const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: id } }) || null;
     if (userFound != null){
       const newUs = userFound;
       // return await this.prismaSer.user.update({where:{id:id}})
@@ -41,9 +41,9 @@ export class AppService {
    * @returns the user updated or null
    */
   async updateUser(user: UpdateUserDTO) {
-    const userFound = await this.prismaSer.user.findUnique({ where: { id: user.id } }) || null;
+    const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: user.id } }) || null;
     if (userFound != null) {
-      return await this.prismaSer.user.update({ where: { id: user.id }, data: user })
+      return await this.prismaSer.userPublicData.update({ where: { id: user.id }, data: user })
     }
     return null;
   }
@@ -53,7 +53,7 @@ export class AppService {
    * @returns the user found or null
    */
   findOne(id: number) {
-    return this.prismaSer.user.findUnique({
+    return this.prismaSer.userPublicData.findUnique({
       where: { id: Number(id) }
     });
   }
@@ -62,7 +62,7 @@ export class AppService {
    * @returns All public data users
    */
   findAll() {
-    return this.prismaSer.user.findMany();
+    return this.prismaSer.userPublicData.findMany();
   }
 
 }

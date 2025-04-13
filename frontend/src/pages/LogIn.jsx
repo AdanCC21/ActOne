@@ -116,7 +116,7 @@ export default function LogIn({ }) {
                         Continue with Google</button>
                     <a className="m-4" href="/register">Register</a>
                 </div>
-                <button className="red-button ml-auto" type="submit" >Continue</button>
+                <button className="btn red ml-auto" type="submit" >Continue</button>
             </form>
         </div>
     )
