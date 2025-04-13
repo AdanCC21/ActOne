@@ -34,7 +34,7 @@ export default function Edit({ }) {
                     </div>
 
                     <section className="e-editor-st-area">
-                        <h5 className="text-(--red-500)">Titulo del acto</h5>
+                        <h4 className="text-(--red-500) ml-2 my-1">Titulo del acto</h4>
                         <textarea className="w-full" />
                     </section>
                 </div>
