@@ -1,0 +1,20 @@
+.side-bar{
+    display: flex;
+    flex-direction: column;
+    width: 15vw;
+    padding-left: 1em;
+    background-color: var(--dark-300);
+    height: calc(100vh - var(--header-h));
+    
+}
+
+.side-bar ul li{
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin: 1em 0;
+    font-size: 1.3em;
+    cursor: pointer;
+}
+
+

@@ -44,22 +44,26 @@ export default function Header({ }) {
         <header className='header'>
 
             <Modal extraClass={modalAnimation}  >
-                <form className='flex flex-col h-full px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
+                <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
                     <label htmlFor='title'><h3 className='text-(--red-500) font-semibold my-2'>Titulo</h3></label>
                     <div className='flex flex-col my-2'>
-                        <input id='title' placeholder='Titulo'
+                        <input id='title' placeholder='Titulo' className='my-auto'
                             name='title' value={title} onChange={(e) => { handleTitle(e) }} onKeyDown={(e) => { handleKey(e) }} />
-                        <span className='text-(--red-600) '>{alert}</span>
+                            {alert===''?(
+                                <span className='none text-(--red-600) '>{alert}</span>
+                            ):(
+                                <span className='text-(--red-600) '>{alert}</span>
+                            )}
                     </div>
                     <div className='flex w-full ml-auto mt-auto'>
-                        <button type='button' className='btn void w-fit ml-auto' onClick={() => { setAnimation("fadeOut"); }}>Cancelar</button>
+                        <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setAnimation("fadeOut"); setAlert('') }}>Cancelar</button>
                         <button type='submit' className='btn red w-fit ml-3'>Subir</button>
                     </div>
                 </form>
             </Modal>
 
 
-            <div className='flex flex-row items-center h-full ml-3'>
+            <div onClick={()=>{navigate('/home')}} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
                 <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' />
                 <h3 className='my-auto font-semibold text-(--red-500)'>ActOne</h3>
             </div>
@@ -72,7 +76,7 @@ export default function Header({ }) {
                     </button>
                 </form>
                 <div>
-                    <img src={update} alt='update storie' onClick={() => { setAnimation("show fadeIn") }} />
+                    <img className='cursor-pointer' src={update} alt='update storie' onClick={() => { setAnimation("show fadeIn") }} />
                     <img src={notification} alt='notification' />
                     <img className='user-icon' src={tempUser} alt='user' />
                 </div>

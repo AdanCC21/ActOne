@@ -2,9 +2,10 @@
 
 body{
   margin: 0;
-  background-color: var(--dark-800);
+  background-color: var(--dark-700);
   color: white;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 :root{
@@ -43,6 +44,8 @@ body{
   --red-950:#460e09;
 
   --gray:#737373;
+
+  --header-h:8vh;
 }
 
 
