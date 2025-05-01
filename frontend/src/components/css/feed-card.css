@@ -1,6 +1,7 @@
 .feed-card{
     background-color: var(--dark-300);
     border-radius: 8px;
+    cursor: pointer;
     
     display: flex;
     flex-direction: column;
@@ -17,7 +18,7 @@
 }
 
 .feed-card:hover{
-    background-color: var(--dark-300);
+    background-color: var(--dark-200);
     border-radius: 12px;
 }
 
@@ -50,8 +51,9 @@
 
 .interactions{
     display: flex;
-    max-height: 15%;
+    max-height: 20%;
     margin-top: auto;
+    padding: 5px 0;
 }
 
 .interactions div{

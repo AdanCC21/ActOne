@@ -1,0 +1,13 @@
+.comments {
+    display: flex;
+    flex-direction: column;
+    max-height: 85%;
+    
+    margin: 0 1em;
+    padding: 1em;
+    border-radius: 12px;
+    
+    overflow-y: auto;
+    background-color: var(--dark-800);
+}
+
