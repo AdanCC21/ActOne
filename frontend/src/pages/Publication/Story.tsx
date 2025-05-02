@@ -77,7 +77,9 @@ export default function Story() {
             <div>
               <div className='flex'>
                 <h1>{story.story.title}</h1>
-                <button className='btn void self-center ml-2'><img src={focus} /></button>
+                <button className='btn void self-center ml-2' onClick={()=>{navigator(`/story/${id}/focus`)}}>
+                  <img src={focus} />
+                  </button>
               </div>
               <h5 className='font-semibold  text-(--red-800)'>{story.acts[currentAct].title}</h5>
             </div>

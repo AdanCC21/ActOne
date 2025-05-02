@@ -6,6 +6,7 @@ import WelcomeBack from "./pages/WelcomeBack";
 import Edit from "./pages/Edit";
 import Story from "./pages/Publication/Story";
 import NotFound from "./pages/Error/NotFound";
+import Focus from "./pages/Publication/Focus";
 
 function App() {
 
@@ -16,7 +17,9 @@ function App() {
       
       <Route path="/welcome/:name" element={<WelcomeBack />} />
       <Route path="/home" element={<Home />} />
+
       <Route path="/story/:id" element={<Story />} />
+      <Route path="/story/:id/focus" element={<Focus />} />
       
       <Route path="/edit/:title" element={<Edit />} />
       

@@ -38,6 +38,13 @@
     font-size: 80%;
 }
 
+.btn.alone{
+    background-color: transparent;
+    height: 1.3em;
+    box-shadow: none;
+    
+}
+
 .btn.void {
     background-color: rgba(0, 0, 0, 0);
     box-shadow: none;
