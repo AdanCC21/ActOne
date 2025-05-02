@@ -24,7 +24,7 @@ export class AppController {
     return this.authClient.send({ cmd: "logIn" }, { userData });
   }
 
-  @Get("get-story/:id")
+  @Get("story/:id")
   async getStory(@Param('id', ParseIntPipe) id: number) {
     return this.storyClient.send({ cmd: 'get-story' },id);
   }

@@ -1,0 +1,85 @@
+Date : 2025-05-01 21:28:12
+Directory : c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src
+Total : 41 files,  1593 codes, 73 comments, 318 blanks, all 1984 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript JSX |         11 |        636 |          6 |        112 |        754 |
+| CSS            |          9 |        470 |         64 |        128 |        662 |
+| TypeScript JSX |          8 |        352 |          3 |         61 |        416 |
+| TypeScript     |          5 |         81 |          0 |          9 |         90 |
+| XML            |          8 |         54 |          0 |          8 |         62 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                        | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                           |         41 |      1,593 |         73 |        318 |      1,984 |
+| . (Files)                                                                                   |          3 |         47 |          0 |         13 |         60 |
+| DTO                                                                                         |          3 |         58 |          0 |          7 |         65 |
+| api                                                                                         |          1 |         15 |          0 |          0 |         15 |
+| assets                                                                                      |          8 |         54 |          0 |          8 |         62 |
+| assets (Files)                                                                              |          4 |         18 |          0 |          4 |         22 |
+| assets\editorIcons                                                                          |          4 |         36 |          0 |          4 |         40 |
+| components                                                                                  |         12 |        626 |          1 |        113 |        740 |
+| components (Files)                                                                          |          8 |        461 |          1 |         67 |        529 |
+| components\css                                                                              |          4 |        165 |          0 |         46 |        211 |
+| context                                                                                     |          2 |         14 |          0 |          5 |         19 |
+| css                                                                                         |          5 |        305 |         64 |         82 |        451 |
+| pages                                                                                       |          7 |        474 |          8 |         90 |        572 |
+| pages (Files)                                                                               |          3 |        117 |          3 |         26 |        146 |
+| pages\Error                                                                                 |          1 |         14 |          0 |          3 |         17 |
+| pages\NewUser                                                                               |          2 |        261 |          2 |         44 |        307 |
+| pages\Publication                                                                           |          1 |         82 |          3 |         17 |        102 |
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                    | language       | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\App.jsx                          | JavaScript JSX |         22 |          0 |          7 |         29 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\DTO\Act.dto.ts                   | TypeScript     |         11 |          0 |          2 |         13 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\DTO\Story.dto.ts                 | TypeScript     |         36 |          0 |          5 |         41 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\DTO\Synopsis.dto.ts              | TypeScript     |         11 |          0 |          0 |         11 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\api\Story.ts                     | TypeScript     |         15 |          0 |          0 |         15 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\appIcon.svg               | XML            |          3 |          0 |          1 |          4 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\comments.svg              | XML            |          3 |          0 |          1 |          4 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\editorIcons\bold.svg      | XML            |          9 |          0 |          1 |         10 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\editorIcons\italic.svg    | XML            |          9 |          0 |          1 |         10 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\editorIcons\title.svg     | XML            |          9 |          0 |          1 |         10 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\editorIcons\underline.svg | XML            |          9 |          0 |          1 |         10 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\notification.svg          | XML            |          3 |          0 |          1 |          4 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\update.svg                | XML            |          9 |          0 |          1 |         10 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\CommentCard.tsx       | TypeScript JSX |         20 |          0 |          5 |         25 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\FeedCard.tsx          | TypeScript JSX |         36 |          0 |          7 |         43 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\Header.jsx            | JavaScript JSX |         75 |          0 |         12 |         87 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\Interactions.tsx      | TypeScript JSX |         72 |          0 |          8 |         80 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\Modal.jsx             | JavaScript JSX |         11 |          0 |          3 |         14 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\Particles.jsx         | JavaScript JSX |        205 |          1 |         27 |        233 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\ParticlesBg.jsx       | JavaScript JSX |         17 |          0 |          2 |         19 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\SideBar.tsx           | TypeScript JSX |         25 |          0 |          3 |         28 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\css\feed-card.css     | CSS            |         56 |          0 |         13 |         69 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\css\header.css        | CSS            |         41 |          0 |         14 |         55 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\css\modal.css         | CSS            |         52 |          0 |         14 |         66 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\css\side-bar.css      | CSS            |         16 |          0 |          5 |         21 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\context\AppContext.jsx           | JavaScript JSX |          3 |          0 |          2 |          5 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\context\ThemeProvider.jsx        | JavaScript JSX |         11 |          0 |          3 |         14 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\buttons.css                  | CSS            |         46 |         54 |         15 |        115 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\edit.css                     | CSS            |         54 |          0 |         17 |         71 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\font-poppins.css             | CSS            |         90 |          0 |         18 |        108 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\index.css                    | CSS            |        105 |         10 |         28 |        143 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\story.css                    | CSS            |         10 |          0 |          4 |         14 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\main.jsx                         | JavaScript JSX |         17 |          0 |          4 |         21 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\modules.d.ts                     | TypeScript     |          8 |          0 |          2 |         10 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\Edit.tsx                   | TypeScript JSX |         75 |          0 |         14 |         89 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\Error\NotFound.tsx         | TypeScript JSX |         14 |          0 |          3 |         17 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\Home.tsx                   | TypeScript JSX |         28 |          0 |          4 |         32 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\NewUser\LogIn.jsx          | JavaScript JSX |        110 |          0 |         14 |        124 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\NewUser\Reg.jsx            | JavaScript JSX |        151 |          2 |         30 |        183 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\Publication\Story.tsx      | TypeScript JSX |         82 |          3 |         17 |        102 |
+| c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\WelcomeBack.jsx            | JavaScript JSX |         14 |          3 |          8 |         25 |
+| Total                                                                                       |                |      1,593 |         73 |        318 |      1,984 |
++---------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

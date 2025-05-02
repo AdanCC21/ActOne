@@ -8,7 +8,7 @@ import boldFormat from '../assets/editorIcons/bold.svg';
 import italicFormat from '../assets/editorIcons/italic.svg';
 import underlineFormat from '../assets/editorIcons/underline.svg';
 import { FaRegTrashAlt } from "react-icons/fa";
-import { Act } from '../Objects/Act'
+import { Act } from '../DTO/Act.dto'
 
 import '../css/edit.css'
 
@@ -24,10 +24,10 @@ export default function Edit({ }) {
         setAct(prev => prev.map((current, index) =>
             index === currentAct ? { ...current, [name]: value } : current
         ));
-        
+
     }
 
-    const move = (index:number) => {
+    const move = (index: number) => {
         setCurrent(index)
     }
 

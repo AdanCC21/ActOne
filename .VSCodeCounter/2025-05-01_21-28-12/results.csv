@@ -1,0 +1,43 @@
+"filename", "language", "JavaScript JSX", "TypeScript", "CSS", "TypeScript JSX", "XML", "comment", "blank", "total"
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\App.jsx", "JavaScript JSX", 22, 0, 0, 0, 0, 0, 7, 29
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\DTO\Act.dto.ts", "TypeScript", 0, 11, 0, 0, 0, 0, 2, 13
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\DTO\Story.dto.ts", "TypeScript", 0, 36, 0, 0, 0, 0, 5, 41
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\DTO\Synopsis.dto.ts", "TypeScript", 0, 11, 0, 0, 0, 0, 0, 11
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\api\Story.ts", "TypeScript", 0, 15, 0, 0, 0, 0, 0, 15
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\appIcon.svg", "XML", 0, 0, 0, 0, 3, 0, 1, 4
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\comments.svg", "XML", 0, 0, 0, 0, 3, 0, 1, 4
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\editorIcons\bold.svg", "XML", 0, 0, 0, 0, 9, 0, 1, 10
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\editorIcons\italic.svg", "XML", 0, 0, 0, 0, 9, 0, 1, 10
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\editorIcons\title.svg", "XML", 0, 0, 0, 0, 9, 0, 1, 10
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\editorIcons\underline.svg", "XML", 0, 0, 0, 0, 9, 0, 1, 10
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\notification.svg", "XML", 0, 0, 0, 0, 3, 0, 1, 4
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\assets\update.svg", "XML", 0, 0, 0, 0, 9, 0, 1, 10
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\CommentCard.tsx", "TypeScript JSX", 0, 0, 0, 20, 0, 0, 5, 25
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\FeedCard.tsx", "TypeScript JSX", 0, 0, 0, 36, 0, 0, 7, 43
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\Header.jsx", "JavaScript JSX", 75, 0, 0, 0, 0, 0, 12, 87
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\Interactions.tsx", "TypeScript JSX", 0, 0, 0, 72, 0, 0, 8, 80
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\Modal.jsx", "JavaScript JSX", 11, 0, 0, 0, 0, 0, 3, 14
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\Particles.jsx", "JavaScript JSX", 205, 0, 0, 0, 0, 1, 27, 233
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\ParticlesBg.jsx", "JavaScript JSX", 17, 0, 0, 0, 0, 0, 2, 19
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\SideBar.tsx", "TypeScript JSX", 0, 0, 0, 25, 0, 0, 3, 28
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\css\feed-card.css", "CSS", 0, 0, 56, 0, 0, 0, 13, 69
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\css\header.css", "CSS", 0, 0, 41, 0, 0, 0, 14, 55
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\css\modal.css", "CSS", 0, 0, 52, 0, 0, 0, 14, 66
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\components\css\side-bar.css", "CSS", 0, 0, 16, 0, 0, 0, 5, 21
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\context\AppContext.jsx", "JavaScript JSX", 3, 0, 0, 0, 0, 0, 2, 5
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\context\ThemeProvider.jsx", "JavaScript JSX", 11, 0, 0, 0, 0, 0, 3, 14
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\buttons.css", "CSS", 0, 0, 46, 0, 0, 54, 15, 115
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\edit.css", "CSS", 0, 0, 54, 0, 0, 0, 17, 71
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\font-poppins.css", "CSS", 0, 0, 90, 0, 0, 0, 18, 108
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\index.css", "CSS", 0, 0, 105, 0, 0, 10, 28, 143
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\css\story.css", "CSS", 0, 0, 10, 0, 0, 0, 4, 14
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\main.jsx", "JavaScript JSX", 17, 0, 0, 0, 0, 0, 4, 21
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\modules.d.ts", "TypeScript", 0, 8, 0, 0, 0, 0, 2, 10
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\Edit.tsx", "TypeScript JSX", 0, 0, 0, 75, 0, 0, 14, 89
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\Error\NotFound.tsx", "TypeScript JSX", 0, 0, 0, 14, 0, 0, 3, 17
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\Home.tsx", "TypeScript JSX", 0, 0, 0, 28, 0, 0, 4, 32
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\NewUser\LogIn.jsx", "JavaScript JSX", 110, 0, 0, 0, 0, 0, 14, 124
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\NewUser\Reg.jsx", "JavaScript JSX", 151, 0, 0, 0, 0, 2, 30, 183
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\Publication\Story.tsx", "TypeScript JSX", 0, 0, 0, 82, 0, 3, 17, 102
+"c:\Users\PC\Documents\CHAMBA\Proyectos\ActOne\frontend\src\pages\WelcomeBack.jsx", "JavaScript JSX", 14, 0, 0, 0, 0, 3, 8, 25
+"Total", "-", 636, 81, 470, 352, 54, 73, 318, 1984

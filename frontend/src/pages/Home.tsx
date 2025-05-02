@@ -1,11 +1,11 @@
 import React from "react"
 import Header from "../components/Header"
 import FeedCard from "../components/FeedCard"
-import ParticlesBg from "../components/ParticlesBg"
 import SideBar from "../components/SideBar"
 
 const dataTest = {
   id:1,
+  story_id:1,
   title: 'Storie no.1',
   desc: 'Evento 1',
   author: 'Oscar',

@@ -1,10 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import LogIn from "./pages/LogIn";
-import Reg from "./pages/Reg";
+import LogIn from "./pages/NewUser/LogIn";
+import Reg from "./pages/NewUser/Reg";
 import WelcomeBack from "./pages/WelcomeBack";
 import Edit from "./pages/Edit";
-import Story from "./pages/Story";
+import Story from "./pages/Publication/Story";
+import NotFound from "./pages/Error/NotFound";
 
 function App() {
 
@@ -15,9 +16,11 @@ function App() {
       
       <Route path="/welcome/:name" element={<WelcomeBack />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/story" element={<Story />} />
+      <Route path="/story/:id" element={<Story />} />
       
       <Route path="/edit/:title" element={<Edit />} />
+      
+      <Route path="/404" element={<NotFound />} />
     </Routes>
   );
 }

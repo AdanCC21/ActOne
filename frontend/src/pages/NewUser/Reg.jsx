@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { BackendRoute } from '../context/AppContext';
-import ParticlesBg from '../components/ParticlesBg';
+import { BackendRoute } from '../../context/AppContext';
+import ParticlesBg from '../../components/ParticlesBg';
 
 export default function Reg({ }) {
 

@@ -3,7 +3,7 @@ import React from 'react';
 import userProfile from '../assets/tempUSer.png';
 
 import { useNavigate } from 'react-router-dom';
-import { Synopsis } from '../Objects/synopsis';
+import { Synopsis } from '../DTO/Synopsis.dto';
 import { Like, Comments, Mark, Reports } from './Interactions';
 
 type Props = {
@@ -16,7 +16,8 @@ export default function FeedCard({ story }: Props) {
 
     return (
         <article className="feed-card" onClick={() => {
-            navigator('/story')
+            const temp = 1
+            navigator(`/story/${temp}`);
         }}>
             <header className='flex justify-between h-fit'>
                 <h2>{title}</h2>

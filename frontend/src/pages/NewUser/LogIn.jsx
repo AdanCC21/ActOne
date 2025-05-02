@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { BackendRoute } from "../context/AppContext";
+import { BackendRoute } from "../../context/AppContext";
 import { useNavigate } from 'react-router';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import ParticlesBg from "../components/ParticlesBg";
+import ParticlesBg from "../../components/ParticlesBg";
 
 export default function LogIn({ }) {
     let [inputs, setInput] = useState({
