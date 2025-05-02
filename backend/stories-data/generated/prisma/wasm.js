@@ -121,13 +121,20 @@ exports.Prisma.StorieDataScalarFieldEnum = {
   id: 'id',
   title: 'title',
   author: 'author',
-  Acts: 'Acts',
+  acts: 'acts',
   likes_count: 'likes_count',
   comments: 'comments',
   reports: 'reports',
   visibility: 'visibility',
   creation_date: 'creation_date',
   mody_date: 'mody_date'
+};
+
+exports.Prisma.ActDataScalarFieldEnum = {
+  id: 'id',
+  story_id: 'story_id',
+  title: 'title',
+  content: 'content'
 };
 
 exports.Prisma.SortOrder = {
@@ -142,7 +149,8 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  StorieData: 'StorieData'
+  StorieData: 'StorieData',
+  ActData: 'ActData'
 };
 
 /**

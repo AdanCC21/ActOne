@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { get } from 'http';
@@ -19,8 +19,13 @@ export class AppController {
   }
 
   @Post("login")
-  async logIn(@Body() data:JSON){
+  async logIn(@Body() data: JSON) {
     const userData = data;
-    return this.authClient.send({cmd:"logIn"},{userData});
+    return this.authClient.send({ cmd: "logIn" }, { userData });
+  }
+
+  @Get("get-story/:id")
+  async getStory(@Param('id', ParseIntPipe) id: number) {
+    return this.storyClient.send({ cmd: 'get-story' },id);
   }
 }

@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type StorieData = $Result.DefaultSelection<Prisma.$StorieDataPayload>
+/**
+ * Model ActData
+ * 
+ */
+export type ActData = $Result.DefaultSelection<Prisma.$ActDataPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -153,6 +158,16 @@ export class PrismaClient<
     * ```
     */
   get storieData(): Prisma.StorieDataDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.actData`: Exposes CRUD operations for the **ActData** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ActData
+    * const actData = await prisma.actData.findMany()
+    * ```
+    */
+  get actData(): Prisma.ActDataDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -593,7 +608,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    StorieData: 'StorieData'
+    StorieData: 'StorieData',
+    ActData: 'ActData'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -612,7 +628,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "storieData"
+      modelProps: "storieData" | "actData"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -687,6 +703,80 @@ export namespace Prisma {
           count: {
             args: Prisma.StorieDataCountArgs<ExtArgs>
             result: $Utils.Optional<StorieDataCountAggregateOutputType> | number
+          }
+        }
+      }
+      ActData: {
+        payload: Prisma.$ActDataPayload<ExtArgs>
+        fields: Prisma.ActDataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActDataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActDataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>
+          }
+          findFirst: {
+            args: Prisma.ActDataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActDataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>
+          }
+          findMany: {
+            args: Prisma.ActDataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>[]
+          }
+          create: {
+            args: Prisma.ActDataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>
+          }
+          createMany: {
+            args: Prisma.ActDataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActDataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>[]
+          }
+          delete: {
+            args: Prisma.ActDataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>
+          }
+          update: {
+            args: Prisma.ActDataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActDataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActDataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ActDataUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>[]
+          }
+          upsert: {
+            args: Prisma.ActDataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActDataPayload>
+          }
+          aggregate: {
+            args: Prisma.ActDataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActData>
+          }
+          groupBy: {
+            args: Prisma.ActDataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActDataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActDataCountArgs<ExtArgs>
+            result: $Utils.Optional<ActDataCountAggregateOutputType> | number
           }
         }
       }
@@ -775,6 +865,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     storieData?: StorieDataOmit
+    actData?: ActDataOmit
   }
 
   /* Types for Logging */
@@ -883,7 +974,7 @@ export namespace Prisma {
 
   export type StorieDataAvgAggregateOutputType = {
     id: number | null
-    Acts: number | null
+    acts: number | null
     likes_count: number | null
     comments: number | null
     reports: number | null
@@ -891,7 +982,7 @@ export namespace Prisma {
 
   export type StorieDataSumAggregateOutputType = {
     id: number | null
-    Acts: number | null
+    acts: number[]
     likes_count: number | null
     comments: number | null
     reports: number | null
@@ -901,7 +992,6 @@ export namespace Prisma {
     id: number | null
     title: string | null
     author: string | null
-    Acts: number | null
     likes_count: number | null
     comments: number | null
     reports: number | null
@@ -914,7 +1004,6 @@ export namespace Prisma {
     id: number | null
     title: string | null
     author: string | null
-    Acts: number | null
     likes_count: number | null
     comments: number | null
     reports: number | null
@@ -927,7 +1016,7 @@ export namespace Prisma {
     id: number
     title: number
     author: number
-    Acts: number
+    acts: number
     likes_count: number
     comments: number
     reports: number
@@ -940,7 +1029,7 @@ export namespace Prisma {
 
   export type StorieDataAvgAggregateInputType = {
     id?: true
-    Acts?: true
+    acts?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -948,7 +1037,7 @@ export namespace Prisma {
 
   export type StorieDataSumAggregateInputType = {
     id?: true
-    Acts?: true
+    acts?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -958,7 +1047,6 @@ export namespace Prisma {
     id?: true
     title?: true
     author?: true
-    Acts?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -971,7 +1059,6 @@ export namespace Prisma {
     id?: true
     title?: true
     author?: true
-    Acts?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -984,7 +1071,7 @@ export namespace Prisma {
     id?: true
     title?: true
     author?: true
-    Acts?: true
+    acts?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -1084,7 +1171,7 @@ export namespace Prisma {
     id: number
     title: string
     author: string
-    Acts: number
+    acts: number[]
     likes_count: number
     comments: number
     reports: number
@@ -1116,7 +1203,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     author?: boolean
-    Acts?: boolean
+    acts?: boolean
     likes_count?: boolean
     comments?: boolean
     reports?: boolean
@@ -1129,7 +1216,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     author?: boolean
-    Acts?: boolean
+    acts?: boolean
     likes_count?: boolean
     comments?: boolean
     reports?: boolean
@@ -1142,7 +1229,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     author?: boolean
-    Acts?: boolean
+    acts?: boolean
     likes_count?: boolean
     comments?: boolean
     reports?: boolean
@@ -1155,7 +1242,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     author?: boolean
-    Acts?: boolean
+    acts?: boolean
     likes_count?: boolean
     comments?: boolean
     reports?: boolean
@@ -1164,7 +1251,7 @@ export namespace Prisma {
     mody_date?: boolean
   }
 
-  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "author" | "Acts" | "likes_count" | "comments" | "reports" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
+  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "author" | "acts" | "likes_count" | "comments" | "reports" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
 
   export type $StorieDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StorieData"
@@ -1173,7 +1260,7 @@ export namespace Prisma {
       id: number
       title: string
       author: string
-      Acts: number
+      acts: number[]
       likes_count: number
       comments: number
       reports: number
@@ -1606,7 +1693,7 @@ export namespace Prisma {
     readonly id: FieldRef<"StorieData", 'Int'>
     readonly title: FieldRef<"StorieData", 'String'>
     readonly author: FieldRef<"StorieData", 'String'>
-    readonly Acts: FieldRef<"StorieData", 'Int'>
+    readonly acts: FieldRef<"StorieData", 'Int[]'>
     readonly likes_count: FieldRef<"StorieData", 'Int'>
     readonly comments: FieldRef<"StorieData", 'Int'>
     readonly reports: FieldRef<"StorieData", 'Int'>
@@ -1980,6 +2067,1026 @@ export namespace Prisma {
 
 
   /**
+   * Model ActData
+   */
+
+  export type AggregateActData = {
+    _count: ActDataCountAggregateOutputType | null
+    _avg: ActDataAvgAggregateOutputType | null
+    _sum: ActDataSumAggregateOutputType | null
+    _min: ActDataMinAggregateOutputType | null
+    _max: ActDataMaxAggregateOutputType | null
+  }
+
+  export type ActDataAvgAggregateOutputType = {
+    id: number | null
+    story_id: number | null
+  }
+
+  export type ActDataSumAggregateOutputType = {
+    id: number | null
+    story_id: number | null
+  }
+
+  export type ActDataMinAggregateOutputType = {
+    id: number | null
+    story_id: number | null
+    title: string | null
+    content: string | null
+  }
+
+  export type ActDataMaxAggregateOutputType = {
+    id: number | null
+    story_id: number | null
+    title: string | null
+    content: string | null
+  }
+
+  export type ActDataCountAggregateOutputType = {
+    id: number
+    story_id: number
+    title: number
+    content: number
+    _all: number
+  }
+
+
+  export type ActDataAvgAggregateInputType = {
+    id?: true
+    story_id?: true
+  }
+
+  export type ActDataSumAggregateInputType = {
+    id?: true
+    story_id?: true
+  }
+
+  export type ActDataMinAggregateInputType = {
+    id?: true
+    story_id?: true
+    title?: true
+    content?: true
+  }
+
+  export type ActDataMaxAggregateInputType = {
+    id?: true
+    story_id?: true
+    title?: true
+    content?: true
+  }
+
+  export type ActDataCountAggregateInputType = {
+    id?: true
+    story_id?: true
+    title?: true
+    content?: true
+    _all?: true
+  }
+
+  export type ActDataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActData to aggregate.
+     */
+    where?: ActDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActData to fetch.
+     */
+    orderBy?: ActDataOrderByWithRelationInput | ActDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ActData
+    **/
+    _count?: true | ActDataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ActDataAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ActDataSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActDataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActDataMaxAggregateInputType
+  }
+
+  export type GetActDataAggregateType<T extends ActDataAggregateArgs> = {
+        [P in keyof T & keyof AggregateActData]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActData[P]>
+      : GetScalarType<T[P], AggregateActData[P]>
+  }
+
+
+
+
+  export type ActDataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActDataWhereInput
+    orderBy?: ActDataOrderByWithAggregationInput | ActDataOrderByWithAggregationInput[]
+    by: ActDataScalarFieldEnum[] | ActDataScalarFieldEnum
+    having?: ActDataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActDataCountAggregateInputType | true
+    _avg?: ActDataAvgAggregateInputType
+    _sum?: ActDataSumAggregateInputType
+    _min?: ActDataMinAggregateInputType
+    _max?: ActDataMaxAggregateInputType
+  }
+
+  export type ActDataGroupByOutputType = {
+    id: number
+    story_id: number
+    title: string
+    content: string
+    _count: ActDataCountAggregateOutputType | null
+    _avg: ActDataAvgAggregateOutputType | null
+    _sum: ActDataSumAggregateOutputType | null
+    _min: ActDataMinAggregateOutputType | null
+    _max: ActDataMaxAggregateOutputType | null
+  }
+
+  type GetActDataGroupByPayload<T extends ActDataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActDataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActDataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActDataGroupByOutputType[P]>
+            : GetScalarType<T[P], ActDataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    story_id?: boolean
+    title?: boolean
+    content?: boolean
+  }, ExtArgs["result"]["actData"]>
+
+  export type ActDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    story_id?: boolean
+    title?: boolean
+    content?: boolean
+  }, ExtArgs["result"]["actData"]>
+
+  export type ActDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    story_id?: boolean
+    title?: boolean
+    content?: boolean
+  }, ExtArgs["result"]["actData"]>
+
+  export type ActDataSelectScalar = {
+    id?: boolean
+    story_id?: boolean
+    title?: boolean
+    content?: boolean
+  }
+
+  export type ActDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "story_id" | "title" | "content", ExtArgs["result"]["actData"]>
+
+  export type $ActDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ActData"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      story_id: number
+      title: string
+      content: string
+    }, ExtArgs["result"]["actData"]>
+    composites: {}
+  }
+
+  type ActDataGetPayload<S extends boolean | null | undefined | ActDataDefaultArgs> = $Result.GetResult<Prisma.$ActDataPayload, S>
+
+  type ActDataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ActDataFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ActDataCountAggregateInputType | true
+    }
+
+  export interface ActDataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ActData'], meta: { name: 'ActData' } }
+    /**
+     * Find zero or one ActData that matches the filter.
+     * @param {ActDataFindUniqueArgs} args - Arguments to find a ActData
+     * @example
+     * // Get one ActData
+     * const actData = await prisma.actData.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActDataFindUniqueArgs>(args: SelectSubset<T, ActDataFindUniqueArgs<ExtArgs>>): Prisma__ActDataClient<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ActData that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ActDataFindUniqueOrThrowArgs} args - Arguments to find a ActData
+     * @example
+     * // Get one ActData
+     * const actData = await prisma.actData.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActDataFindUniqueOrThrowArgs>(args: SelectSubset<T, ActDataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActDataClient<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActDataFindFirstArgs} args - Arguments to find a ActData
+     * @example
+     * // Get one ActData
+     * const actData = await prisma.actData.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActDataFindFirstArgs>(args?: SelectSubset<T, ActDataFindFirstArgs<ExtArgs>>): Prisma__ActDataClient<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ActData that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActDataFindFirstOrThrowArgs} args - Arguments to find a ActData
+     * @example
+     * // Get one ActData
+     * const actData = await prisma.actData.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActDataFindFirstOrThrowArgs>(args?: SelectSubset<T, ActDataFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActDataClient<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ActData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActDataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ActData
+     * const actData = await prisma.actData.findMany()
+     * 
+     * // Get first 10 ActData
+     * const actData = await prisma.actData.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const actDataWithIdOnly = await prisma.actData.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActDataFindManyArgs>(args?: SelectSubset<T, ActDataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ActData.
+     * @param {ActDataCreateArgs} args - Arguments to create a ActData.
+     * @example
+     * // Create one ActData
+     * const ActData = await prisma.actData.create({
+     *   data: {
+     *     // ... data to create a ActData
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActDataCreateArgs>(args: SelectSubset<T, ActDataCreateArgs<ExtArgs>>): Prisma__ActDataClient<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ActData.
+     * @param {ActDataCreateManyArgs} args - Arguments to create many ActData.
+     * @example
+     * // Create many ActData
+     * const actData = await prisma.actData.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActDataCreateManyArgs>(args?: SelectSubset<T, ActDataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ActData and returns the data saved in the database.
+     * @param {ActDataCreateManyAndReturnArgs} args - Arguments to create many ActData.
+     * @example
+     * // Create many ActData
+     * const actData = await prisma.actData.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ActData and only return the `id`
+     * const actDataWithIdOnly = await prisma.actData.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActDataCreateManyAndReturnArgs>(args?: SelectSubset<T, ActDataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ActData.
+     * @param {ActDataDeleteArgs} args - Arguments to delete one ActData.
+     * @example
+     * // Delete one ActData
+     * const ActData = await prisma.actData.delete({
+     *   where: {
+     *     // ... filter to delete one ActData
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActDataDeleteArgs>(args: SelectSubset<T, ActDataDeleteArgs<ExtArgs>>): Prisma__ActDataClient<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ActData.
+     * @param {ActDataUpdateArgs} args - Arguments to update one ActData.
+     * @example
+     * // Update one ActData
+     * const actData = await prisma.actData.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActDataUpdateArgs>(args: SelectSubset<T, ActDataUpdateArgs<ExtArgs>>): Prisma__ActDataClient<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ActData.
+     * @param {ActDataDeleteManyArgs} args - Arguments to filter ActData to delete.
+     * @example
+     * // Delete a few ActData
+     * const { count } = await prisma.actData.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActDataDeleteManyArgs>(args?: SelectSubset<T, ActDataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActDataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ActData
+     * const actData = await prisma.actData.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActDataUpdateManyArgs>(args: SelectSubset<T, ActDataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActData and returns the data updated in the database.
+     * @param {ActDataUpdateManyAndReturnArgs} args - Arguments to update many ActData.
+     * @example
+     * // Update many ActData
+     * const actData = await prisma.actData.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ActData and only return the `id`
+     * const actDataWithIdOnly = await prisma.actData.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ActDataUpdateManyAndReturnArgs>(args: SelectSubset<T, ActDataUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ActData.
+     * @param {ActDataUpsertArgs} args - Arguments to update or create a ActData.
+     * @example
+     * // Update or create a ActData
+     * const actData = await prisma.actData.upsert({
+     *   create: {
+     *     // ... data to create a ActData
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ActData we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActDataUpsertArgs>(args: SelectSubset<T, ActDataUpsertArgs<ExtArgs>>): Prisma__ActDataClient<$Result.GetResult<Prisma.$ActDataPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ActData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActDataCountArgs} args - Arguments to filter ActData to count.
+     * @example
+     * // Count the number of ActData
+     * const count = await prisma.actData.count({
+     *   where: {
+     *     // ... the filter for the ActData we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActDataCountArgs>(
+      args?: Subset<T, ActDataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActDataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ActData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActDataAggregateArgs>(args: Subset<T, ActDataAggregateArgs>): Prisma.PrismaPromise<GetActDataAggregateType<T>>
+
+    /**
+     * Group by ActData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActDataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActDataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActDataGroupByArgs['orderBy'] }
+        : { orderBy?: ActDataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActDataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActDataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ActData model
+   */
+  readonly fields: ActDataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ActData.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ActData model
+   */
+  interface ActDataFieldRefs {
+    readonly id: FieldRef<"ActData", 'Int'>
+    readonly story_id: FieldRef<"ActData", 'Int'>
+    readonly title: FieldRef<"ActData", 'String'>
+    readonly content: FieldRef<"ActData", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ActData findUnique
+   */
+  export type ActDataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * Filter, which ActData to fetch.
+     */
+    where: ActDataWhereUniqueInput
+  }
+
+  /**
+   * ActData findUniqueOrThrow
+   */
+  export type ActDataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * Filter, which ActData to fetch.
+     */
+    where: ActDataWhereUniqueInput
+  }
+
+  /**
+   * ActData findFirst
+   */
+  export type ActDataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * Filter, which ActData to fetch.
+     */
+    where?: ActDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActData to fetch.
+     */
+    orderBy?: ActDataOrderByWithRelationInput | ActDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActData.
+     */
+    cursor?: ActDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActData.
+     */
+    distinct?: ActDataScalarFieldEnum | ActDataScalarFieldEnum[]
+  }
+
+  /**
+   * ActData findFirstOrThrow
+   */
+  export type ActDataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * Filter, which ActData to fetch.
+     */
+    where?: ActDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActData to fetch.
+     */
+    orderBy?: ActDataOrderByWithRelationInput | ActDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActData.
+     */
+    cursor?: ActDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActData.
+     */
+    distinct?: ActDataScalarFieldEnum | ActDataScalarFieldEnum[]
+  }
+
+  /**
+   * ActData findMany
+   */
+  export type ActDataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * Filter, which ActData to fetch.
+     */
+    where?: ActDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActData to fetch.
+     */
+    orderBy?: ActDataOrderByWithRelationInput | ActDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ActData.
+     */
+    cursor?: ActDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActData.
+     */
+    skip?: number
+    distinct?: ActDataScalarFieldEnum | ActDataScalarFieldEnum[]
+  }
+
+  /**
+   * ActData create
+   */
+  export type ActDataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ActData.
+     */
+    data: XOR<ActDataCreateInput, ActDataUncheckedCreateInput>
+  }
+
+  /**
+   * ActData createMany
+   */
+  export type ActDataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ActData.
+     */
+    data: ActDataCreateManyInput | ActDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActData createManyAndReturn
+   */
+  export type ActDataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * The data used to create many ActData.
+     */
+    data: ActDataCreateManyInput | ActDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActData update
+   */
+  export type ActDataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ActData.
+     */
+    data: XOR<ActDataUpdateInput, ActDataUncheckedUpdateInput>
+    /**
+     * Choose, which ActData to update.
+     */
+    where: ActDataWhereUniqueInput
+  }
+
+  /**
+   * ActData updateMany
+   */
+  export type ActDataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ActData.
+     */
+    data: XOR<ActDataUpdateManyMutationInput, ActDataUncheckedUpdateManyInput>
+    /**
+     * Filter which ActData to update
+     */
+    where?: ActDataWhereInput
+    /**
+     * Limit how many ActData to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActData updateManyAndReturn
+   */
+  export type ActDataUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * The data used to update ActData.
+     */
+    data: XOR<ActDataUpdateManyMutationInput, ActDataUncheckedUpdateManyInput>
+    /**
+     * Filter which ActData to update
+     */
+    where?: ActDataWhereInput
+    /**
+     * Limit how many ActData to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActData upsert
+   */
+  export type ActDataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ActData to update in case it exists.
+     */
+    where: ActDataWhereUniqueInput
+    /**
+     * In case the ActData found by the `where` argument doesn't exist, create a new ActData with this data.
+     */
+    create: XOR<ActDataCreateInput, ActDataUncheckedCreateInput>
+    /**
+     * In case the ActData was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActDataUpdateInput, ActDataUncheckedUpdateInput>
+  }
+
+  /**
+   * ActData delete
+   */
+  export type ActDataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+    /**
+     * Filter which ActData to delete.
+     */
+    where: ActDataWhereUniqueInput
+  }
+
+  /**
+   * ActData deleteMany
+   */
+  export type ActDataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActData to delete
+     */
+    where?: ActDataWhereInput
+    /**
+     * Limit how many ActData to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ActData without action
+   */
+  export type ActDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActData
+     */
+    select?: ActDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ActData
+     */
+    omit?: ActDataOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -1997,7 +3104,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     author: 'author',
-    Acts: 'Acts',
+    acts: 'acts',
     likes_count: 'likes_count',
     comments: 'comments',
     reports: 'reports',
@@ -2007,6 +3114,16 @@ export namespace Prisma {
   };
 
   export type StorieDataScalarFieldEnum = (typeof StorieDataScalarFieldEnum)[keyof typeof StorieDataScalarFieldEnum]
+
+
+  export const ActDataScalarFieldEnum: {
+    id: 'id',
+    story_id: 'story_id',
+    title: 'title',
+    content: 'content'
+  };
+
+  export type ActDataScalarFieldEnum = (typeof ActDataScalarFieldEnum)[keyof typeof ActDataScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2103,7 +3220,7 @@ export namespace Prisma {
     id?: IntFilter<"StorieData"> | number
     title?: StringFilter<"StorieData"> | string
     author?: StringFilter<"StorieData"> | string
-    Acts?: IntFilter<"StorieData"> | number
+    acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntFilter<"StorieData"> | number
     comments?: IntFilter<"StorieData"> | number
     reports?: IntFilter<"StorieData"> | number
@@ -2116,7 +3233,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     author?: SortOrder
-    Acts?: SortOrder
+    acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -2132,7 +3249,7 @@ export namespace Prisma {
     NOT?: StorieDataWhereInput | StorieDataWhereInput[]
     title?: StringFilter<"StorieData"> | string
     author?: StringFilter<"StorieData"> | string
-    Acts?: IntFilter<"StorieData"> | number
+    acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntFilter<"StorieData"> | number
     comments?: IntFilter<"StorieData"> | number
     reports?: IntFilter<"StorieData"> | number
@@ -2145,7 +3262,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     author?: SortOrder
-    Acts?: SortOrder
+    acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -2166,7 +3283,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"StorieData"> | number
     title?: StringWithAggregatesFilter<"StorieData"> | string
     author?: StringWithAggregatesFilter<"StorieData"> | string
-    Acts?: IntWithAggregatesFilter<"StorieData"> | number
+    acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntWithAggregatesFilter<"StorieData"> | number
     comments?: IntWithAggregatesFilter<"StorieData"> | number
     reports?: IntWithAggregatesFilter<"StorieData"> | number
@@ -2175,10 +3292,59 @@ export namespace Prisma {
     mody_date?: DateTimeWithAggregatesFilter<"StorieData"> | Date | string
   }
 
+  export type ActDataWhereInput = {
+    AND?: ActDataWhereInput | ActDataWhereInput[]
+    OR?: ActDataWhereInput[]
+    NOT?: ActDataWhereInput | ActDataWhereInput[]
+    id?: IntFilter<"ActData"> | number
+    story_id?: IntFilter<"ActData"> | number
+    title?: StringFilter<"ActData"> | string
+    content?: StringFilter<"ActData"> | string
+  }
+
+  export type ActDataOrderByWithRelationInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+  }
+
+  export type ActDataWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ActDataWhereInput | ActDataWhereInput[]
+    OR?: ActDataWhereInput[]
+    NOT?: ActDataWhereInput | ActDataWhereInput[]
+    story_id?: IntFilter<"ActData"> | number
+    title?: StringFilter<"ActData"> | string
+    content?: StringFilter<"ActData"> | string
+  }, "id">
+
+  export type ActDataOrderByWithAggregationInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    _count?: ActDataCountOrderByAggregateInput
+    _avg?: ActDataAvgOrderByAggregateInput
+    _max?: ActDataMaxOrderByAggregateInput
+    _min?: ActDataMinOrderByAggregateInput
+    _sum?: ActDataSumOrderByAggregateInput
+  }
+
+  export type ActDataScalarWhereWithAggregatesInput = {
+    AND?: ActDataScalarWhereWithAggregatesInput | ActDataScalarWhereWithAggregatesInput[]
+    OR?: ActDataScalarWhereWithAggregatesInput[]
+    NOT?: ActDataScalarWhereWithAggregatesInput | ActDataScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ActData"> | number
+    story_id?: IntWithAggregatesFilter<"ActData"> | number
+    title?: StringWithAggregatesFilter<"ActData"> | string
+    content?: StringWithAggregatesFilter<"ActData"> | string
+  }
+
   export type StorieDataCreateInput = {
     title: string
     author: string
-    Acts: number
+    acts?: StorieDataCreateactsInput | number[]
     likes_count: number
     comments: number
     reports: number
@@ -2191,7 +3357,7 @@ export namespace Prisma {
     id?: number
     title: string
     author: string
-    Acts: number
+    acts?: StorieDataCreateactsInput | number[]
     likes_count: number
     comments: number
     reports: number
@@ -2203,7 +3369,7 @@ export namespace Prisma {
   export type StorieDataUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     author?: StringFieldUpdateOperationsInput | string
-    Acts?: IntFieldUpdateOperationsInput | number
+    acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
     reports?: IntFieldUpdateOperationsInput | number
@@ -2216,7 +3382,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     author?: StringFieldUpdateOperationsInput | string
-    Acts?: IntFieldUpdateOperationsInput | number
+    acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
     reports?: IntFieldUpdateOperationsInput | number
@@ -2229,7 +3395,7 @@ export namespace Prisma {
     id?: number
     title: string
     author: string
-    Acts: number
+    acts?: StorieDataCreateactsInput | number[]
     likes_count: number
     comments: number
     reports: number
@@ -2241,7 +3407,7 @@ export namespace Prisma {
   export type StorieDataUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     author?: StringFieldUpdateOperationsInput | string
-    Acts?: IntFieldUpdateOperationsInput | number
+    acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
     reports?: IntFieldUpdateOperationsInput | number
@@ -2254,13 +3420,59 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     author?: StringFieldUpdateOperationsInput | string
-    Acts?: IntFieldUpdateOperationsInput | number
+    acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
     reports?: IntFieldUpdateOperationsInput | number
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActDataCreateInput = {
+    story_id: number
+    title: string
+    content: string
+  }
+
+  export type ActDataUncheckedCreateInput = {
+    id?: number
+    story_id: number
+    title: string
+    content: string
+  }
+
+  export type ActDataUpdateInput = {
+    story_id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActDataUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActDataCreateManyInput = {
+    id?: number
+    story_id: number
+    title: string
+    content: string
+  }
+
+  export type ActDataUpdateManyMutationInput = {
+    story_id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ActDataUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2289,6 +3501,14 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    has?: number | IntFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -2309,7 +3529,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     author?: SortOrder
-    Acts?: SortOrder
+    acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -2320,7 +3540,7 @@ export namespace Prisma {
 
   export type StorieDataAvgOrderByAggregateInput = {
     id?: SortOrder
-    Acts?: SortOrder
+    acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -2330,7 +3550,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     author?: SortOrder
-    Acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -2343,7 +3562,6 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     author?: SortOrder
-    Acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -2354,7 +3572,7 @@ export namespace Prisma {
 
   export type StorieDataSumOrderByAggregateInput = {
     id?: SortOrder
-    Acts?: SortOrder
+    acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -2416,8 +3634,48 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type ActDataCountOrderByAggregateInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+  }
+
+  export type ActDataAvgOrderByAggregateInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+  }
+
+  export type ActDataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+  }
+
+  export type ActDataMinOrderByAggregateInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+  }
+
+  export type ActDataSumOrderByAggregateInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+  }
+
+  export type StorieDataCreateactsInput = {
+    set: number[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type StorieDataUpdateactsInput = {
+    set?: number[]
+    push?: number | number[]
   }
 
   export type IntFieldUpdateOperationsInput = {

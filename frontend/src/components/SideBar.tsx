@@ -1,3 +1,4 @@
+import React from "react";
 import { FaHome } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
@@ -17,7 +18,7 @@ export default function SideBar() {
         <li><FaRegUser /> <span className="ml-2">Following</span></li>
         <li><CiBookmark /> <span className="ml-2">Saved</span></li>
       </ul>
-      <div className="flex items-center mt-auto mb-1">
+      <div className="flex items-center mt-auto mb-1 cursor-pointer" onClick={()=>{navigator('/')}}>
         <TbLogout2 />
         <span className="ml-2">Log out</span>
       </div>
