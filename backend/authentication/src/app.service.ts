@@ -47,7 +47,7 @@ export class AppService {
             email: userData.email,
             type_authentication: userData.type_authentication,
             authentication: password,
-            user_id: upd.id
+            user_profile_id: upd.id
           }
         })
       } else {
@@ -56,7 +56,7 @@ export class AppService {
             email: userData.email,
             type_authentication: userData.type_authentication,
             authentication: userData.authentication,
-            user_id: upd.id
+            user_profile_id: upd.id
           }
         })
       }

@@ -974,6 +974,7 @@ export namespace Prisma {
 
   export type StorieDataAvgAggregateOutputType = {
     id: number | null
+    author_id: number | null
     acts: number | null
     likes_count: number | null
     comments: number | null
@@ -982,6 +983,7 @@ export namespace Prisma {
 
   export type StorieDataSumAggregateOutputType = {
     id: number | null
+    author_id: number | null
     acts: number[]
     likes_count: number | null
     comments: number | null
@@ -990,8 +992,8 @@ export namespace Prisma {
 
   export type StorieDataMinAggregateOutputType = {
     id: number | null
+    author_id: number | null
     title: string | null
-    author: string | null
     likes_count: number | null
     comments: number | null
     reports: number | null
@@ -1002,8 +1004,8 @@ export namespace Prisma {
 
   export type StorieDataMaxAggregateOutputType = {
     id: number | null
+    author_id: number | null
     title: string | null
-    author: string | null
     likes_count: number | null
     comments: number | null
     reports: number | null
@@ -1014,8 +1016,8 @@ export namespace Prisma {
 
   export type StorieDataCountAggregateOutputType = {
     id: number
+    author_id: number
     title: number
-    author: number
     acts: number
     likes_count: number
     comments: number
@@ -1029,6 +1031,7 @@ export namespace Prisma {
 
   export type StorieDataAvgAggregateInputType = {
     id?: true
+    author_id?: true
     acts?: true
     likes_count?: true
     comments?: true
@@ -1037,6 +1040,7 @@ export namespace Prisma {
 
   export type StorieDataSumAggregateInputType = {
     id?: true
+    author_id?: true
     acts?: true
     likes_count?: true
     comments?: true
@@ -1045,8 +1049,8 @@ export namespace Prisma {
 
   export type StorieDataMinAggregateInputType = {
     id?: true
+    author_id?: true
     title?: true
-    author?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -1057,8 +1061,8 @@ export namespace Prisma {
 
   export type StorieDataMaxAggregateInputType = {
     id?: true
+    author_id?: true
     title?: true
-    author?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -1069,8 +1073,8 @@ export namespace Prisma {
 
   export type StorieDataCountAggregateInputType = {
     id?: true
+    author_id?: true
     title?: true
-    author?: true
     acts?: true
     likes_count?: true
     comments?: true
@@ -1169,8 +1173,8 @@ export namespace Prisma {
 
   export type StorieDataGroupByOutputType = {
     id: number
+    author_id: number
     title: string
-    author: string
     acts: number[]
     likes_count: number
     comments: number
@@ -1201,8 +1205,8 @@ export namespace Prisma {
 
   export type StorieDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    author_id?: boolean
     title?: boolean
-    author?: boolean
     acts?: boolean
     likes_count?: boolean
     comments?: boolean
@@ -1214,8 +1218,8 @@ export namespace Prisma {
 
   export type StorieDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    author_id?: boolean
     title?: boolean
-    author?: boolean
     acts?: boolean
     likes_count?: boolean
     comments?: boolean
@@ -1227,8 +1231,8 @@ export namespace Prisma {
 
   export type StorieDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    author_id?: boolean
     title?: boolean
-    author?: boolean
     acts?: boolean
     likes_count?: boolean
     comments?: boolean
@@ -1240,8 +1244,8 @@ export namespace Prisma {
 
   export type StorieDataSelectScalar = {
     id?: boolean
+    author_id?: boolean
     title?: boolean
-    author?: boolean
     acts?: boolean
     likes_count?: boolean
     comments?: boolean
@@ -1251,15 +1255,15 @@ export namespace Prisma {
     mody_date?: boolean
   }
 
-  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "author" | "acts" | "likes_count" | "comments" | "reports" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
+  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "author_id" | "title" | "acts" | "likes_count" | "comments" | "reports" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
 
   export type $StorieDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StorieData"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      author_id: number
       title: string
-      author: string
       acts: number[]
       likes_count: number
       comments: number
@@ -1691,8 +1695,8 @@ export namespace Prisma {
    */
   interface StorieDataFieldRefs {
     readonly id: FieldRef<"StorieData", 'Int'>
+    readonly author_id: FieldRef<"StorieData", 'Int'>
     readonly title: FieldRef<"StorieData", 'String'>
-    readonly author: FieldRef<"StorieData", 'String'>
     readonly acts: FieldRef<"StorieData", 'Int[]'>
     readonly likes_count: FieldRef<"StorieData", 'Int'>
     readonly comments: FieldRef<"StorieData", 'Int'>
@@ -3102,8 +3106,8 @@ export namespace Prisma {
 
   export const StorieDataScalarFieldEnum: {
     id: 'id',
+    author_id: 'author_id',
     title: 'title',
-    author: 'author',
     acts: 'acts',
     likes_count: 'likes_count',
     comments: 'comments',
@@ -3218,8 +3222,8 @@ export namespace Prisma {
     OR?: StorieDataWhereInput[]
     NOT?: StorieDataWhereInput | StorieDataWhereInput[]
     id?: IntFilter<"StorieData"> | number
+    author_id?: IntFilter<"StorieData"> | number
     title?: StringFilter<"StorieData"> | string
-    author?: StringFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntFilter<"StorieData"> | number
     comments?: IntFilter<"StorieData"> | number
@@ -3231,8 +3235,8 @@ export namespace Prisma {
 
   export type StorieDataOrderByWithRelationInput = {
     id?: SortOrder
+    author_id?: SortOrder
     title?: SortOrder
-    author?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
@@ -3247,8 +3251,8 @@ export namespace Prisma {
     AND?: StorieDataWhereInput | StorieDataWhereInput[]
     OR?: StorieDataWhereInput[]
     NOT?: StorieDataWhereInput | StorieDataWhereInput[]
+    author_id?: IntFilter<"StorieData"> | number
     title?: StringFilter<"StorieData"> | string
-    author?: StringFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntFilter<"StorieData"> | number
     comments?: IntFilter<"StorieData"> | number
@@ -3260,8 +3264,8 @@ export namespace Prisma {
 
   export type StorieDataOrderByWithAggregationInput = {
     id?: SortOrder
+    author_id?: SortOrder
     title?: SortOrder
-    author?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
@@ -3281,8 +3285,8 @@ export namespace Prisma {
     OR?: StorieDataScalarWhereWithAggregatesInput[]
     NOT?: StorieDataScalarWhereWithAggregatesInput | StorieDataScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"StorieData"> | number
+    author_id?: IntWithAggregatesFilter<"StorieData"> | number
     title?: StringWithAggregatesFilter<"StorieData"> | string
-    author?: StringWithAggregatesFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntWithAggregatesFilter<"StorieData"> | number
     comments?: IntWithAggregatesFilter<"StorieData"> | number
@@ -3342,8 +3346,8 @@ export namespace Prisma {
   }
 
   export type StorieDataCreateInput = {
+    author_id: number
     title: string
-    author: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count: number
     comments: number
@@ -3355,8 +3359,8 @@ export namespace Prisma {
 
   export type StorieDataUncheckedCreateInput = {
     id?: number
+    author_id: number
     title: string
-    author: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count: number
     comments: number
@@ -3367,8 +3371,8 @@ export namespace Prisma {
   }
 
   export type StorieDataUpdateInput = {
+    author_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    author?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
@@ -3380,8 +3384,8 @@ export namespace Prisma {
 
   export type StorieDataUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    author_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    author?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
@@ -3393,8 +3397,8 @@ export namespace Prisma {
 
   export type StorieDataCreateManyInput = {
     id?: number
+    author_id: number
     title: string
-    author: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count: number
     comments: number
@@ -3405,8 +3409,8 @@ export namespace Prisma {
   }
 
   export type StorieDataUpdateManyMutationInput = {
+    author_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    author?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
@@ -3418,8 +3422,8 @@ export namespace Prisma {
 
   export type StorieDataUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    author_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    author?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
@@ -3527,8 +3531,8 @@ export namespace Prisma {
 
   export type StorieDataCountOrderByAggregateInput = {
     id?: SortOrder
+    author_id?: SortOrder
     title?: SortOrder
-    author?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
@@ -3540,6 +3544,7 @@ export namespace Prisma {
 
   export type StorieDataAvgOrderByAggregateInput = {
     id?: SortOrder
+    author_id?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
@@ -3548,8 +3553,8 @@ export namespace Prisma {
 
   export type StorieDataMaxOrderByAggregateInput = {
     id?: SortOrder
+    author_id?: SortOrder
     title?: SortOrder
-    author?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -3560,8 +3565,8 @@ export namespace Prisma {
 
   export type StorieDataMinOrderByAggregateInput = {
     id?: SortOrder
+    author_id?: SortOrder
     title?: SortOrder
-    author?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -3572,6 +3577,7 @@ export namespace Prisma {
 
   export type StorieDataSumOrderByAggregateInput = {
     id?: SortOrder
+    author_id?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
@@ -3669,6 +3675,14 @@ export namespace Prisma {
     set: number[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -3676,14 +3690,6 @@ export namespace Prisma {
   export type StorieDataUpdateactsInput = {
     set?: number[]
     push?: number | number[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type BoolFieldUpdateOperationsInput = {

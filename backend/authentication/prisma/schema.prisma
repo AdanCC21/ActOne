@@ -13,9 +13,18 @@ datasource db {
   url      = env("DB_CONECTION")
 }
 
+/**
+ * id - identificador
+ * user_profile_id
+ * type_authentication - email o google
+ * authentication - contrasena o id de google
+ * email - correo
+ * creation_date - fecha de creacion
+ * hidden - borrado?
+ */
 model Authentication {
   id                  Int      @id @default(autoincrement())
-  user_id             Int      @unique
+  user_profile_id     Int      @unique
   type_authentication String
   authentication      String
   email               String   @unique

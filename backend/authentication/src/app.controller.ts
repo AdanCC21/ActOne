@@ -21,4 +21,6 @@ export class AppController {
   async logIn(data:{userData:LogIn}){
     return await this.appService.logIn(data.userData);
   }
+
+  
 }

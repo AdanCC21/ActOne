@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "UserPublicData" ADD COLUMN     "modify_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

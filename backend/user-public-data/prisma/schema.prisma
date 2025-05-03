@@ -17,4 +17,5 @@ model UserPublicData {
   // Following count
   following         Int    @default(0)
   published_stories Int[]  @default([])
+  modify_date DateTime @default(now())
 }

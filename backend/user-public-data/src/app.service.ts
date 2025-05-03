@@ -2,6 +2,7 @@ import { Injectable, Param } from '@nestjs/common';
 import { CreateUserDTO } from './DTO/create-user.dto';
 import { UpdateUserDTO } from './DTO/update-user.dto';
 import { PrismaService } from './prisma/prisma.service';
+import { error } from 'console';
 
 @Injectable()
 export class AppService {
@@ -16,7 +17,7 @@ export class AppService {
     return await this.prismaSer.userPublicData.create({
       data: {
         user_name: user.user_name,
-        description:user.description
+        description: user.description
       }
     })
   }
@@ -27,9 +28,9 @@ export class AppService {
    * @description This need to comunicate with the authentication microservice, to change the state
    * @returns null or the user
    */
-  async deleteUser(id:number) {
+  async deleteUser(id: number) {
     const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: id } }) || null;
-    if (userFound != null){
+    if (userFound != null) {
       const newUs = userFound;
       // return await this.prismaSer.user.update({where:{id:id}})
     }
@@ -52,17 +53,15 @@ export class AppService {
    * @param id user ID
    * @returns the user found or null
    */
-  findOne(id: number) {
-    return this.prismaSer.userPublicData.findUnique({
-      where: { id: Number(id) }
-    });
+  async findOne(id: number) {
+    return await this.prismaSer.userPublicData.findUnique({ where: { id: Number(id) } });
   }
 
   /**
    * @returns All public data users
    */
-  findAll() {
-    return this.prismaSer.userPublicData.findMany();
+  async findAll() {
+    return await this.prismaSer.userPublicData.findMany();
   }
 
 }

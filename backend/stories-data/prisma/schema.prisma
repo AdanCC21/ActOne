@@ -10,8 +10,9 @@ datasource db {
 
 model StorieData {
   id            Int      @id @default(autoincrement())
+  // UPD del usuario
+  author_id     Int
   title         String
-  author        String
   acts          Int[]
   likes_count   Int
   comments      Int
@@ -23,7 +24,7 @@ model StorieData {
 
 model ActData {
   id       Int    @id @default(autoincrement())
-  story_id Int 
+  story_id Int
   title    String
   content  String
 }

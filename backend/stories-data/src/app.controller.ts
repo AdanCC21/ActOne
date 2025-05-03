@@ -16,9 +16,4 @@ export class AppController {
   async FoundStoryById(@Payload() id: number) {
     return await this.appService.FoundStoryById(id);
   }
-
-  // @MessagePattern({ cmd: 'get-act' })
-  // async GetActs(@Payload() story_id: number) {
-  //   return await this.appService;
-  // }
 }

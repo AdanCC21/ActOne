@@ -3,6 +3,7 @@ import Header from '../../components/Header'
 import { Comments, Like, Mark } from '../../components/Interactions'
 import CommentCard from '../../components/CommentCard'
 import { StoryDTO, ActsDTO } from '../../DTO/Story.dto'
+import { UPD } from '../../DTO/UPD.dto'
 
 import focus from '../../assets/focus.png'
 import '../../css/story.css'
@@ -16,7 +17,7 @@ export default function Story() {
   const navigator = useNavigate();
 
   const [currentAct, setAct] = useState(0);
-  const [story, setStory] = useState({ story: new StoryDTO(), acts: [new ActsDTO()] });
+  const [story, setStory] = useState({ story: new StoryDTO(), acts: [new ActsDTO()], upd: new UPD() });
 
   useEffect(() => {
     const loadStory = async () => {
@@ -26,7 +27,7 @@ export default function Story() {
         navigator('/404');
         return
       }
-
+      console.log(result);
       setStory(result)
     }
 
@@ -41,10 +42,10 @@ export default function Story() {
         <section className='flex flex-col bg-(--dark-400) h-full w-[20%] rounded-xl'>
           {/* Profile */}
           <article className='flex flex-col h-[50%] w-[80%] mx-auto my-2'>
-            <img src='https://cdn.discordapp.com/attachments/1088654568218443926/1332548598600171572/6ea8eb171444c0e2cca44fe40c301f91.jpg?ex=6814e0d7&is=68138f57&hm=bdf92dac55a757cad650e0d875247dc99840eca97adcb677edb4993120ba378a&'
+            <img src={story.upd.profile_image_url ? (story.upd.profile_image_url) : ('')}
               className='w-[200px] rounded-full m-auto ' />
-            <h3 className='text-center font-semibold'>Author</h3>
-            <span className='text-(--gray) text-center '>Descripcion</span>
+            <h3 className='text-center font-semibold'>{story.upd.user_name}</h3>
+            <span className='text-(--gray) text-center '>{story.upd.description}</span>
             <button className='btn red w-fit mx-auto my-2'>Seguir</button>
           </article>
 
@@ -77,9 +78,9 @@ export default function Story() {
             <div>
               <div className='flex'>
                 <h1>{story.story.title}</h1>
-                <button className='btn void self-center ml-2' onClick={()=>{navigator(`/story/${id}/focus`)}}>
+                <button className='btn void self-center ml-2' onClick={() => { navigator(`/story/${id}/focus`) }}>
                   <img src={focus} />
-                  </button>
+                </button>
               </div>
               <h5 className='font-semibold  text-(--red-800)'>{story.acts[currentAct].title}</h5>
             </div>
