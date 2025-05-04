@@ -135,7 +135,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\PC\\Documents\\CHAMBA\\Proyectos\\ActOne\\backend\\stories-data\\generated\\prisma",
+      "value": "C:\\Users\\adang\\Documents\\Chamba\\ActOne\\backend\\stories-data\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -149,7 +149,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\PC\\Documents\\CHAMBA\\Proyectos\\ActOne\\backend\\stories-data\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\adang\\Documents\\Chamba\\ActOne\\backend\\stories-data\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -167,12 +167,12 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DB_CONECTION",
-        "value": "postgresql://postgres:adangc18@localhost:5432/ActOne?schema=storie-data"
+        "value": "postgresql://postgres:adangc18@localhost:5432/mydb?schema=stories-data"
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DB_CONECTION\")\n}\n\nmodel StorieData {\n  id            Int      @id @default(autoincrement())\n  author_id     Int\n  title         String\n  acts          Int[]\n  likes_count   Int\n  comments      Int\n  reports       Int\n  visibility    Boolean\n  creation_date DateTime @default(now())\n  mody_date     DateTime @default(now())\n}\n\nmodel ActData {\n  id       Int    @id @default(autoincrement())\n  story_id Int\n  title    String\n  content  String\n}\n",
-  "inlineSchemaHash": "a8c0067ddbefccfcf3b7c5c13cb8cc3f179ea9fa6007d30f7896764c7a80bb20",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DB_CONECTION\")\n}\n\nmodel StorieData {\n  id            Int      @id @default(autoincrement())\n  // UPD del usuario\n  author_id     Int\n  title         String\n  acts          Int[]\n  likes_count   Int\n  comments      Int\n  reports       Int\n  visibility    Boolean\n  creation_date DateTime @default(now())\n  mody_date     DateTime @default(now())\n}\n\nmodel ActData {\n  id       Int    @id @default(autoincrement())\n  story_id Int\n  title    String\n  content  String\n}\n",
+  "inlineSchemaHash": "87f4bf1b0e97db2ff6ea50516459aaf38ab320216cc865ca21ceb987edafaf49",
   "copyEngine": true
 }
 config.dirname = '/'

@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import LogIn from "./pages/NewUser/LogIn";
 import Reg from "./pages/NewUser/Reg";
 import WelcomeBack from "./pages/WelcomeBack";
-import Edit from "./pages/Edit";
+import Edit from "./pages/Editor/Edit";
 import Story from "./pages/Publication/Story";
 import NotFound from "./pages/Error/NotFound";
 import Focus from "./pages/Publication/Focus";

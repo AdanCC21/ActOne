@@ -1,0 +1,20 @@
+.inp-void{
+    background-color: transparent;
+    padding: 5px;
+    border-radius: 6px;
+    outline:  none;
+    transition: all ease-in-out 0.3s;
+}
+
+.inp-void:focus{
+    outline: none;
+}
+
+
+.inp-noline{
+    outline: none;
+}
+
+.inp-noline:focus{
+    outline: none;
+}
