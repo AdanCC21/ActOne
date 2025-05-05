@@ -49,11 +49,11 @@ export default function Header({ }) {
                     <div className='flex flex-col my-2'>
                         <input id='title' placeholder='Titulo' className='my-auto'
                             name='title' value={title} onChange={(e) => { handleTitle(e) }} onKeyDown={(e) => { handleKey(e) }} />
-                            {alert===''?(
-                                <span className='none text-(--red-600) '>{alert}</span>
-                            ):(
-                                <span className='text-(--red-600) '>{alert}</span>
-                            )}
+                        {alert === '' ? (
+                            <span className='none text-(--red-600) '>{alert}</span>
+                        ) : (
+                            <span className='text-(--red-600) '>{alert}</span>
+                        )}
                     </div>
                     <div className='flex w-full ml-auto mt-auto'>
                         <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setAnimation("fadeOut"); setAlert('') }}>Cancelar</button>
@@ -63,7 +63,7 @@ export default function Header({ }) {
             </Modal>
 
 
-            <div onClick={()=>{navigate('/home')}} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
+            <div onClick={() => { navigate('/home') }} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
                 <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' />
                 <h3 className='my-auto font-semibold text-(--red-500)'>ActOne</h3>
             </div>
@@ -78,7 +78,7 @@ export default function Header({ }) {
                 <div>
                     <img className='cursor-pointer' src={update} alt='update storie' onClick={() => { setAnimation("show fadeIn") }} />
                     <img src={notification} alt='notification' />
-                    <img className='user-icon' src={tempUser} alt='user' />
+                    <img className='user-icon' src={tempUser} alt='user' onClick={() => { navigate('/profile') }} />
                 </div>
             </div>
         </header>

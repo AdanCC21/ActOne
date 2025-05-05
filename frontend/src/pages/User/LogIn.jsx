@@ -72,7 +72,8 @@ export default function LogIn({ }) {
             }
             const dataRes = await res.json();
             console.log(dataRes);
-            navigate('/home');
+            sessionStorage.setItem('user', dataRes)
+            navigate('/');
         } catch (error) {
             console.error(error);
         }

@@ -97,7 +97,7 @@ export default function Reg({ }) {
             }
             const dataRes = await res.json();
             console.log(dataRes);
-            navigate('/');
+            navigate('/login');
 
         }catch(error){
             console.error(error)
