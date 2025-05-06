@@ -18,9 +18,9 @@ export default function SideBar() {
         <li><FaRegUser /> <span className="ml-2">Following</span></li>
         <li><CiBookmark /> <span className="ml-2">Saved</span></li>
       </ul>
-      <div className="flex items-center mt-auto mb-1 cursor-pointer" onClick={()=>{navigator('/')}}>
+      <div className="flex items-center mt-auto mb-1 cursor-pointer">
         <TbLogout2 />
-        <span className="ml-2">Log out</span>
+        <span className="ml-2" onClick={() => { sessionStorage.clear(); navigator('/login'); }}>Log out</span>
       </div>
     </nav>
   )

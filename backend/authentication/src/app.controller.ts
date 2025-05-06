@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreateAuthDTO } from './DTO/create-auth.dto';
 import { LogIn } from './DTO/login-auth.dto';
+import { log } from 'console';
 
 @Controller('auth')
 export class AppController {
@@ -20,16 +21,11 @@ export class AppController {
   @MessagePattern({ cmd: "logIn" })
   async logIn(data: { userData: LogIn }) {
     try {
-      const res = {
-        status:""
-      }
-
-      return res;
+      console.log('esta es mi data ', data.userData)
+      return await this.appService.logIn(data.userData);
     } catch (e) {
-      return {
-        status: "404 ",
-        message: e.message
-      }
+      console.error(e.message);
+      return e;
     }
   }
 }

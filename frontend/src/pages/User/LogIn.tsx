@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BackendRoute } from "../../context/AppContext";
 import { useNavigate } from 'react-router';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import ParticlesBg from "../../components/ParticlesBg";
+import { logInBack } from "../../Hooks/LogIn";
 
 export default function LogIn({ }) {
     let [inputs, setInput] = useState({
@@ -12,7 +13,6 @@ export default function LogIn({ }) {
 
     let [alert, setAlert] = useState("");
 
-    const backRoute = useContext(BackendRoute);
     const navigate = useNavigate();
 
     const handleChanges = (e) => {
@@ -32,56 +32,29 @@ export default function LogIn({ }) {
         }
     }
 
-    const validate = () => {
+    const validateInputs = () => {
         if (inputs.email != "") {
             if (inputs.password != "" && inputs.password.length > 6) {
-                return ["Ok", true];
+                return { message: 'ok', status: true };
             }
-            return ["Contraseña muy corta", false];
+            return { message: "Contraseña muy corta", status: false };
         }
-        return ["Correo vacio o invalido", false];
+        return { message: "Correo vacio o invalido", status: false };
     }
 
-    const handleSubmit = (e) => {
-        const [message, res] = validate();
-        if (res) {
+    const handleSubmit = async () => {
+        const validate = validateInputs();
+        if (validate.status) {
             setAlert("Login");
-            sendToBackend();
+            try {
+                const backRes = await logInBack(inputs.email, 'email', inputs.password);
+                sessionStorage.setItem('user', String(backRes.id))
+                navigate('/')
+            } catch (e) {
+                setAlert(e.message);
+            }
         } else {
-            setAlert(message);
-        }
-    }
-
-    const sendToBackend = async () => {
-        //cokies:
-        const data = {
-            "email": inputs.email,
-            "type_authentication": "email",
-            "authentication": inputs.password
-        }
-        try {
-            const res = await fetch(`${backRoute}api/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data)
-            })
-
-            if (!res.ok) {
-                throw new Error("Something is wrong with the backend " + res.status);
-            }
-            if (res.message != undefined) {
-                console.error(res.message);
-            } else {
-                console.log('entro')
-                const dataRes = await res.json();
-                sessionStorage.setItem('user', dataRes.id)
-            }
-
-            navigate('/');
-        } catch (error) {
-            console.error(error);
+            setAlert(validate.message);
         }
     }
 
@@ -103,7 +76,7 @@ export default function LogIn({ }) {
                             loop
                             autoplay
                         />
-                    </div>) : (<div></div>)}
+                    </div>) : (<div className="text-(--red-700) text-center">{alert}</div>)}
                     <div>
                         <label htmlFor="emailLog" >Email</label>
                         <input id="emailLog" name="email" value={inputs.email} onChange={(e) => { handleChanges(e) }}

@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AppService {
   constructor(private prismaSer: PrismaService) { }
-  
+
   private hashSaltRounds: number = 10
 
   /**
@@ -19,12 +19,13 @@ export class AppService {
   async logIn(userData: LogIn) {
     const userExist = await this.prismaSer.authentication.findUnique({ where: { email: userData.email } });
     if (userExist) {
-      if (await bcrypt.compare(userExist.authentication, userData.authentication)) {
-        return userExist;
+      // Bycrypt compara primero la contraseña plana con la hasheada
+      if (await bcrypt.compare(userData.authentication, userExist.authentication)) {
+        return { message: 'Success', status: 200, data: userExist };
       }
-      throw new Error("User authentication wrong");
+      throw { message: "Wrong Password, try again", status: 401 };
     }
-    throw new Error("User not found");
+    throw { message: "User not found", status: 404 };
   }
 
   /**
