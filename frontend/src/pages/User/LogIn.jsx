@@ -53,6 +53,7 @@ export default function LogIn({ }) {
     }
 
     const sendToBackend = async () => {
+        //cokies:
         const data = {
             "email": inputs.email,
             "type_authentication": "email",
@@ -70,9 +71,14 @@ export default function LogIn({ }) {
             if (!res.ok) {
                 throw new Error("Something is wrong with the backend " + res.status);
             }
-            const dataRes = await res.json();
-            console.log(dataRes);
-            sessionStorage.setItem('user', dataRes)
+            if (res.message != undefined) {
+                console.error(res.message);
+            } else {
+                console.log('entro')
+                const dataRes = await res.json();
+                sessionStorage.setItem('user', dataRes.id)
+            }
+
             navigate('/');
         } catch (error) {
             console.error(error);

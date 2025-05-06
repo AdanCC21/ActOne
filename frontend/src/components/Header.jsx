@@ -63,7 +63,7 @@ export default function Header({ }) {
             </Modal>
 
 
-            <div onClick={() => { navigate('/home') }} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
+            <div onClick={() => { navigate('/') }} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
                 <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' />
                 <h3 className='my-auto font-semibold text-(--red-500)'>ActOne</h3>
             </div>

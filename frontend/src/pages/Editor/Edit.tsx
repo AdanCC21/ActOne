@@ -94,7 +94,7 @@ export default function Edit({ }) {
                         <ul>
                             {act.map((current, index) => (
                                 <li key={index} className="flex items-center">
-                                    <span className={`truncate max-w-[250px] overflow-hidden whitespace-nowrap ${index === currentAct ? 'text-[--red-600]' : ''} cursor-pointer`}
+                                    <span className={`truncate max-w-[250px] overflow-hidden whitespace-nowrap ${index === currentAct ? 'text-(--red-600)' : ''} cursor-pointer`}
                                         onClick={() => { setCurrent(index); }}>{current.title}</span>
                                     {index > 0 ? (
                                         <div className="ml-auto cursor-pointer opacity-20 hover:opacity-100 duration-200 ease-in-out"

@@ -22,9 +22,9 @@ export class AppService {
       if (await bcrypt.compare(userExist.authentication, userData.authentication)) {
         return userExist;
       }
-      return new Error("User authentication wrong");
+      throw new Error("User authentication wrong");
     }
-    return new Error("User not found");
+    throw new Error("User not found");
   }
 
   /**

@@ -21,16 +21,17 @@ export class AppController {
   @Post("login")
   async logIn(@Body() data: JSON) {
     const userData = data;
-    return this.authClient.send({ cmd: "logIn" }, { userData });
+    const resData = this.authClient.send({ cmd: "logIn" }, { userData });
+    console.log(resData);
   }
 
   @Get("user/:id")
-  async GetUser(@Param('id', ParseIntPipe) id:number ){
-    
+  async GetUser(@Param('id', ParseIntPipe) id: number) {
+
   }
 
   @Get("story/:id")
   async getStory(@Param('id', ParseIntPipe) id: number) {
-    return this.storyClient.send({ cmd: 'get-story' },id);
+    return this.storyClient.send({ cmd: 'get-story' }, id);
   }
 }

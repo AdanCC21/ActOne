@@ -9,7 +9,7 @@ export default function NotFound() {
             
             <div className='m-auto'>
                 <h1>Page or Story not Found - Error 404</h1>
-                <button className='btn void w-fit mx-auto' onClick={()=>{navigator('/home')}}>Go Home</button>
+                <button className='btn void w-fit mx-auto' onClick={()=>{navigator('/')}}>Go Home</button>
             </div>
         </div>
     )
