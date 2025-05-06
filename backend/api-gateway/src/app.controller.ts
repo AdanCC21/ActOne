@@ -27,9 +27,9 @@ export class AppController {
     return resData;
   }
 
-  @Get("user/:id")
+  @Get("upd/get/:id")
   async GetUser(@Param('id', ParseIntPipe) id: number) {
-
+    // this.userClient.send({cmd:'get'})
   }
 
   @Get("story/:id")

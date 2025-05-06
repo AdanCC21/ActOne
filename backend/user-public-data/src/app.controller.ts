@@ -13,7 +13,7 @@ export class AppController {
   }
 
   @Get('get/:id')
-  async GetUPD(@Param('id',ParseIntPipe) id:number){
-    return this.appService.findOne(id);
+  async GetUPD(@Param('id', ParseIntPipe) id: number) {
+    return await this.appService.findOne(id);
   }
 }

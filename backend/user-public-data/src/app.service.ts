@@ -2,7 +2,6 @@ import { Injectable, Param } from '@nestjs/common';
 import { CreateUserDTO } from './DTO/create-user.dto';
 import { UpdateUserDTO } from './DTO/update-user.dto';
 import { PrismaService } from './prisma/prisma.service';
-import { error } from 'console';
 
 @Injectable()
 export class AppService {
@@ -54,7 +53,11 @@ export class AppService {
    * @returns the user found or null
    */
   async findOne(id: number) {
-    return await this.prismaSer.userPublicData.findUnique({ where: { id: Number(id) } });
+    const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: Number(id) } });
+    if (!userExist) {
+      return { message: 'user not found', status: 404 }
+    }
+    return { message: 'success', status: 200, data: userExist };
   }
 
   /**
