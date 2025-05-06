@@ -2,6 +2,7 @@ import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestj
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { get } from 'http';
+import { firstValueFrom } from 'rxjs';
 
 @Controller('api')
 export class AppController {
@@ -21,8 +22,9 @@ export class AppController {
   @Post("login")
   async logIn(@Body() data: JSON) {
     const userData = data;
-    const resData = this.authClient.send({ cmd: "logIn" }, { userData });
+    const resData = await firstValueFrom(this.authClient.send({ cmd: "logIn" }, { userData }));
     console.log(resData);
+    return resData;
   }
 
   @Get("user/:id")
