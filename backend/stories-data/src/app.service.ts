@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
+import { CreateStoryDto } from './DTO/CreateStory.dto';
+import { CreateActDto } from './DTO/CreateAct.dto';
 import { error } from 'console';
+import { create } from 'domain';
 
 @Injectable()
 export class AppService {
@@ -51,5 +54,50 @@ export class AppService {
             throw new Error("The story dont't have acts. Story id :" + story_id);
         }
         return acts;
+    }
+
+    async PublishStory(story: CreateStoryDto, acts: CreateActDto[]) {
+        try {
+            const storyRes = await this.prismaSer.storieData.create({ data: story });
+
+            const actsId = await Promise.all(
+                acts.map(async (act) => {
+                    const temp = await this.prismaSer.actData.create({
+                        data: {
+                            title: act.title,
+                            story_id: storyRes.id,
+                            content: act.content
+                        }
+                    })
+                    return temp.id;
+                }
+                )
+            );
+
+
+            // Update Story Acts Id
+            const updatedActs = await this.prismaSer.storieData.update({ where: { id: storyRes.id }, data: { acts: actsId } })
+            if (!updatedActs) throw new Error('Story acts not updated');
+
+            // Update UPD
+            const updUser = await fetch(`http://localhost:3011/upd/push/act/${story.author_id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ storyId: storyRes.id })
+            });
+
+            if (!updUser.ok) throw new Error('something is wrong with updUser: id ' + story.author_id + '\n status : ' + updUser.status);
+            const updRes = await updUser.json();
+
+            return {
+                message: 'ok',
+                data: [updatedActs, actsId, updRes.data]
+            }
+        } catch (e) {
+            console.error('Something is wrong : ' + e.message)
+            return { message: e.message, data: null };
+        }
     }
 }

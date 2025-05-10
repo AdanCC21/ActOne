@@ -3349,10 +3349,10 @@ export namespace Prisma {
     author_id: number
     title: string
     acts?: StorieDataCreateactsInput | number[]
-    likes_count: number
-    comments: number
-    reports: number
-    visibility: boolean
+    likes_count?: number
+    comments?: number
+    reports?: number
+    visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
   }
@@ -3362,10 +3362,10 @@ export namespace Prisma {
     author_id: number
     title: string
     acts?: StorieDataCreateactsInput | number[]
-    likes_count: number
-    comments: number
-    reports: number
-    visibility: boolean
+    likes_count?: number
+    comments?: number
+    reports?: number
+    visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
   }
@@ -3400,10 +3400,10 @@ export namespace Prisma {
     author_id: number
     title: string
     acts?: StorieDataCreateactsInput | number[]
-    likes_count: number
-    comments: number
-    reports: number
-    visibility: boolean
+    likes_count?: number
+    comments?: number
+    reports?: number
+    visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
   }

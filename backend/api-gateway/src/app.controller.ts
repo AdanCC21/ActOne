@@ -2,7 +2,7 @@ import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestj
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { get } from 'http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, retry } from 'rxjs';
 
 @Controller('api')
 export class AppController {
@@ -35,5 +35,15 @@ export class AppController {
   @Get("story/:id")
   async getStory(@Param('id', ParseIntPipe) id: number) {
     return this.storyClient.send({ cmd: 'get-story' }, id);
+  }
+
+  @Post("story/publish")
+  async PublishStory(@Body() data: JSON) {
+    try {
+      const res = await firstValueFrom(this.storyClient.send({ cmd: 'publish' }, data));
+      return res;
+    }catch(e){
+      console.error(e.message);
+    }
   }
 }

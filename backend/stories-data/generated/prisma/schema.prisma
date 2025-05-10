@@ -13,11 +13,11 @@ model StorieData {
   // UPD del usuario
   author_id     Int
   title         String
-  acts          Int[]
-  likes_count   Int
-  comments      Int
-  reports       Int
-  visibility    Boolean
+  acts          Int[]    @default([])
+  likes_count   Int      @default(0)
+  comments      Int      @default(0)
+  reports       Int      @default(0)
+  visibility    Boolean  @default(false)
   creation_date DateTime @default(now())
   mody_date     DateTime @default(now())
 }

@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "StorieData" ALTER COLUMN "likes_count" SET DEFAULT 0,
+ALTER COLUMN "comments" SET DEFAULT 0,
+ALTER COLUMN "reports" SET DEFAULT 0,
+ALTER COLUMN "visibility" SET DEFAULT false,
+ALTER COLUMN "acts" SET DEFAULT ARRAY[]::INTEGER[];

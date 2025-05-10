@@ -41,11 +41,18 @@ export class AppService {
    * @returns the user updated or null
    */
   async updateUser(user: UpdateUserDTO) {
-    const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: user.id } }) || null;
-    if (userFound != null) {
-      return await this.prismaSer.userPublicData.update({ where: { id: user.id }, data: user })
-    }
-    return null;
+    const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: user.id } });
+    if (!userFound) return null;
+
+    return await this.prismaSer.userPublicData.update({ where: { id: user.id }, data: user })
+  }
+
+  async AddStory(user_id: number, storyId: number) {
+    const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: user_id } });
+    if (!userFound) return null;
+
+    const updatedStories = [...userFound.published_stories, storyId];
+    return await this.prismaSer.userPublicData.update({ where: { id: user_id }, data: { published_stories: updatedStories } })
   }
 
   /**
