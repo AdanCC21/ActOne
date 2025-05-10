@@ -39,11 +39,6 @@ export class AppController {
 
   @Post("story/publish")
   async PublishStory(@Body() data: JSON) {
-    try {
-      const res = await firstValueFrom(this.storyClient.send({ cmd: 'publish' }, data));
-      return res;
-    }catch(e){
-      console.error(e.message);
-    }
+    return await firstValueFrom(this.storyClient.send({ cmd: 'publish' }, data));
   }
 }

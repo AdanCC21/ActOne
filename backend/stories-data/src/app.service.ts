@@ -14,9 +14,9 @@ export class AppService {
             const story = await this.GetStory(id);
             const acts = await this.GetActs(story.id);
             const upd = await this.GetUPD(story.author_id);
-            // Aqui se obtiene la cantidad de likes e interacciones que tenga, pero ya que tenga el microservicio de public-data
+            const pd = await this.GetPD(story.id);
 
-            return { story, acts, upd };
+            return { story, acts, upd, pd };
         } catch (e) {
             throw new Error(e.message)
         }
@@ -54,6 +54,24 @@ export class AppService {
             throw new Error("The story dont't have acts. Story id :" + story_id);
         }
         return acts;
+    }
+
+    async GetPD(story_id: number) {
+        try {
+            const likesFetch = await fetch(`http://localhost:3014/pd/get/likes/${story_id}/story`);
+            const likes = await likesFetch.json();
+
+            const commentsFetch = await fetch(`http://localhost:3014/pd/get/comments/${story_id}`);
+            const comments = await commentsFetch.json();
+
+            return {
+                comments: comments,
+                likes: likes
+            }
+        } catch (e) {
+            console.error(e);
+            return e;
+        }
     }
 
     async PublishStory(story: CreateStoryDto, acts: CreateActDto[]) {
