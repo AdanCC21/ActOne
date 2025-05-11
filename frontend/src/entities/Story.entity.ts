@@ -1,4 +1,4 @@
-export class StoryDTO {
+export class E_Story {
     id: number
     title: string
     author: string
@@ -21,20 +21,5 @@ export class StoryDTO {
         this.visibility = true
         this.creation_date = new Date()
         this.mody_date = new Date()
-    }
-}
-
-
-export class ActsDTO {
-    id: number
-    story_id: number
-    title: string
-    content: string
-
-    constructor() {
-        this.id = 0
-        this.story_id = 0
-        this.title = ''
-        this.content = ''
     }
 }

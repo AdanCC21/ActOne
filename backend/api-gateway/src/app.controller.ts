@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
-import { get } from 'http';
 import { firstValueFrom, retry } from 'rxjs';
 
 @Controller('api')

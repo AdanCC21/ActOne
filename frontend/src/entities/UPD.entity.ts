@@ -1,4 +1,4 @@
-export class UPD{
+export class E_UPD{
     id: number;
     user_name: string;
     description: string;

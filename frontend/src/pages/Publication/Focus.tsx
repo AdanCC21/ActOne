@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ActsDTO, StoryDTO } from '../../DTO/Story.dto';
+import { E_Story } from '../../entities/Story.entity';
+import { E_Act } from '../../entities/Act.entity';
 import { GetStory } from '../../Hooks/GetStory';
 import { TbLogout2 } from "react-icons/tb";
 
@@ -9,7 +10,7 @@ export default function Focus() {
     const navigator = useNavigate();
 
     const [currentAct, setAct] = useState(0);
-    const [story, setStory] = useState({ story: new StoryDTO(), acts: [new ActsDTO()] });
+    const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()] });
 
     useEffect(() => {
         const loadStory = async () => {

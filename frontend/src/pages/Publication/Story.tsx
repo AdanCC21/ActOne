@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { Comments, Like, Mark } from '../../components/Interactions'
 import CommentCard from '../../components/CommentCard'
-import { StoryDTO, ActsDTO } from '../../DTO/Story.dto'
-import { UPD } from '../../DTO/UPD.dto'
+import { E_Story } from '../../entities/Story.entity'
+import { E_Act } from '../../entities/Act.entity'
+import { E_UPD } from '../../entities/UPD.entity'
+import { E_PD } from '../../entities/PD.entity'
 
-import focus from '../../assets/focus.png'
 import '../../css/story.css'
 
 import { GetStory } from '../../Hooks/GetStory'
@@ -17,7 +18,7 @@ export default function Story() {
   const navigator = useNavigate();
 
   const [currentAct, setAct] = useState(0);
-  const [story, setStory] = useState({ story: new StoryDTO(), acts: [new ActsDTO()], upd: new UPD() });
+  const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()], upd: new E_UPD(), pd: new E_PD() });
 
   useEffect(() => {
     const loadStory = async () => {
@@ -54,11 +55,9 @@ export default function Story() {
             <article className='comments'>
               <h5 className='font-semibold mb-2'>Comments</h5>
               <div className='flex flex-col'>
-                <CommentCard id={1} />
-                <CommentCard id={1} />
-                <CommentCard id={1} />
-                <CommentCard id={1} />
-                <CommentCard id={1} />
+                {story.pd.comments.map((current, index) => (
+                  <CommentCard user_id={current.id} content={current.content} />
+                ))}
               </div>
             </article>
 
@@ -79,7 +78,7 @@ export default function Story() {
               <div className='flex'>
                 <h1>{story.story.title}</h1>
                 <button className='btn void self-center ml-2' onClick={() => { navigator(`/story/${id}/focus`) }}>
-                  <img src={focus} />
+                  <img src='https://openclipart.org/image/2000px/247319' />
                 </button>
               </div>
               <h5 className='font-semibold  text-(--red-800)'>{story.acts[currentAct].title}</h5>
