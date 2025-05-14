@@ -28,11 +28,11 @@ export class AppService {
             if (!updExist.ok) {
                 throw new Error('something is wrong with the UPD Microservice. fetch status: ' + updExist.status)
             }
-            const data = await updExist.json();
-            if (!data) {
-                throw new Error('UPD Not found ' + data)
+            const upd = await updExist.json();
+            if (!upd) {
+                throw new Error('UPD Not found ' + upd)
             }
-            return data;
+            return upd.data;
         } catch (e) {
             console.error(`Error in GetUPD with id ${id}:`, e);
             throw e;

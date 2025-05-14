@@ -21,7 +21,6 @@ export class AppController {
   @MessagePattern({ cmd: "logIn" })
   async logIn(data: { userData: LogIn }) {
     try {
-      console.log('esta es mi data ', data.userData)
       return await this.appService.logIn(data.userData);
     } catch (e) {
       console.error(e.message);

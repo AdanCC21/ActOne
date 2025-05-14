@@ -35,49 +35,52 @@ export class AppService {
     }
   }
 
-  async SetLike(id: number, pubId: number, pubType: string, userId: number, state: boolean) {
+  async UpdateLike(id: number, currentState: boolean) {
     try {
-      if (!id) {
-        const newLike = await this.prismaSer.likes.create({
-          data: {
-            user_id: userId,
-            publication_id:pubId,
-            publication_type:pubType
-          }
-        })
-        return newLike;
-      }else{
-        const res = await this.prismaSer.likes.update({ where: { id: id }, data: { state: !state } })
-        return res;
-      }
+      const res = await this.prismaSer.likes.update({ where: { id: id }, data: { state: !currentState } })
+      return res;
+    } catch (e) {
+      console.error(e.message);
+      return null
+    }
+  }
+
+  async InsertLike(userId: number, pubId: number, pubType: string) {
+    try {
+      const newLike = await this.prismaSer.likes.create({
+        data: {
+          user_id: userId,
+          publication_id: pubId,
+          publication_type: pubType
+        }
+      })
+      return newLike;
     } catch (e) {
       console.error(e.message);
       return e.message
     }
   }
 
-  async AddComment(userId: number, publicationId: number, content: string) {
-  try {
-    const newComment = await this.prismaSer.comments.create({
-      data: {
-        user_id: userId,
-        publication_id: publicationId,
-        content: content
-      }
-    });
+  async AddComment(userId: number, pubId: number, content: string) {
+    try {
+      const newComment = await this.prismaSer.comments.create({
+        data: {
+          user_id: userId,
+          publication_id: pubId,
+          content: content
+        }
+      });
 
-    return {
-      message: 'Comment added successfully',
-      data: newComment
-    };
-  } catch (e) {
-    console.error('AddComment error:', e.message);
-    return {
-      message: e.message,
-      data: null
-    };
+      return {
+        message: 'Comment added successfully',
+        data: newComment
+      };
+    } catch (e) {
+      console.error('AddComment error:', e.message);
+      return {
+        message: e.message,
+        data: null
+      };
+    }
   }
-}
-
-  
 }

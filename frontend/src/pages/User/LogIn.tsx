@@ -48,7 +48,7 @@ export default function LogIn({ }) {
             setAlert("Login");
             try {
                 const backRes = await logInBack(inputs.email, 'email', inputs.password);
-                sessionStorage.setItem('user', String(backRes.id))
+                sessionStorage.setItem('user', String(backRes.user_profile_id))
                 navigate('/')
             } catch (e) {
                 setAlert(e.message);

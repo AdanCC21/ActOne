@@ -8,7 +8,7 @@ import { FaBold } from "react-icons/fa";
 import { FaItalic } from "react-icons/fa";
 import { FaUnderline } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { Act } from '../../DTO/Act.dto'
+import { E_Act } from '../../entities/Act.entity'
 
 import '../../css/edit.css'
 import '../../css/inputs.css'
@@ -17,7 +17,7 @@ import Modal from "../../components/Modal";
 
 export default function Edit({ }) {
     const { title } = useParams();
-    const [act, setAct] = useState([new Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new Act(1)]);
+    const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new E_Act(1)]);
     const [currentAct, setCurrent] = useState(0);
     const [modal, setModal] = useState(true);
 
@@ -32,7 +32,7 @@ export default function Edit({ }) {
 
     const addAct = () => {
         setAct(prev => {
-            const newAct = [...prev, new Act(prev.length)];
+            const newAct = [...prev, new E_Act(prev.length)];
             setCurrent(newAct.length - 1);
             return newAct;
         });

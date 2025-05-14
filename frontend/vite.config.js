@@ -3,8 +3,11 @@ import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  build:{
-    outDir:'dist'
+  build: {
+    outDir: 'dist'
   },
-  plugins: [react(),tailwindcss()],
+  plugins: [react(), tailwindcss()],
+  define: {
+    global: 'window'
+  }
 })

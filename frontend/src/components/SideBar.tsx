@@ -10,17 +10,28 @@ import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
   const navigator = useNavigate();
+  const user = sessionStorage.getItem('user');
   return (
     <nav className="side-bar">
       <ul>
         <li onClick={() => { navigator('/home') }}><FaHome /> <span className="ml-2">Home</span></li>
-        <li><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
-        <li><FaRegUser /> <span className="ml-2">Following</span></li>
-        <li><CiBookmark /> <span className="ml-2">Saved</span></li>
+        <li onClick={()=>{navigator('/profile')}}><FaRegUser /> <span className="ml-2">Following</span></li>
+        <li onClick={()=>{navigator('/profile')}}><CiBookmark /> <span className="ml-2">Saved</span></li>
+        <li onClick={()=>{navigator('/profile')}}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
       </ul>
       <div className="flex items-center mt-auto mb-1 cursor-pointer">
-        <TbLogout2 />
-        <span className="ml-2" onClick={() => { sessionStorage.clear(); navigator('/login'); }}>Log out</span>
+        {user != null || user != undefined ? (
+          <>
+            <TbLogout2 />
+            <span className="ml-2" onClick={() => { sessionStorage.clear(); navigator('/login'); }}>Log out</span>
+          </>
+        ) : (
+          <>
+            <TbLogout2 />
+            <span className="ml-2" onClick={() => { sessionStorage.clear(); navigator('/login'); }}>Iniciar Sesion</span>
+          </>
+        )}
+
       </div>
     </nav>
   )

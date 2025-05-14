@@ -60,7 +60,7 @@ export class AppService {
    * @returns the user found or null
    */
   async findOne(id: number) {
-    const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: Number(id) } });
+    const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: id } });
     if (!userExist) {
       return { message: 'user not found', status: 404 }
     }

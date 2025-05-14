@@ -1,4 +1,4 @@
-export type Synopsis = {
+export type E_Synopsis = {
     id:number,
     story_id:number,
     title: String,

@@ -20,6 +20,11 @@ export class AppController {
     return await this.appService.findOne(id);
   }
 
+  @MessagePattern({ cmd: 'get' })
+  async GetUPDApi(data: { id: number }) {
+    return await this.appService.findOne(data.id);
+  }
+
   @Post('update')
   async UpdateUPD(@Body() data: UpdateUserDTO) {
     return await this.appService.updateUser(data);

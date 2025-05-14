@@ -1,13 +1,12 @@
 import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AppService } from './app.service';
-import { get } from 'http';
 import { firstValueFrom, retry } from 'rxjs';
 
 @Controller('api')
 export class AppController {
   constructor(
-    @Inject('USER_SERVICE') private userClient: ClientProxy,
+    @Inject('UPD_SERVICE') private updClient: ClientProxy,
     @Inject('STORY_SERVICE') private storyClient: ClientProxy,
     @Inject('AUTH_SERVICE') private authClient: ClientProxy,
     private appSer: AppService
@@ -29,7 +28,7 @@ export class AppController {
 
   @Get("upd/get/:id")
   async GetUser(@Param('id', ParseIntPipe) id: number) {
-    // this.userClient.send({cmd:'get'})
+    return this.updClient.send({ cmd: 'get' }, { id: id });
   }
 
   @Get("story/:id")

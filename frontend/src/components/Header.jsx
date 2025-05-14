@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 
 export default function Header({ }) {
+    const userId = sessionStorage.getItem('user');
     let [modalAnimation, setAnimation] = useState("hidden");
     let [title, setTitle] = useState("");
     let [actTitle, setAct] = useState("");
@@ -74,7 +75,9 @@ export default function Header({ }) {
                     </button>
                 </form>
                 <div className='h-nav-items'>
-                    <div className='h-nav-add' onClick={() => { setAnimation("show fadeIn") }} >
+                    <div className='h-nav-add' onClick={() => {
+                        !userId ? navigate('/login') : setAnimation("show fadeIn")
+                    }} >
                         <span className='mr-2'>+</span>Add
                     </div>
                     <img className='cursor-pointer' src={notification} alt='notification' />
