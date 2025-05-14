@@ -42,7 +42,6 @@ export default function Header({ }) {
 
     return (
         <header className='header'>
-
             <Modal extraClass={modalAnimation}  >
                 <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
                     <label htmlFor='title'><h3 className='text-(--red-500) font-semibold my-2'>Titulo</h3></label>
@@ -62,22 +61,23 @@ export default function Header({ }) {
                 </form>
             </Modal>
 
-
             <div onClick={() => { navigate('/') }} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
                 <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' />
                 <h3 className='my-auto font-semibold text-(--red-500)'>ActOne</h3>
             </div>
 
             <div className='h-nav'>
-                <form className='flex flex-row bg-(--dark-500)' onSubmit={(e) => { e.preventDefault(); }}>
+                <form className='h-nav-search' onSubmit={(e) => { e.preventDefault(); }}>
                     <input className='rounded-2xl' id='searcher' type='text' ></input>
                     <button className="btn m-auto " type="button" aria-label="search something">
                         <img src={searcher} alt='searcher' />
                     </button>
                 </form>
-                <div>
-                    <img className='cursor-pointer' src={update} alt='update storie' onClick={() => { setAnimation("show fadeIn") }} />
-                    <img src={notification} alt='notification' />
+                <div className='h-nav-items'>
+                    <div className='h-nav-add' onClick={() => { setAnimation("show fadeIn") }} >
+                        <span className='mr-2'>+</span>Add
+                    </div>
+                    <img className='cursor-pointer' src={notification} alt='notification' />
                     <img className='user-icon' src={tempUser} alt='user' onClick={() => { navigate('/profile') }} />
                 </div>
             </div>

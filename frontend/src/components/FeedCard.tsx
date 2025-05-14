@@ -1,6 +1,6 @@
 import './css/feed-card.css'
 import React from 'react';
-import userProfile from '../assets/tempUSer.png';
+import userProfile from '../assets/tempUser.png';
 
 import { useNavigate } from 'react-router-dom';
 import { Synopsis } from '../DTO/Synopsis.dto';
