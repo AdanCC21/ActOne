@@ -1,12 +1,28 @@
-import React, { use, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import Header from '../../components/Header';
-import FeedCard from '../../components/FeedCard';
+import { GetUPD } from '../../Hooks/GetUPD';
+import { E_UPD } from '../../entities/UPD.entity';
 
 export default function Profile() {
     const userId = sessionStorage.getItem('user');
+    const [currentUser, setUser] = useState(new E_UPD());
     const [tab, setTab] = useState(0);
     const lista1 = [1, 2, 3, 4, 5, 6];
     const lista2 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    useEffect(() => {
+        const funcion = async () => {
+            if (userId != null) {
+                const upd = await GetUPD(Number(userId));
+                if (!upd) {
+                    return;
+                } else {
+                    setUser(upd);
+                }
+            }
+        }
+        funcion();
+    }, [])
     return (
         <>
             <Header />
@@ -15,8 +31,8 @@ export default function Profile() {
                     <section className='flex flex-col h-full w-[20%] '>
                         <article className='flex flex-col h-[60%] items-center'>
                             <img className='w-[50%] h-fit my-4 aspect-square object-cover  rounded-full mx-auto' src='https://kinsta.com/wp-content/uploads/2022/06/nest-js-logo.png' />
-                            <h4 className='font-bold'>@{}</h4>
-                            <p className='text-(--gray)'>Descripcion bien makabra</p>
+                            <h4 className='font-bold'>@{currentUser.user_name}</h4>
+                            <p className='text-(--gray)'>{currentUser.description}</p>
                             <div>Items</div>
                         </article>
                     </section>

@@ -9,7 +9,7 @@ export async function GetUPD(id: number) {
         if (!data) {
             throw new Error('User not found');
         }
-        return data;
+        return data.data;
     } catch (e) {
         console.error(e.message);
         return null;
