@@ -12,3 +12,17 @@ export async function GetStory(id: number) {
         return null;
     }
 }
+
+export async function GetStories() {
+    try {
+        const res = await fetch('http://localhost:3000/api/list/stories');
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.message || 'error desconocido');
+        }
+        return { message: "ok", data: data };
+    } catch (e) {
+        console.error(e.message);
+        return { message: e.message, data: null };
+    }
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { data, useParams } from "react-router-dom";
+import { data, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import Header from "../../components/Header";
 
@@ -21,6 +21,7 @@ export default function Edit({ }) {
     const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new E_Act(1)]);
     const [currentAct, setCurrent] = useState(0);
     const [modal, setModal] = useState(true);
+    const navigate = useNavigate();
 
     const handleChanges = (e: any) => {
         const { name, value } = e.target;
@@ -78,7 +79,9 @@ export default function Edit({ }) {
                 throw new Error('Something is wrong with the backend');
             }
             const result = await res.json();
-            
+            if (result.data !== undefined) navigate('/')
+
+
         } catch (e) {
             console.error(e.message);
         }

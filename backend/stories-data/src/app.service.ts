@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { CreateStoryDto } from './DTO/CreateStory.dto';
 import { CreateActDto } from './DTO/CreateAct.dto';
@@ -8,6 +8,19 @@ import { create } from 'domain';
 @Injectable()
 export class AppService {
     constructor(private readonly prismaSer: PrismaService) { }
+
+    async ListStories() {
+        try {
+            const stories = await this.prismaSer.storieData.findMany();
+            if (stories.length === 0) {
+                throw new Error("Stories empty");
+            }
+            return stories;
+        } catch (e) {
+            console.error(e);
+            throw new HttpException({ message: e.message }, HttpStatus.NOT_FOUND);
+        }
+    }
 
     async FoundStoryById(id: number) {
         try {

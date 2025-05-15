@@ -7,14 +7,14 @@ import { PrismaService } from './prisma/prisma.service';
 export class AppController {
   constructor(private readonly appService: AppService, private readonly prismaSer: PrismaService) { }
 
-  @MessagePattern({ cmd: "hi" })
-  async testMic() {
-    return { message: "Hi from thew storie-data microservice" };
-  }
-
   @MessagePattern({ cmd: 'get-story' })
   async FoundStoryById(@Payload() id: number) {
     return await this.appService.FoundStoryById(id);
+  }
+
+  @MessagePattern({ cmd: 'get-list' })
+  async ListStories() {
+    return await this.appService.ListStories();
   }
 
   /**

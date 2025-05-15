@@ -40,4 +40,9 @@ export class AppController {
   async PublishStory(@Body() data: JSON) {
     return await firstValueFrom(this.storyClient.send({ cmd: 'publish' }, data));
   }
+
+  @Get("list/stories")
+  async GetStories() {
+    return this.storyClient.send({cmd:"get-list"},{});
+  }
 }
