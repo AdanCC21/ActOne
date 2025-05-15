@@ -1,7 +1,7 @@
 export class Story {
     id: number
     title: string
-    // id
+    // upd_id
     author_id: number
     // ids
     acts: Array<number>

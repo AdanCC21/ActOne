@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import { useState } from "react";
 import Header from "../../components/Header";
 
@@ -17,6 +17,7 @@ import Modal from "../../components/Modal";
 
 export default function Edit({ }) {
     const { title } = useParams();
+    const userId = sessionStorage.getItem('user');
     const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new E_Act(1)]);
     const [currentAct, setCurrent] = useState(0);
     const [modal, setModal] = useState(true);
@@ -52,9 +53,35 @@ export default function Edit({ }) {
         }
     };
 
-    const hanldeSubmit = (e: any) => {
-        // Necesito enviar la historia, el id del upd, y la lista de actos
-        // puedo usar el DTO de el backend
+    const hanldeSubmit = async (e: any) => {
+        try {
+            const story = {
+                title: title,
+                author_id: Number(userId),
+                visibility: true,
+            }
+            const acts = act.map((current) => { return { title: current.title, content: current.content } })
+            const data = {
+                story: story,
+                acts: acts
+            }
+
+            const res = await fetch('http://localhost:3000/api/story/publish', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+
+            if (!res.ok) {
+                throw new Error('Something is wrong with the backend');
+            }
+            const result = await res.json();
+            
+        } catch (e) {
+            console.error(e.message);
+        }
     }
 
     return (
@@ -114,7 +141,7 @@ export default function Edit({ }) {
                         <h4 className="text-(--red-500)">Suggestions</h4>
 
                     </div>
-                    <button className="btn red w-fit mt-2">Publish</button>
+                    <button className="btn red w-fit mt-2" onClick={(e) => { hanldeSubmit(e); }}>Publish</button>
                 </div>
             </main>
         </div>
