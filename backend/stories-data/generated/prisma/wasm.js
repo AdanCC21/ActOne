@@ -121,6 +121,7 @@ exports.Prisma.StorieDataScalarFieldEnum = {
   id: 'id',
   author_id: 'author_id',
   title: 'title',
+  synopsis: 'synopsis',
   acts: 'acts',
   likes_count: 'likes_count',
   comments: 'comments',

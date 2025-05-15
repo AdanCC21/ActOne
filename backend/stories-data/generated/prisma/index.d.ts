@@ -994,6 +994,7 @@ export namespace Prisma {
     id: number | null
     author_id: number | null
     title: string | null
+    synopsis: string | null
     likes_count: number | null
     comments: number | null
     reports: number | null
@@ -1006,6 +1007,7 @@ export namespace Prisma {
     id: number | null
     author_id: number | null
     title: string | null
+    synopsis: string | null
     likes_count: number | null
     comments: number | null
     reports: number | null
@@ -1018,6 +1020,7 @@ export namespace Prisma {
     id: number
     author_id: number
     title: number
+    synopsis: number
     acts: number
     likes_count: number
     comments: number
@@ -1051,6 +1054,7 @@ export namespace Prisma {
     id?: true
     author_id?: true
     title?: true
+    synopsis?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -1063,6 +1067,7 @@ export namespace Prisma {
     id?: true
     author_id?: true
     title?: true
+    synopsis?: true
     likes_count?: true
     comments?: true
     reports?: true
@@ -1075,6 +1080,7 @@ export namespace Prisma {
     id?: true
     author_id?: true
     title?: true
+    synopsis?: true
     acts?: true
     likes_count?: true
     comments?: true
@@ -1175,6 +1181,7 @@ export namespace Prisma {
     id: number
     author_id: number
     title: string
+    synopsis: string
     acts: number[]
     likes_count: number
     comments: number
@@ -1207,6 +1214,7 @@ export namespace Prisma {
     id?: boolean
     author_id?: boolean
     title?: boolean
+    synopsis?: boolean
     acts?: boolean
     likes_count?: boolean
     comments?: boolean
@@ -1220,6 +1228,7 @@ export namespace Prisma {
     id?: boolean
     author_id?: boolean
     title?: boolean
+    synopsis?: boolean
     acts?: boolean
     likes_count?: boolean
     comments?: boolean
@@ -1233,6 +1242,7 @@ export namespace Prisma {
     id?: boolean
     author_id?: boolean
     title?: boolean
+    synopsis?: boolean
     acts?: boolean
     likes_count?: boolean
     comments?: boolean
@@ -1246,6 +1256,7 @@ export namespace Prisma {
     id?: boolean
     author_id?: boolean
     title?: boolean
+    synopsis?: boolean
     acts?: boolean
     likes_count?: boolean
     comments?: boolean
@@ -1255,7 +1266,7 @@ export namespace Prisma {
     mody_date?: boolean
   }
 
-  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "author_id" | "title" | "acts" | "likes_count" | "comments" | "reports" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
+  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "author_id" | "title" | "synopsis" | "acts" | "likes_count" | "comments" | "reports" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
 
   export type $StorieDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StorieData"
@@ -1264,6 +1275,7 @@ export namespace Prisma {
       id: number
       author_id: number
       title: string
+      synopsis: string
       acts: number[]
       likes_count: number
       comments: number
@@ -1697,6 +1709,7 @@ export namespace Prisma {
     readonly id: FieldRef<"StorieData", 'Int'>
     readonly author_id: FieldRef<"StorieData", 'Int'>
     readonly title: FieldRef<"StorieData", 'String'>
+    readonly synopsis: FieldRef<"StorieData", 'String'>
     readonly acts: FieldRef<"StorieData", 'Int[]'>
     readonly likes_count: FieldRef<"StorieData", 'Int'>
     readonly comments: FieldRef<"StorieData", 'Int'>
@@ -3108,6 +3121,7 @@ export namespace Prisma {
     id: 'id',
     author_id: 'author_id',
     title: 'title',
+    synopsis: 'synopsis',
     acts: 'acts',
     likes_count: 'likes_count',
     comments: 'comments',
@@ -3224,6 +3238,7 @@ export namespace Prisma {
     id?: IntFilter<"StorieData"> | number
     author_id?: IntFilter<"StorieData"> | number
     title?: StringFilter<"StorieData"> | string
+    synopsis?: StringFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntFilter<"StorieData"> | number
     comments?: IntFilter<"StorieData"> | number
@@ -3237,6 +3252,7 @@ export namespace Prisma {
     id?: SortOrder
     author_id?: SortOrder
     title?: SortOrder
+    synopsis?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
@@ -3253,6 +3269,7 @@ export namespace Prisma {
     NOT?: StorieDataWhereInput | StorieDataWhereInput[]
     author_id?: IntFilter<"StorieData"> | number
     title?: StringFilter<"StorieData"> | string
+    synopsis?: StringFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntFilter<"StorieData"> | number
     comments?: IntFilter<"StorieData"> | number
@@ -3266,6 +3283,7 @@ export namespace Prisma {
     id?: SortOrder
     author_id?: SortOrder
     title?: SortOrder
+    synopsis?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
@@ -3287,6 +3305,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"StorieData"> | number
     author_id?: IntWithAggregatesFilter<"StorieData"> | number
     title?: StringWithAggregatesFilter<"StorieData"> | string
+    synopsis?: StringWithAggregatesFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntWithAggregatesFilter<"StorieData"> | number
     comments?: IntWithAggregatesFilter<"StorieData"> | number
@@ -3348,6 +3367,7 @@ export namespace Prisma {
   export type StorieDataCreateInput = {
     author_id: number
     title: string
+    synopsis: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count?: number
     comments?: number
@@ -3361,6 +3381,7 @@ export namespace Prisma {
     id?: number
     author_id: number
     title: string
+    synopsis: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count?: number
     comments?: number
@@ -3373,6 +3394,7 @@ export namespace Prisma {
   export type StorieDataUpdateInput = {
     author_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    synopsis?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
@@ -3386,6 +3408,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     author_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    synopsis?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
@@ -3399,6 +3422,7 @@ export namespace Prisma {
     id?: number
     author_id: number
     title: string
+    synopsis: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count?: number
     comments?: number
@@ -3411,6 +3435,7 @@ export namespace Prisma {
   export type StorieDataUpdateManyMutationInput = {
     author_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    synopsis?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
@@ -3424,6 +3449,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     author_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    synopsis?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
     comments?: IntFieldUpdateOperationsInput | number
@@ -3533,6 +3559,7 @@ export namespace Prisma {
     id?: SortOrder
     author_id?: SortOrder
     title?: SortOrder
+    synopsis?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
@@ -3555,6 +3582,7 @@ export namespace Prisma {
     id?: SortOrder
     author_id?: SortOrder
     title?: SortOrder
+    synopsis?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder
@@ -3567,6 +3595,7 @@ export namespace Prisma {
     id?: SortOrder
     author_id?: SortOrder
     title?: SortOrder
+    synopsis?: SortOrder
     likes_count?: SortOrder
     comments?: SortOrder
     reports?: SortOrder

@@ -3,6 +3,7 @@ export class Story {
     title: string
     // upd_id
     author_id: number
+    synopsis: String
     // ids
     acts: Array<number>
 
@@ -14,10 +15,11 @@ export class Story {
     creation_date: Date
     mody_date: Date
 
-    constructor(title: string, acts: Array<number>, authorId: number, visibility: boolean) {
+    constructor(title: string, acts: Array<number>, authorId: number, synopsis: string, visibility: boolean) {
         this.id = 0
         this.title = title ?? '';
         this.author_id = authorId ?? 0;
+        this.synopsis = synopsis ?? "";
         this.acts = acts ?? [];
         this.likes_count = 0
         this.comments = 0
