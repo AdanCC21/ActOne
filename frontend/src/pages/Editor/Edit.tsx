@@ -52,15 +52,16 @@ export default function Edit({ }) {
         }
     };
 
-    console.log(currentAct);
-    console.log(act[currentAct]);
+    const hanldeSubmit = (e: any) => {
+        // Necesito enviar la historia, el id del upd, y la lista de actos
+        // puedo usar el DTO de el backend
+    }
 
     return (
         <div className="overflow-hidden">
             <Header></Header>
             <main className="edit-main">
                 <div className="e-editor">
-                    
                     <div className="e-editor-header">
                         <h2 className="font-semibold">{title}</h2>
                     </div>

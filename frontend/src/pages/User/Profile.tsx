@@ -11,6 +11,8 @@ import Comments from '../../assets/comments.svg'
 import { FaRegUser } from "react-icons/fa";
 import { RiUserFollowLine } from "react-icons/ri";
 
+// Me falta que aparezcan las historias correspondientes, y un campo con las historias guardads
+
 export default function Profile() {
     const userId = sessionStorage.getItem('user');
     const [currentUser, setUser] = useState(new E_UPD());
