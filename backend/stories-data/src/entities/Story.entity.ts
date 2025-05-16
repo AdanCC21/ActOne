@@ -3,10 +3,11 @@ export class Story {
     title: string
     // upd_id
     author_id: number
-    synopsis: String
+    synopsis: string
     // ids
     acts: Array<number>
 
+    // Counts
     likes_count: number
     comments: number
     reports: number

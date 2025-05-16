@@ -59,6 +59,7 @@ export default function Edit({ }) {
             const story = {
                 title: title,
                 author_id: Number(userId),
+                synopsis: act[0].content,
                 visibility: true,
             }
             const acts = act.map((current) => { return { title: current.title, content: current.content } })

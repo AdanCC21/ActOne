@@ -3,37 +3,37 @@ import Header from "../components/Header"
 import FeedCard from "../components/FeedCard"
 import SideBar from "../components/SideBar"
 import { GetStories } from "../Hooks/GetStory"
+import { GetUPD } from "../Hooks/GetUPD"
 import { E_Story } from "../entities/Story.entity"
-
-const dataTest = {
-  id: 1,
-  story_id: 1,
-  title: 'Storie no.1',
-  desc: 'Evento 1',
-  author: 'Oscar',
-  likeCount: 1,
-  comCount: 2,
-  markCount: 0,
-  repCount: 0
-}
 
 
 export default function Home({ }) {
-  const [storiesList, setStories] = useState([new E_Story()]);
+  const [storiesList, setStories] = useState([]);
+  const [updList, setUpd] = useState(); // Comment if not used yet
 
   useEffect(() => {
-    const funcion = async () => {
+    const fetchData = async () => {
       const stories = await GetStories();
+
       if (!stories.data) {
         console.error(stories.message);
-        return null;
+        return;
       }
-      console.log("Home")
-      console.log(stories.data)
+
+      const upd = await Promise.all(
+        stories.data.map(async (current) => {
+          const res = await GetUPD(current.author_id);
+          return res;
+        })
+      );
+
+      console.log(upd);
       setStories(stories.data);
-    }
-    funcion();
-  }, [])
+      setUpd(upd);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen min-w-screen">
@@ -43,7 +43,7 @@ export default function Home({ }) {
         <section className="flex flex-col w-[50vw] mx-auto my-10">
           {storiesList.map((current, index) => (
             <div key={index}>
-              <FeedCard story={current}></FeedCard>
+              <FeedCard story={current} ></FeedCard>
             </div>
           ))}
         </section>

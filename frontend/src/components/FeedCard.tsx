@@ -1,5 +1,5 @@
 import './css/feed-card.css'
-import React from 'react';
+import React, { useEffect } from 'react';
 import userProfile from '../assets/tempUser.png';
 
 import { useNavigate } from 'react-router-dom';
@@ -8,11 +8,12 @@ import { Like, Comments, Mark, Reports } from './Interactions';
 
 type Props = {
     story: E_Story
+    author:string
 }
 
-export default function FeedCard({ story }: Props) {
+export default function FeedCard({ story, author="Autor" }: Props) {
     const navigator = useNavigate();
-    const { title, author, acts, likes_count, comments, reports } = story;
+    const { title, synopsis, acts, likesCount, commentsCount, reportsCount } = story;
 
     return (
         <article className="feed-card" onClick={() => {
@@ -28,14 +29,14 @@ export default function FeedCard({ story }: Props) {
             </header>
 
             <div className='synopsis'>
-                <p>{acts[0]}</p>
+                <p>{synopsis}</p>
             </div>
 
             <section className='interactions '>
-                <Like extraClass='mr-2 my-auto' state={false} func={() => { }} amount={likes_count} />
-                <Comments extraClass='mx-2 my-auto' func={() => { }} amount={comments} />
+                <Like extraClass='mr-2 my-auto' state={false} func={() => { }} amount={likesCount} />
+                <Comments extraClass='mx-2 my-auto' func={() => { }} amount={commentsCount} />
                 <Mark extraClass='mx-2 my-auto' state={false} func={() => { }} amount={250000} />
-                <Reports extraClass='mx-2 my-auto' func={() => { }} amount={reports} />
+                <Reports extraClass='mx-2 my-auto' func={() => { }} amount={reportsCount} />
             </section>
         </article>
     )
