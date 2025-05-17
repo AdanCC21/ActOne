@@ -14,7 +14,7 @@ export default function SideBar() {
   return (
     <nav className="side-bar">
       <ul>
-        <li onClick={() => { navigator('/home') }}><FaHome /> <span className="ml-2">Home</span></li>
+        <li onClick={() => { navigator('/') }}><FaHome /> <span className="ml-2">Home</span></li>
         <li onClick={()=>{navigator('/profile')}}><FaRegUser /> <span className="ml-2">Following</span></li>
         <li onClick={()=>{navigator('/profile')}}><CiBookmark /> <span className="ml-2">Saved</span></li>
         <li onClick={()=>{navigator('/profile')}}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>

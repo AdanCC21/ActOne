@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { E_Story } from '../entities/Story.entity';
 import { Like, Comments, Mark, Reports } from './Interactions';
 import { GetUPD } from '../Hooks/GetUPD';
-import { PostLike } from '../Hooks/HandlePD';
+import { PostLike, Report } from '../Hooks/HandlePD'
+import { MarkStory } from '../Hooks/Marked';
 
 type Props = {
     story: E_Story
@@ -16,6 +17,7 @@ type Props = {
 export default function FeedCard({ story }: Props) {
     const navigator = useNavigate();
     const [author, setAuthor] = useState('');
+    const userId = sessionStorage.getItem('user');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,16 +33,10 @@ export default function FeedCard({ story }: Props) {
         fetchData();
     }, [])
 
-    const HanldeLike = async () => {
-        const fetchData = await PostLike(story.author_id, story.id, 'story');
-        console.log(fetchData);
-    }
-
     return (
         <article className="feed-card">
             <div onClick={() => {
-                const temp = 1
-                navigator(`/story/${temp}`);
+                navigator(`/story/${story.id}`);
             }} >
                 <header className='flex justify-between h-fit'>
                     <h4 className='font-semibold text-(--red-500)'>{story.title}</h4>
@@ -56,10 +52,13 @@ export default function FeedCard({ story }: Props) {
             </div>
 
             <section className='interactions ' style={{ zIndex: 2 }}>
-                <Like extraClass='mr-2 my-auto' state={false} func={() => { HanldeLike(); }} amount={story.likes_count} />
+                <Like extraClass='mr-2 my-auto' state={false} func={() => { PostLike(story.author_id, story.id, 'story'); window.location.reload(); }} amount={story.likes_count} />
                 <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.comments_count} />
-                <Mark extraClass='mx-2 my-auto' state={false} func={() => { }} amount={story.marked_count} />
-                <Reports extraClass='mx-2 my-auto' state={false} func={() => { }} amount={story.reports_count} />
+                <Mark
+                    extraClass='mx-2 my-auto' state={false}
+                    func={() => { MarkStory(story.id, Number(userId)) }}
+                    amount={story.marked_count} />
+                <Reports extraClass='mx-2 my-auto' state={false} func={() => { Report(story.author_id, story.id) }} amount={story.reports_count} />
             </section>
         </article>
     )

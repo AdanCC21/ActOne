@@ -23,22 +23,23 @@ export default function Profile() {
     const lista2 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     useEffect(() => {
-        const funcion = async () => {
+        const fetchData = async () => {
             if (userId != null) {
                 const upd = await GetUPD(Number(userId));
                 if (!upd) return null;
                 setUser(upd);
-                const pubStories = upd.published_stories.map(async (current: number) => {
+                
+                const pubStories =  upd.published_stories.map(async (current: number) => {
                     const res = await GetStory(current);
                     if (res != null || res != undefined) {
                         return res;
                     }
                 })
-                console.log(pubList);
+                console.log(pubStories)
                 setPub(pubStories);
             }
         }
-        funcion();
+        fetchData();
     }, [])
     return (
         <>
@@ -71,7 +72,7 @@ export default function Profile() {
                         <article className='grid grid-cols-2 gap-5 p-2 bg-(--dark-400) w-full h-[90%]'>
                             {tab === 0 ? pubList.map((current, index) => {
                                 console.log("Acutalaaaaaa" + current); return (
-                                    <div className='bg-(--dark-200) rounded-2xl p-2 transition-all ease-in-out duration-150'><h2>{ }</h2></div>
+                                    <div className='bg-(--dark-200) rounded-2xl p-2 transition-all ease-in-out duration-150'><h2>{current.title}</h2></div>
                                 )
                             }) : lista2.map((current, index) => (
                                 <div className='bg-(--dark-200) rounded-2xl p-2 transition-all ease-in-out duration-150'>Contenido {index}</div>
