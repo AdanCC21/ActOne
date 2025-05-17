@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller('pd')
 export class AppController {
@@ -22,13 +23,15 @@ export class AppController {
     return await this.appService.GetLikes(pubId, pubType);
   }
 
-  @Post('post/like')
-  async PostLike(@Body() data: any) {
-    return await this.appService.InsertLike(data.user_id, data.pubId, data.pubType);
-  }
-
-  @Post('update/like')
-  async UpdateLike(@Body() data: any) {
-    return await this.appService.UpdateLike(data.id, data.currentState);
+  /**
+   * 
+   * @param userId Id del usuario
+   * @param pubId Id de la publicacion
+   * @param pubType story || comment
+   * @returns {message, data:null || like}
+   */
+  @MessagePattern({ cmd: 'post-like' })
+  async PostLike(data: any) {
+    return await this.appService.InsertLike(data.userId, data.pubId, data.pubType);
   }
 }

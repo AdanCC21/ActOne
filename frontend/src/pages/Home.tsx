@@ -9,7 +9,6 @@ import { E_Story } from "../entities/Story.entity"
 
 export default function Home({ }) {
   const [storiesList, setStories] = useState([]);
-  const [updList, setUpd] = useState(); // Comment if not used yet
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,17 +18,7 @@ export default function Home({ }) {
         console.error(stories.message);
         return;
       }
-
-      const upd = await Promise.all(
-        stories.data.map(async (current) => {
-          const res = await GetUPD(current.author_id);
-          return res;
-        })
-      );
-
-      console.log(upd);
       setStories(stories.data);
-      setUpd(upd);
     };
 
     fetchData();
@@ -41,11 +30,15 @@ export default function Home({ }) {
       <div className="flex flex-row">
         <SideBar />
         <section className="flex flex-col w-[50vw] mx-auto my-10">
-          {storiesList.map((current, index) => (
-            <div key={index}>
-              <FeedCard story={current} ></FeedCard>
-            </div>
-          ))}
+          {storiesList.length > 0 ? (
+            storiesList.map((current, index) => (
+              <div key={index}>
+                <FeedCard story={current}></FeedCard>
+              </div>
+            ))
+          ) : (
+            <span className="text-(--gray) text-center">We don't have stories :(</span>
+          )}
         </section>
       </div>
     </div>

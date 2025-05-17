@@ -11,6 +11,7 @@ datasource db {
 model Likes {
   id               Int      @id @default(autoincrement())
   user_id          Int
+  // story || comment
   publication_type String
   publication_id   Int
   state            Boolean  @default(true)

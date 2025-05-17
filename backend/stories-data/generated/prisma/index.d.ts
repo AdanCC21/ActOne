@@ -977,8 +977,9 @@ export namespace Prisma {
     author_id: number | null
     acts: number | null
     likes_count: number | null
-    comments: number | null
-    reports: number | null
+    comments_count: number | null
+    reports_count: number | null
+    marked_count: number | null
   }
 
   export type StorieDataSumAggregateOutputType = {
@@ -986,8 +987,9 @@ export namespace Prisma {
     author_id: number | null
     acts: number[]
     likes_count: number | null
-    comments: number | null
-    reports: number | null
+    comments_count: number | null
+    reports_count: number | null
+    marked_count: number | null
   }
 
   export type StorieDataMinAggregateOutputType = {
@@ -996,8 +998,9 @@ export namespace Prisma {
     title: string | null
     synopsis: string | null
     likes_count: number | null
-    comments: number | null
-    reports: number | null
+    comments_count: number | null
+    reports_count: number | null
+    marked_count: number | null
     visibility: boolean | null
     creation_date: Date | null
     mody_date: Date | null
@@ -1009,8 +1012,9 @@ export namespace Prisma {
     title: string | null
     synopsis: string | null
     likes_count: number | null
-    comments: number | null
-    reports: number | null
+    comments_count: number | null
+    reports_count: number | null
+    marked_count: number | null
     visibility: boolean | null
     creation_date: Date | null
     mody_date: Date | null
@@ -1023,8 +1027,9 @@ export namespace Prisma {
     synopsis: number
     acts: number
     likes_count: number
-    comments: number
-    reports: number
+    comments_count: number
+    reports_count: number
+    marked_count: number
     visibility: number
     creation_date: number
     mody_date: number
@@ -1037,8 +1042,9 @@ export namespace Prisma {
     author_id?: true
     acts?: true
     likes_count?: true
-    comments?: true
-    reports?: true
+    comments_count?: true
+    reports_count?: true
+    marked_count?: true
   }
 
   export type StorieDataSumAggregateInputType = {
@@ -1046,8 +1052,9 @@ export namespace Prisma {
     author_id?: true
     acts?: true
     likes_count?: true
-    comments?: true
-    reports?: true
+    comments_count?: true
+    reports_count?: true
+    marked_count?: true
   }
 
   export type StorieDataMinAggregateInputType = {
@@ -1056,8 +1063,9 @@ export namespace Prisma {
     title?: true
     synopsis?: true
     likes_count?: true
-    comments?: true
-    reports?: true
+    comments_count?: true
+    reports_count?: true
+    marked_count?: true
     visibility?: true
     creation_date?: true
     mody_date?: true
@@ -1069,8 +1077,9 @@ export namespace Prisma {
     title?: true
     synopsis?: true
     likes_count?: true
-    comments?: true
-    reports?: true
+    comments_count?: true
+    reports_count?: true
+    marked_count?: true
     visibility?: true
     creation_date?: true
     mody_date?: true
@@ -1083,8 +1092,9 @@ export namespace Prisma {
     synopsis?: true
     acts?: true
     likes_count?: true
-    comments?: true
-    reports?: true
+    comments_count?: true
+    reports_count?: true
+    marked_count?: true
     visibility?: true
     creation_date?: true
     mody_date?: true
@@ -1184,8 +1194,9 @@ export namespace Prisma {
     synopsis: string
     acts: number[]
     likes_count: number
-    comments: number
-    reports: number
+    comments_count: number
+    reports_count: number
+    marked_count: number
     visibility: boolean
     creation_date: Date
     mody_date: Date
@@ -1217,8 +1228,9 @@ export namespace Prisma {
     synopsis?: boolean
     acts?: boolean
     likes_count?: boolean
-    comments?: boolean
-    reports?: boolean
+    comments_count?: boolean
+    reports_count?: boolean
+    marked_count?: boolean
     visibility?: boolean
     creation_date?: boolean
     mody_date?: boolean
@@ -1231,8 +1243,9 @@ export namespace Prisma {
     synopsis?: boolean
     acts?: boolean
     likes_count?: boolean
-    comments?: boolean
-    reports?: boolean
+    comments_count?: boolean
+    reports_count?: boolean
+    marked_count?: boolean
     visibility?: boolean
     creation_date?: boolean
     mody_date?: boolean
@@ -1245,8 +1258,9 @@ export namespace Prisma {
     synopsis?: boolean
     acts?: boolean
     likes_count?: boolean
-    comments?: boolean
-    reports?: boolean
+    comments_count?: boolean
+    reports_count?: boolean
+    marked_count?: boolean
     visibility?: boolean
     creation_date?: boolean
     mody_date?: boolean
@@ -1259,14 +1273,15 @@ export namespace Prisma {
     synopsis?: boolean
     acts?: boolean
     likes_count?: boolean
-    comments?: boolean
-    reports?: boolean
+    comments_count?: boolean
+    reports_count?: boolean
+    marked_count?: boolean
     visibility?: boolean
     creation_date?: boolean
     mody_date?: boolean
   }
 
-  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "author_id" | "title" | "synopsis" | "acts" | "likes_count" | "comments" | "reports" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
+  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "author_id" | "title" | "synopsis" | "acts" | "likes_count" | "comments_count" | "reports_count" | "marked_count" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
 
   export type $StorieDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StorieData"
@@ -1278,8 +1293,9 @@ export namespace Prisma {
       synopsis: string
       acts: number[]
       likes_count: number
-      comments: number
-      reports: number
+      comments_count: number
+      reports_count: number
+      marked_count: number
       visibility: boolean
       creation_date: Date
       mody_date: Date
@@ -1712,8 +1728,9 @@ export namespace Prisma {
     readonly synopsis: FieldRef<"StorieData", 'String'>
     readonly acts: FieldRef<"StorieData", 'Int[]'>
     readonly likes_count: FieldRef<"StorieData", 'Int'>
-    readonly comments: FieldRef<"StorieData", 'Int'>
-    readonly reports: FieldRef<"StorieData", 'Int'>
+    readonly comments_count: FieldRef<"StorieData", 'Int'>
+    readonly reports_count: FieldRef<"StorieData", 'Int'>
+    readonly marked_count: FieldRef<"StorieData", 'Int'>
     readonly visibility: FieldRef<"StorieData", 'Boolean'>
     readonly creation_date: FieldRef<"StorieData", 'DateTime'>
     readonly mody_date: FieldRef<"StorieData", 'DateTime'>
@@ -3124,8 +3141,9 @@ export namespace Prisma {
     synopsis: 'synopsis',
     acts: 'acts',
     likes_count: 'likes_count',
-    comments: 'comments',
-    reports: 'reports',
+    comments_count: 'comments_count',
+    reports_count: 'reports_count',
+    marked_count: 'marked_count',
     visibility: 'visibility',
     creation_date: 'creation_date',
     mody_date: 'mody_date'
@@ -3241,8 +3259,9 @@ export namespace Prisma {
     synopsis?: StringFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntFilter<"StorieData"> | number
-    comments?: IntFilter<"StorieData"> | number
-    reports?: IntFilter<"StorieData"> | number
+    comments_count?: IntFilter<"StorieData"> | number
+    reports_count?: IntFilter<"StorieData"> | number
+    marked_count?: IntFilter<"StorieData"> | number
     visibility?: BoolFilter<"StorieData"> | boolean
     creation_date?: DateTimeFilter<"StorieData"> | Date | string
     mody_date?: DateTimeFilter<"StorieData"> | Date | string
@@ -3255,8 +3274,9 @@ export namespace Prisma {
     synopsis?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
-    comments?: SortOrder
-    reports?: SortOrder
+    comments_count?: SortOrder
+    reports_count?: SortOrder
+    marked_count?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3272,8 +3292,9 @@ export namespace Prisma {
     synopsis?: StringFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntFilter<"StorieData"> | number
-    comments?: IntFilter<"StorieData"> | number
-    reports?: IntFilter<"StorieData"> | number
+    comments_count?: IntFilter<"StorieData"> | number
+    reports_count?: IntFilter<"StorieData"> | number
+    marked_count?: IntFilter<"StorieData"> | number
     visibility?: BoolFilter<"StorieData"> | boolean
     creation_date?: DateTimeFilter<"StorieData"> | Date | string
     mody_date?: DateTimeFilter<"StorieData"> | Date | string
@@ -3286,8 +3307,9 @@ export namespace Prisma {
     synopsis?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
-    comments?: SortOrder
-    reports?: SortOrder
+    comments_count?: SortOrder
+    reports_count?: SortOrder
+    marked_count?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3308,8 +3330,9 @@ export namespace Prisma {
     synopsis?: StringWithAggregatesFilter<"StorieData"> | string
     acts?: IntNullableListFilter<"StorieData">
     likes_count?: IntWithAggregatesFilter<"StorieData"> | number
-    comments?: IntWithAggregatesFilter<"StorieData"> | number
-    reports?: IntWithAggregatesFilter<"StorieData"> | number
+    comments_count?: IntWithAggregatesFilter<"StorieData"> | number
+    reports_count?: IntWithAggregatesFilter<"StorieData"> | number
+    marked_count?: IntWithAggregatesFilter<"StorieData"> | number
     visibility?: BoolWithAggregatesFilter<"StorieData"> | boolean
     creation_date?: DateTimeWithAggregatesFilter<"StorieData"> | Date | string
     mody_date?: DateTimeWithAggregatesFilter<"StorieData"> | Date | string
@@ -3370,8 +3393,9 @@ export namespace Prisma {
     synopsis: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count?: number
-    comments?: number
-    reports?: number
+    comments_count?: number
+    reports_count?: number
+    marked_count?: number
     visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
@@ -3384,8 +3408,9 @@ export namespace Prisma {
     synopsis: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count?: number
-    comments?: number
-    reports?: number
+    comments_count?: number
+    reports_count?: number
+    marked_count?: number
     visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
@@ -3397,8 +3422,9 @@ export namespace Prisma {
     synopsis?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
-    comments?: IntFieldUpdateOperationsInput | number
-    reports?: IntFieldUpdateOperationsInput | number
+    comments_count?: IntFieldUpdateOperationsInput | number
+    reports_count?: IntFieldUpdateOperationsInput | number
+    marked_count?: IntFieldUpdateOperationsInput | number
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3411,8 +3437,9 @@ export namespace Prisma {
     synopsis?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
-    comments?: IntFieldUpdateOperationsInput | number
-    reports?: IntFieldUpdateOperationsInput | number
+    comments_count?: IntFieldUpdateOperationsInput | number
+    reports_count?: IntFieldUpdateOperationsInput | number
+    marked_count?: IntFieldUpdateOperationsInput | number
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3425,8 +3452,9 @@ export namespace Prisma {
     synopsis: string
     acts?: StorieDataCreateactsInput | number[]
     likes_count?: number
-    comments?: number
-    reports?: number
+    comments_count?: number
+    reports_count?: number
+    marked_count?: number
     visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
@@ -3438,8 +3466,9 @@ export namespace Prisma {
     synopsis?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
-    comments?: IntFieldUpdateOperationsInput | number
-    reports?: IntFieldUpdateOperationsInput | number
+    comments_count?: IntFieldUpdateOperationsInput | number
+    reports_count?: IntFieldUpdateOperationsInput | number
+    marked_count?: IntFieldUpdateOperationsInput | number
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3452,8 +3481,9 @@ export namespace Prisma {
     synopsis?: StringFieldUpdateOperationsInput | string
     acts?: StorieDataUpdateactsInput | number[]
     likes_count?: IntFieldUpdateOperationsInput | number
-    comments?: IntFieldUpdateOperationsInput | number
-    reports?: IntFieldUpdateOperationsInput | number
+    comments_count?: IntFieldUpdateOperationsInput | number
+    reports_count?: IntFieldUpdateOperationsInput | number
+    marked_count?: IntFieldUpdateOperationsInput | number
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3562,8 +3592,9 @@ export namespace Prisma {
     synopsis?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
-    comments?: SortOrder
-    reports?: SortOrder
+    comments_count?: SortOrder
+    reports_count?: SortOrder
+    marked_count?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3574,8 +3605,9 @@ export namespace Prisma {
     author_id?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
-    comments?: SortOrder
-    reports?: SortOrder
+    comments_count?: SortOrder
+    reports_count?: SortOrder
+    marked_count?: SortOrder
   }
 
   export type StorieDataMaxOrderByAggregateInput = {
@@ -3584,8 +3616,9 @@ export namespace Prisma {
     title?: SortOrder
     synopsis?: SortOrder
     likes_count?: SortOrder
-    comments?: SortOrder
-    reports?: SortOrder
+    comments_count?: SortOrder
+    reports_count?: SortOrder
+    marked_count?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3597,8 +3630,9 @@ export namespace Prisma {
     title?: SortOrder
     synopsis?: SortOrder
     likes_count?: SortOrder
-    comments?: SortOrder
-    reports?: SortOrder
+    comments_count?: SortOrder
+    reports_count?: SortOrder
+    marked_count?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3609,8 +3643,9 @@ export namespace Prisma {
     author_id?: SortOrder
     acts?: SortOrder
     likes_count?: SortOrder
-    comments?: SortOrder
-    reports?: SortOrder
+    comments_count?: SortOrder
+    reports_count?: SortOrder
+    marked_count?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {

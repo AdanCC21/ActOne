@@ -142,7 +142,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\PC\\Documents\\CHAMBA\\Proyectos\\ActOne\\backend\\public-data\\generated\\prisma",
+      "value": "C:\\Users\\PC\\Documents\\Chamba\\Proyectos\\ActOne\\backend\\public-data\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -156,11 +156,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\PC\\Documents\\CHAMBA\\Proyectos\\ActOne\\backend\\public-data\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\PC\\Documents\\Chamba\\Proyectos\\ActOne\\backend\\public-data\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
@@ -178,8 +178,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DB_CONECTION\")\n}\n\nmodel Likes {\n  id               Int      @id @default(autoincrement())\n  user_id          Int\n  publication_type String\n  publication_id   Int\n  state            Boolean  @default(true)\n  create_date      DateTime @default(now())\n}\n\nmodel Comments {\n  id             Int      @id @default(autoincrement())\n  user_id        Int\n  publication_id Int\n  content        String\n  create_date    DateTime @default(now())\n  modify_date    DateTime @default(now())\n}\n\nmodel Reports {\n  id             Int      @id @default(autoincrement())\n  user_id        Int\n  publication_id Int\n  content        String\n  date           DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "c6cd66fd6e7cc0c36b210b2faba1051b8cdc8a58c7e10e71c0691a43ac0fefb9",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DB_CONECTION\")\n}\n\nmodel Likes {\n  id               Int      @id @default(autoincrement())\n  user_id          Int\n  // story || comment\n  publication_type String\n  publication_id   Int\n  state            Boolean  @default(true)\n  create_date      DateTime @default(now())\n}\n\nmodel Comments {\n  id             Int      @id @default(autoincrement())\n  user_id        Int\n  publication_id Int\n  content        String\n  create_date    DateTime @default(now())\n  modify_date    DateTime @default(now())\n}\n\nmodel Reports {\n  id             Int      @id @default(autoincrement())\n  user_id        Int\n  publication_id Int\n  content        String\n  date           DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "be5c6b1b854ec4fa5fa18a3af5e993a14b3afb8e64a4b1375fa5db1f48b375d8",
   "copyEngine": true
 }
 config.dirname = '/'

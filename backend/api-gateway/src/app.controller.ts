@@ -9,6 +9,7 @@ export class AppController {
     @Inject('UPD_SERVICE') private updClient: ClientProxy,
     @Inject('STORY_SERVICE') private storyClient: ClientProxy,
     @Inject('AUTH_SERVICE') private authClient: ClientProxy,
+    @Inject('PD_SERVICE') private pdClient: ClientProxy,
     private appSer: AppService
   ) { }
 
@@ -26,10 +27,30 @@ export class AppController {
     return resData;
   }
 
+
+  // -------------- UPD -------------- //
+
   @Get("upd/get/:id")
   async GetUser(@Param('id', ParseIntPipe) id: number) {
     return this.updClient.send({ cmd: 'get' }, { id: id });
   }
+
+  /**
+   * 
+   * @param data userId,storyId,action
+   * @returns {message, data:null or [markedList]}
+   */
+  @Post('upd/mark/update')
+  async UpdateMark(@Body() data: any) {
+    return this.updClient.send({ cmd: 'update-mark' }, data)
+  }
+
+  @Get('upd/mark/get/:id')
+  async GetMark(@Param('id', ParseIntPipe) id: number) {
+    return this.updClient.send({ cmd: "get-mark" }, id);
+  }
+
+  // -------------- Story -------------- //
 
   @Get("story/:id")
   async getStory(@Param('id', ParseIntPipe) id: number) {
@@ -43,6 +64,19 @@ export class AppController {
 
   @Get("list/stories")
   async GetStories() {
-    return this.storyClient.send({cmd:"get-list"},{});
+    return this.storyClient.send({ cmd: "get-list" }, {});
+  }
+
+  // -------------- PD -------------- //
+  /**
+   * 
+   * @param userId Id del usuario
+   * @param pubId Id de la publicacion
+   * @param pubType story || comment
+   * @returns {message, data:null || like}
+   */
+  @Post('pd/like')
+  async PostLike(@Body() data) {
+    return this.pdClient.send({ cmd: 'post-like' }, data)
   }
 }

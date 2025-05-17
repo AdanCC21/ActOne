@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, ParseIntPipe, Param, NotFoundException } from '@nestjs/common';
 import { AppService } from './app.service';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDTO } from './DTO/create-user.dto';
 import { UpdateUserDTO } from './DTO/update-user.dto';
 import { PushActsDto } from './DTO/push-act.dto';
@@ -38,21 +38,27 @@ export class AppController {
    */
   @Post('push/act/:id')
   async PushActs(@Body() data: any, @Param('id', ParseIntPipe) user_id: number) {
-    try {
-      console.log('entro')
-      const res = await this.appService.AddStory(user_id, data.storyId);
-      if (!res) throw new NotFoundException('user not found, user id :' + user_id);
+    return await this.appService.AddStory(user_id, data.storyId);
+  }
 
-      return {
-        message: 'ok',
-        data: res
-      };
-    } catch (e) {
-      console.error(e.message);
-      return {
-        message: e.message,
-        data: null
-      };
-    }
+  /**
+   * @param userId // Id del usuario
+   * @param storyId // Id de la historia
+   * @param action // True = Add, False = Remove
+   * @returns null or marked Story
+   */
+  @MessagePattern({cmd:"update-mark"})
+  async MarkStory(data: any) {
+    return await this.appService.UpdateMarked(data.userId, data.storyId, data.action);
+  }
+
+  /**
+   * 
+   * @param userId 
+   * @returns null or MarkedList(ids)
+   */
+  @MessagePattern({cmd:"get-mark"})
+  async GetMarkedList(@Payload() userId:number){
+    return await this.appService.GetMarkedList(userId)
   }
 }

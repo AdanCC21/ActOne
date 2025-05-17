@@ -1,64 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
-import { BlobOptions } from 'buffer';
 
 @Injectable()
 export class AppService {
   constructor(private readonly prismaSer: PrismaService) { }
 
   async GetComments(pubId: number) {
-    try {
-      const commentsList = await this.prismaSer.comments.findMany({ where: { publication_id: pubId } })
-      if (commentsList.length === 0) throw new Error("This publication doesn't have comments");
+    const commentsList = await this.prismaSer.comments.findMany({ where: { publication_id: pubId } })
+    if (commentsList.length === 0) return { message: "This publication doesn't have comments", data: [] };
 
-      return commentsList;
-    } catch (e) {
-      console.error(e.message);
-      return {
-        message: e.message,
-        data: null
-      }
-    }
-  }
+    return { message: 'ok', data: commentsList };
 
-  async GetLikes(pubId: number, pubType: string) {
-    try {
-      const likeCount = await this.prismaSer.likes.count({ where: { publication_id: pubId, publication_type: pubType, state: true } })
-
-      return likeCount;
-    } catch (e) {
-      console.error(e.message);
-      return {
-        message: e.message,
-        data: null
-      }
-    }
-  }
-
-  async UpdateLike(id: number, currentState: boolean) {
-    try {
-      const res = await this.prismaSer.likes.update({ where: { id: id }, data: { state: !currentState } })
-      return res;
-    } catch (e) {
-      console.error(e.message);
-      return null
-    }
-  }
-
-  async InsertLike(userId: number, pubId: number, pubType: string) {
-    try {
-      const newLike = await this.prismaSer.likes.create({
-        data: {
-          user_id: userId,
-          publication_id: pubId,
-          publication_type: pubType
-        }
-      })
-      return newLike;
-    } catch (e) {
-      console.error(e.message);
-      return e.message
-    }
   }
 
   async AddComment(userId: number, pubId: number, content: string) {
@@ -83,4 +35,76 @@ export class AppService {
       };
     }
   }
+
+  // --------------------------------------------------------
+
+  async GetLikes(pubId: number, pubType: string) {
+    try {
+      const likeCount = await this.prismaSer.likes.count({ where: { publication_id: pubId, publication_type: pubType, state: true } })
+
+      return { message: 'ok', data: likeCount };
+    } catch (e) {
+      console.error(e.message);
+      return {
+        message: e.message,
+        data: 0
+      }
+    }
+  }
+
+  /**
+   * 
+   * @param userId Id del usuario
+   * @param pubId Id de la publicacion
+   * @param pubType story || comment
+   * @returns {message, data:null || like}
+   */
+  async InsertLike(userId: number, pubId: number, pubType: string) {
+    try {
+      const likeExist = await this.prismaSer.likes.findFirst({ where: { user_id: userId, publication_id: pubId } });
+      if (!likeExist) {
+        const newLike = await this.prismaSer.likes.create({
+          data: {
+            user_id: userId,
+            publication_id: pubId,
+            publication_type: pubType
+          }
+        })
+
+        if (pubType === 'story') {
+          await this.UpdateStory(pubId, { likes_count: 1 })
+        }
+
+        return { message: "ok", data: newLike };
+      } else {
+        const res = await this.prismaSer.likes.update({ where: { id: likeExist.id }, data: { state: !likeExist.state } })
+
+        likeExist.state ? await this.UpdateStory(pubId, { likes_count: -1 }) : await this.UpdateStory(pubId, { likes_count: 1 })
+
+        return { message: "ok", data: res };
+      }
+    } catch (e) {
+      console.error(e);
+      return { message: e.message, data: null };
+    }
+  }
+
+  async UpdateStory(storyId: number, data) {
+    try {
+      const fetchData = await fetch('http://localhost:3013/story/set/pd', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: storyId, pd: data })
+      })
+      if (!fetchData.ok) throw new Error('something is wrong with Story Update');
+
+      return await fetchData.json();
+    } catch (e) {
+      console.error(e.message);
+      return null;
+    }
+  }
+
 }

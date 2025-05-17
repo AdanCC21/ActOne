@@ -52,19 +52,19 @@ export default function Story() {
 
 
           <section className='flex flex-col h-[50%]'>
-            <article className='comments'>
+            <article className='comments my-auto'>
               <h5 className='font-semibold mb-2'>Comments</h5>
               <div className='flex flex-col'>
-                {story.pd.comments.map((current, index) => (
+                {story.pd.comments.length > 0 ? (story.pd.comments.map((current, index) => (
                   <CommentCard user_id={current.id} content={current.content} />
-                ))}
+                ))) : (<span className='text-(--gray)'>No Comments</span>)}
               </div>
             </article>
 
-            <article className='flex mx-2 justify-around h-[10%] '>
-              <Like extraClass='mr-2 my-auto' state={false} func={() => { }} amount={2500000} />
-              <Comments extraClass='mx-2 my-auto' func={() => { }} amount={2205} />
-              <Mark extraClass='mx-2 my-auto' state={false} func={() => { }} amount={250000} />
+            <article className='flex mx-2 mt-auto mb-2 justify-around h-[10%] '>
+              <Like extraClass='mr-2 my-auto' state={false} func={() => { }} amount={story.pd.likes} />
+              <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.pd.comments.length} />
+              {/* <Mark extraClass='mx-2 my-auto' state={false} func={() => { }} amount={250000} /> */}
             </article>
 
           </section>

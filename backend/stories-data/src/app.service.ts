@@ -2,8 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { CreateStoryDto } from './DTO/CreateStory.dto';
 import { CreateActDto } from './DTO/CreateAct.dto';
-import { error } from 'console';
-import { create } from 'domain';
+import { UpdatePdDTO } from './DTO/UpdatePd.dto';
 
 @Injectable()
 export class AppService {
@@ -12,9 +11,6 @@ export class AppService {
     async ListStories() {
         try {
             const stories = await this.prismaSer.storieData.findMany();
-            if (stories.length === 0) {
-                throw new Error("Stories empty");
-            }
             return stories;
         } catch (e) {
             console.error(e);
@@ -27,9 +23,8 @@ export class AppService {
             const story = await this.GetStory(id);
             const acts = await this.GetActs(story.id);
             const upd = await this.GetUPD(story.author_id);
-            const pd = await this.GetPD(story.id);
 
-            return { story, acts, upd, pd };
+            return { story, acts, upd };
         } catch (e) {
             throw new Error(e.message)
         }
@@ -67,24 +62,6 @@ export class AppService {
             throw new Error("The story dont't have acts. Story id :" + story_id);
         }
         return acts;
-    }
-
-    async GetPD(story_id: number) {
-        try {
-            const likesFetch = await fetch(`http://localhost:3014/pd/get/likes/${story_id}/story`);
-            const likes = await likesFetch.json();
-
-            const commentsFetch = await fetch(`http://localhost:3014/pd/get/comments/${story_id}`);
-            const comments = await commentsFetch.json();
-
-            return {
-                comments: comments,
-                likes: likes
-            }
-        } catch (e) {
-            console.error(e);
-            return e;
-        }
     }
 
     async PublishStory(story: CreateStoryDto, acts: CreateActDto[]) {
@@ -130,5 +107,35 @@ export class AppService {
             console.error('Something is wrong : ' + e.message)
             return { message: e.message, data: null };
         }
+    }
+
+    /**
+     * 
+     * @param storyId 
+     * @param data 
+     * @returns True || False
+     */
+    async updatePD(storyId: number, data: UpdatePdDTO) {
+        try {
+            const storyExist = await this.prismaSer.storieData.findUnique({ where: { id: storyId } });
+            if (!storyExist) throw new Error('User Not Found');
+
+            const updatedData = {
+                likes_count: storyExist.likes_count + (data.likes_count ?? 0),
+                comments_count: storyExist.comments_count + (data.comments_count ?? 0),
+                marked_count: storyExist.marked_count + (data.marked_count ?? 0),
+                reports_count: storyExist.reports_count + (data.report_count ?? 0),
+            };
+            
+            await this.prismaSer.storieData.update({
+                where: { id: storyId },
+                data: updatedData,
+            });
+            return { message: "ok", data: true };
+        } catch (e) {
+            console.error(e);
+            return { message: e.message, data: false };
+        }
+
     }
 }
