@@ -1,11 +1,11 @@
-export async function MarkStory(storyId: number, userId: number, action: boolean) {
+export async function MarkStory(storyId: number, userId: number) {
     try {
         const fetchData = await fetch('http://localhost:3000/api/upd/mark/update', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ storyId: storyId, userId: userId, action: action })
+            body: JSON.stringify({ storyId: storyId, userId: userId})
         })
         if (!fetchData.ok) throw new Error('Something is wrong with the backend. Satus' + fetchData.status);
 

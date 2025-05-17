@@ -52,23 +52,25 @@ export class AppService {
    * 
    * @param userId // Id del usuario
    * @param storyId // Id de la historia
-   * @param action // True = Add, False = Remove
    * @returns null or marked Story
    */
-  async UpdateMarked(userId: number, storyId: number, action: boolean) {
+  async UpdateMarked(userId: number, storyId: number) {
     try {
       const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: userId } });
 
       if (!userExist) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-      if (action && userExist.marked_stories.includes(storyId)) throw new Error('Story already marked');
-      if (!action && !userExist.marked_stories.includes(storyId)) throw new Error('Story already unmarked');
+      // if (action && userExist.marked_stories.includes(storyId)) throw new Error('Story already marked');
+      // if (!action && !userExist.marked_stories.includes(storyId)) throw new Error('Story already unmarked');
 
       let listUpdated = new Array<number>;
-      if (action) {
+      
+      if (!userExist.marked_stories.includes(storyId)) {
         userExist.marked_stories.push(storyId);
         listUpdated = userExist.marked_stories;
+        await this.UpdateStory(storyId, { marked_count: 1 })
       } else {
         listUpdated = userExist.marked_stories.filter((current) => current !== storyId);
+        await this.UpdateStory(storyId, { marked_count: -1 })
       }
 
       await this.prismaSer.userPublicData.update({ where: { id: userId }, data: { marked_stories: listUpdated } })
@@ -99,6 +101,30 @@ export class AppService {
   }
 
   // --------------- Stories ------------------- //
+
+  /**
+   * Send the data to Story DataBase
+   * @param storyId Story Id
+   * @param data  {likes_count, comments_count, reports_count, marked_count }
+   * @returns null or the data
+   */
+  async UpdateStory(storyId: number, data) {
+    try {
+      const fetchData = await fetch('http://localhost:3013/story/set/pd', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: storyId, pd: data })
+      })
+      if (!fetchData.ok) throw new Error('something is wrong with Story Update');
+
+      return await fetchData.json();
+    } catch (e) {
+      console.error(e.message);
+      return null;
+    }
+  }
 
   /**
    * 

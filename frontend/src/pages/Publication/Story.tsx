@@ -13,6 +13,7 @@ import { GetStory } from '../../Hooks/GetStory'
 import { useNavigate, useParams } from 'react-router-dom'
 import { GetComments, SubmitComment } from '../../Hooks/Comments'
 import { PostLike, Report } from '../../Hooks/HandlePD'
+import { GetMarkCount, MarkStory } from '../../Hooks/Marked'
 
 
 export default function Story() {
@@ -93,7 +94,10 @@ export default function Story() {
             <article className='flex mx-2 mt-auto mb-2 justify-around h-[10%] '>
               <Like extraClass='mr-2 my-auto' state={false} func={() => { PostLike(story.story.author_id, story.story.id, 'story'); window.location.reload(); }} amount={story.story.likes_count} />
               <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.story.comments_count} />
-              <Mark extraClass='mx-2 my-auto' state={false} func={() => { }} amount={story.story.marked_count} />
+              <Mark
+                extraClass='mx-2 my-auto' state={false}
+                func={() => { MarkStory(story.story.id, Number(userId)) }}
+                amount={story.story.marked_count} />
               <Reports extraClass='mx-2 my-auto' state={false} func={() => { Report(story.story.author_id, story.story.id) }} amount={story.story.reports_count} />
             </article>
 

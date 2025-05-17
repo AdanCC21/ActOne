@@ -45,6 +45,11 @@ export class AppController {
     return this.updClient.send({ cmd: 'update-mark' }, data)
   }
 
+  /**
+   * 
+   * @param id userId
+   * @returns 
+   */
   @Get('upd/mark/get/:id')
   async GetMark(@Param('id', ParseIntPipe) id: number) {
     return this.updClient.send({ cmd: "get-mark" }, id);
