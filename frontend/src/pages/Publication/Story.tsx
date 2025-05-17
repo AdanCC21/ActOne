@@ -1,39 +1,59 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
-import { Comments, Like, Mark } from '../../components/Interactions'
+import { Comments, Like, Mark, Reports } from '../../components/Interactions'
 import CommentCard from '../../components/CommentCard'
 import { E_Story } from '../../entities/Story.entity'
 import { E_Act } from '../../entities/Act.entity'
 import { E_UPD } from '../../entities/UPD.entity'
-import { E_PD } from '../../entities/PD.entity'
+import { E_Comment } from '../../entities/PD.entity'
 
 import '../../css/story.css'
 
 import { GetStory } from '../../Hooks/GetStory'
 import { useNavigate, useParams } from 'react-router-dom'
+import { GetComments, SubmitComment } from '../../Hooks/Comments'
+import { PostLike, Report } from '../../Hooks/HandlePD'
 
 
 export default function Story() {
   const { id } = useParams();
   const navigator = useNavigate();
 
+  const userId = sessionStorage.getItem('user');
   const [currentAct, setAct] = useState(0);
-  const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()], upd: new E_UPD(), pd: new E_PD() });
+  const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()], upd: new E_UPD() });
+  const [comments, setComments] = useState(Array<E_Comment>);
+  const [inputVal, setInput] = useState('')
 
   useEffect(() => {
     const loadStory = async () => {
-      const result = await GetStory(Number(id));
-
-      if (!result) {
+      const storyFetch = await GetStory(Number(id));
+      if (!storyFetch) {
         navigator('/404');
         return
       }
-      console.log(result);
-      setStory(result)
+      const commetsFetch = await GetComments(storyFetch.story.id);
+
+      setComments(commetsFetch.data);
+      setStory(storyFetch)
     }
 
     loadStory();
   }, [])
+
+  const handleInput = (e) => {
+    setInput(e.target.value);
+  }
+
+  const handleSubmit = async (e) => {
+    if (e.key === 'Enter') {
+      const fetchData = await SubmitComment(Number(userId), story.story.id, inputVal);
+      if (!fetchData) return
+      console.log(fetchData);
+      setInput('');
+      window.location.reload();
+    }
+  }
 
   return (
     <div className='flex flex-col'>
@@ -54,17 +74,27 @@ export default function Story() {
           <section className='flex flex-col h-[50%]'>
             <article className='comments my-auto'>
               <h5 className='font-semibold mb-2'>Comments</h5>
+              <input className='inp-contraste'
+                placeholder='comenta aqui'
+                value={inputVal}
+                onChange={(e) => { handleInput(e) }}
+                onKeyDown={(e) => { handleSubmit(e) }}
+              />
               <div className='flex flex-col'>
-                {story.pd.comments.length > 0 ? (story.pd.comments.map((current, index) => (
-                  <CommentCard user_id={current.id} content={current.content} />
+                {comments.length > 0 ? (comments.map((current, index) => (
+                  <div key={index}>
+                    <CommentCard user_id={current.id} content={current.content} />
+                  </div>
                 ))) : (<span className='text-(--gray)'>No Comments</span>)}
               </div>
+
             </article>
 
             <article className='flex mx-2 mt-auto mb-2 justify-around h-[10%] '>
-              <Like extraClass='mr-2 my-auto' state={false} func={() => { }} amount={story.pd.likes} />
-              <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.pd.comments.length} />
-              {/* <Mark extraClass='mx-2 my-auto' state={false} func={() => { }} amount={250000} /> */}
+              <Like extraClass='mr-2 my-auto' state={false} func={() => { PostLike(story.story.author_id, story.story.id, 'story'); window.location.reload(); }} amount={story.story.likes_count} />
+              <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.story.comments_count} />
+              <Mark extraClass='mx-2 my-auto' state={false} func={() => { }} amount={story.story.marked_count} />
+              <Reports extraClass='mx-2 my-auto' state={false} func={() => { Report(story.story.author_id, story.story.id) }} amount={story.story.reports_count} />
             </article>
 
           </section>

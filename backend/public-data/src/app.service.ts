@@ -5,14 +5,31 @@ import { PrismaService } from './prisma/prisma.service';
 export class AppService {
   constructor(private readonly prismaSer: PrismaService) { }
 
+  /**
+   * 
+   * @param pubId 
+   * @returns {message, data: [] || CommentList}
+   */
   async GetComments(pubId: number) {
-    const commentsList = await this.prismaSer.comments.findMany({ where: { publication_id: pubId } })
-    if (commentsList.length === 0) return { message: "This publication doesn't have comments", data: [] };
+    try {
+      const commentsList = await this.prismaSer.comments.findMany({ where: { publication_id: pubId } })
+      if (commentsList.length === 0) return { message: "This publication doesn't have comments", data: [] };
 
-    return { message: 'ok', data: commentsList };
+      return { message: 'ok', data: commentsList };
+    } catch (e) {
+      console.error(e.message);
+      return { message: e.message, data: [] };
+    }
 
   }
 
+  /**
+   * 
+   * @param userId 
+   * @param pubId 
+   * @param content 
+   * @returns {Message, data:null || comment}
+   */
   async AddComment(userId: number, pubId: number, content: string) {
     try {
       const newComment = await this.prismaSer.comments.create({
@@ -22,6 +39,8 @@ export class AppService {
           content: content
         }
       });
+
+      await this.UpdateStory(pubId, { comments_count: +1 })
 
       return {
         message: 'Comment added successfully',
@@ -80,6 +99,41 @@ export class AppService {
         const res = await this.prismaSer.likes.update({ where: { id: likeExist.id }, data: { state: !likeExist.state } })
 
         likeExist.state ? await this.UpdateStory(pubId, { likes_count: -1 }) : await this.UpdateStory(pubId, { likes_count: 1 })
+
+        return { message: "ok", data: res };
+      }
+    } catch (e) {
+      console.error(e);
+      return { message: e.message, data: null };
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  /**
+   * 
+   * @param userId Id del usuario
+   * @param pubId Id de la publicacion
+   * @returns {message, data:null || like}
+   */
+  async ReportPub(userId: number, pubId: number) {
+    try {
+      const reportExist = await this.prismaSer.reports.findFirst({ where: { user_id: userId, publication_id: pubId } });
+      if (!reportExist) {
+        const newReport = await this.prismaSer.reports.create({
+          data: {
+            user_id: userId,
+            publication_id: pubId,
+            content: ''
+          }
+        })
+
+        await this.UpdateStory(pubId, { reports_count: 1 })
+
+        return { message: "ok", data: newReport };
+      } else {
+        const res = await this.prismaSer.reports.update({ where: { id: reportExist.id }, data: { state: !reportExist.state } })
+
+        reportExist.state ? await this.UpdateStory(pubId, { reports_count: -1 }) : await this.UpdateStory(pubId, { reports_count: 1 })
 
         return { message: "ok", data: res };
       }

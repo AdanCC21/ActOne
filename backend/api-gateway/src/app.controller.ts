@@ -79,4 +79,35 @@ export class AppController {
   async PostLike(@Body() data) {
     return this.pdClient.send({ cmd: 'post-like' }, data)
   }
+  
+  /**
+   * 
+   * @param userId Id del usuario
+   * @param pubId Id de la publicacion
+   * @returns {message, data:null || like}
+   */
+  @Post('pd/report')
+  async Report(@Body() data) {
+    return this.pdClient.send({ cmd: 'report' }, data)
+  }
+
+  /**
+   * 
+   * @param id PublicationId
+   * @returns {message, data: [] || CommentList}
+   */
+  @Get('pd/comments/get/:id')
+  async GetComments(@Param('id', ParseIntPipe) id: number) {
+    return this.pdClient.send({ cmd: "get/comments" }, id);
+  }
+
+  /**
+   * Agregar un comentario
+   * @param data userId, pubId, content
+   * @returns {Message, data:null || comment}
+   */
+  @Post('pd/comment/post')
+  async PostComment(@Body() data) {
+    return this.pdClient.send({ cmd: 'post/comment' }, data);
+  }
 }

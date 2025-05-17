@@ -7,7 +7,7 @@ export class E_Story {
 
     likes_count: number;
     comments_count: number;
-    report_count: number;
+    reports_count: number;
     marked_count: number;
 
     visibility: boolean;
@@ -26,7 +26,7 @@ export class E_Story {
 
         this.likes_count = 0;
         this.comments_count = 0;
-        this.report_count = 0;
+        this.reports_count = 0;
         this.marked_count = 0;
 
         this.visibility = visibility ?? false;

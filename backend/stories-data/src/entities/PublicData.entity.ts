@@ -1,7 +1,7 @@
 export class PublicData {
   likes_count: number;
   comments_count: number;
-  report_count: number;
+  reports_count: number;
   marked_count: number;
 
   constructor(
@@ -12,7 +12,7 @@ export class PublicData {
   ) {
     this.likes_count = likesC;
     this.comments_count = commentsC;
-    this.report_count = reportC;
+    this.reports_count = reportC;
     this.marked_count = markedC;
   }
 }

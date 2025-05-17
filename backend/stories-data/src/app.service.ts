@@ -124,7 +124,7 @@ export class AppService {
                 likes_count: storyExist.likes_count + (data.likes_count ?? 0),
                 comments_count: storyExist.comments_count + (data.comments_count ?? 0),
                 marked_count: storyExist.marked_count + (data.marked_count ?? 0),
-                reports_count: storyExist.reports_count + (data.report_count ?? 0),
+                reports_count: storyExist.reports_count + (data.reports_count ?? 0),
             };
             
             await this.prismaSer.storieData.update({

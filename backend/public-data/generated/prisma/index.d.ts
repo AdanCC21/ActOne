@@ -3180,6 +3180,7 @@ export namespace Prisma {
     user_id: number | null
     publication_id: number | null
     content: string | null
+    state: boolean | null
     date: Date | null
   }
 
@@ -3188,6 +3189,7 @@ export namespace Prisma {
     user_id: number | null
     publication_id: number | null
     content: string | null
+    state: boolean | null
     date: Date | null
   }
 
@@ -3196,6 +3198,7 @@ export namespace Prisma {
     user_id: number
     publication_id: number
     content: number
+    state: number
     date: number
     _all: number
   }
@@ -3218,6 +3221,7 @@ export namespace Prisma {
     user_id?: true
     publication_id?: true
     content?: true
+    state?: true
     date?: true
   }
 
@@ -3226,6 +3230,7 @@ export namespace Prisma {
     user_id?: true
     publication_id?: true
     content?: true
+    state?: true
     date?: true
   }
 
@@ -3234,6 +3239,7 @@ export namespace Prisma {
     user_id?: true
     publication_id?: true
     content?: true
+    state?: true
     date?: true
     _all?: true
   }
@@ -3329,6 +3335,7 @@ export namespace Prisma {
     user_id: number
     publication_id: number
     content: string
+    state: boolean
     date: Date
     _count: ReportsCountAggregateOutputType | null
     _avg: ReportsAvgAggregateOutputType | null
@@ -3356,6 +3363,7 @@ export namespace Prisma {
     user_id?: boolean
     publication_id?: boolean
     content?: boolean
+    state?: boolean
     date?: boolean
   }, ExtArgs["result"]["reports"]>
 
@@ -3364,6 +3372,7 @@ export namespace Prisma {
     user_id?: boolean
     publication_id?: boolean
     content?: boolean
+    state?: boolean
     date?: boolean
   }, ExtArgs["result"]["reports"]>
 
@@ -3372,6 +3381,7 @@ export namespace Prisma {
     user_id?: boolean
     publication_id?: boolean
     content?: boolean
+    state?: boolean
     date?: boolean
   }, ExtArgs["result"]["reports"]>
 
@@ -3380,10 +3390,11 @@ export namespace Prisma {
     user_id?: boolean
     publication_id?: boolean
     content?: boolean
+    state?: boolean
     date?: boolean
   }
 
-  export type ReportsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "publication_id" | "content" | "date", ExtArgs["result"]["reports"]>
+  export type ReportsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "publication_id" | "content" | "state" | "date", ExtArgs["result"]["reports"]>
 
   export type $ReportsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Reports"
@@ -3393,6 +3404,7 @@ export namespace Prisma {
       user_id: number
       publication_id: number
       content: string
+      state: boolean
       date: Date
     }, ExtArgs["result"]["reports"]>
     composites: {}
@@ -3821,6 +3833,7 @@ export namespace Prisma {
     readonly user_id: FieldRef<"Reports", 'Int'>
     readonly publication_id: FieldRef<"Reports", 'Int'>
     readonly content: FieldRef<"Reports", 'String'>
+    readonly state: FieldRef<"Reports", 'Boolean'>
     readonly date: FieldRef<"Reports", 'DateTime'>
   }
     
@@ -4231,6 +4244,7 @@ export namespace Prisma {
     user_id: 'user_id',
     publication_id: 'publication_id',
     content: 'content',
+    state: 'state',
     date: 'date'
   };
 
@@ -4450,6 +4464,7 @@ export namespace Prisma {
     user_id?: IntFilter<"Reports"> | number
     publication_id?: IntFilter<"Reports"> | number
     content?: StringFilter<"Reports"> | string
+    state?: BoolFilter<"Reports"> | boolean
     date?: DateTimeFilter<"Reports"> | Date | string
   }
 
@@ -4458,6 +4473,7 @@ export namespace Prisma {
     user_id?: SortOrder
     publication_id?: SortOrder
     content?: SortOrder
+    state?: SortOrder
     date?: SortOrder
   }
 
@@ -4469,6 +4485,7 @@ export namespace Prisma {
     user_id?: IntFilter<"Reports"> | number
     publication_id?: IntFilter<"Reports"> | number
     content?: StringFilter<"Reports"> | string
+    state?: BoolFilter<"Reports"> | boolean
     date?: DateTimeFilter<"Reports"> | Date | string
   }, "id">
 
@@ -4477,6 +4494,7 @@ export namespace Prisma {
     user_id?: SortOrder
     publication_id?: SortOrder
     content?: SortOrder
+    state?: SortOrder
     date?: SortOrder
     _count?: ReportsCountOrderByAggregateInput
     _avg?: ReportsAvgOrderByAggregateInput
@@ -4493,6 +4511,7 @@ export namespace Prisma {
     user_id?: IntWithAggregatesFilter<"Reports"> | number
     publication_id?: IntWithAggregatesFilter<"Reports"> | number
     content?: StringWithAggregatesFilter<"Reports"> | string
+    state?: BoolWithAggregatesFilter<"Reports"> | boolean
     date?: DateTimeWithAggregatesFilter<"Reports"> | Date | string
   }
 
@@ -4620,6 +4639,7 @@ export namespace Prisma {
     user_id: number
     publication_id: number
     content: string
+    state?: boolean
     date?: Date | string
   }
 
@@ -4628,6 +4648,7 @@ export namespace Prisma {
     user_id: number
     publication_id: number
     content: string
+    state?: boolean
     date?: Date | string
   }
 
@@ -4635,6 +4656,7 @@ export namespace Prisma {
     user_id?: IntFieldUpdateOperationsInput | number
     publication_id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
+    state?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4643,6 +4665,7 @@ export namespace Prisma {
     user_id?: IntFieldUpdateOperationsInput | number
     publication_id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
+    state?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4651,6 +4674,7 @@ export namespace Prisma {
     user_id: number
     publication_id: number
     content: string
+    state?: boolean
     date?: Date | string
   }
 
@@ -4658,6 +4682,7 @@ export namespace Prisma {
     user_id?: IntFieldUpdateOperationsInput | number
     publication_id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
+    state?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4666,6 +4691,7 @@ export namespace Prisma {
     user_id?: IntFieldUpdateOperationsInput | number
     publication_id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
+    state?: BoolFieldUpdateOperationsInput | boolean
     date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4850,6 +4876,7 @@ export namespace Prisma {
     user_id?: SortOrder
     publication_id?: SortOrder
     content?: SortOrder
+    state?: SortOrder
     date?: SortOrder
   }
 
@@ -4864,6 +4891,7 @@ export namespace Prisma {
     user_id?: SortOrder
     publication_id?: SortOrder
     content?: SortOrder
+    state?: SortOrder
     date?: SortOrder
   }
 
@@ -4872,6 +4900,7 @@ export namespace Prisma {
     user_id?: SortOrder
     publication_id?: SortOrder
     content?: SortOrder
+    state?: SortOrder
     date?: SortOrder
   }
 

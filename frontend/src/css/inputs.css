@@ -18,3 +18,11 @@
 .inp-noline:focus{
     outline: none;
 }
+
+.inp-contraste{
+    background-color: var(--dark-500);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 5px ;
+    margin-bottom: 15px ;
+}

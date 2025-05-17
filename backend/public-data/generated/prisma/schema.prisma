@@ -32,5 +32,6 @@ model Reports {
   user_id        Int
   publication_id Int
   content        String
+  state          Boolean  @default(true)
   date           DateTime @default(now())
 }
