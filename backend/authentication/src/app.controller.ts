@@ -9,13 +9,13 @@ import { log } from 'console';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @MessagePattern({ cmd: "reg-user" })
+  @MessagePattern({ cmd: "reg/user" })
   async registerUser(data: { userData: CreateAuthDTO, user_name: string, description: string }) {
-    const createdUser = this.appService.createNewUser(data.userData, data.user_name, data.description);
+    const createdUser = await this.appService.createNewUser(data.userData, data.user_name, data.description);
     if (createdUser != null) {
-      return createdUser;
+      return { message: "ok", data: createdUser };
     }
-    return { message: "Error, something is wrong with the auth service" }
+    return { message: "Error, user already registered", data: null }
   }
 
   @MessagePattern({ cmd: "logIn" })

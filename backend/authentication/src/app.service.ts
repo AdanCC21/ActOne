@@ -27,7 +27,7 @@ export class AppService {
 
       throw { message: "Wrong Password, try again", status: 401 };
     }
-    throw { message: "User not found", status: 404 };
+    throw { message: "User not found, please register", status: 404 };
 
   }
 
@@ -55,6 +55,7 @@ export class AppService {
           }
         })
       } else {
+        console.log('create google account');
         return await this.prismaSer.authentication.create({
           data: {
             email: userData.email,
