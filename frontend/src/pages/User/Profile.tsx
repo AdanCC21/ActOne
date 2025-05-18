@@ -27,7 +27,7 @@ export default function Profile() {
         const fetchData = async () => {
             if (userId != null) {
                 const upd = await GetUPD(Number(userId));
-                if (!upd) return null;
+                if (!upd) return;
                 setUser(upd);
 
                 // if (upd.published_stories.length === 0) console.log('historias publicadas vacias');
@@ -81,11 +81,11 @@ export default function Profile() {
                         <article className='grid grid-cols-2 gap-5 p-2 bg-(--dark-400) w-full h-[90%]'>
                             {tab === 0 ? pubList.map((current, index) => (
                                 <div key={index} >
-                                    <FeedCard story={current.story} />
+                                    <FeedCard story={current.story} authorName={'hola'}/>
                                 </div>
                             )) : markedList.map((current, index) => (
                                 <div key={index} >
-                                    <FeedCard story={current.story} />
+                                    <FeedCard story={current.story} authorName={'hola'}/>
                                 </div>
                             ))}
                         </article>

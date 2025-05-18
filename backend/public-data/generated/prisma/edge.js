@@ -175,7 +175,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DB_CONECTION",
-        "value": "postgresql://postgres:adangc18@localhost:5432/mydb?schema=stories-data"
+        "value": "postgresql://postgres:adangc18@localhost:5432/mydb?schema=public-data"
       }
     }
   },

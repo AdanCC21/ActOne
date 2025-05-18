@@ -11,12 +11,13 @@ import { MarkStory } from '../Hooks/Marked';
 
 type Props = {
     story: E_Story
+    authorName?: string
 }
 
 
-export default function FeedCard({ story }: Props) {
+export default function FeedCard({ story, authorName }: Props) {
     const navigator = useNavigate();
-    const [author, setAuthor] = useState('');
+    const [author, setAuthor] = useState(authorName);
     const userId = sessionStorage.getItem('user');
 
     useEffect(() => {
@@ -30,7 +31,7 @@ export default function FeedCard({ story }: Props) {
                 setAuthor('undefined');
             }
         }
-        fetchData();
+        if (authorName== undefined || authorName == null) fetchData();
     }, [])
 
     return (
