@@ -35,21 +35,12 @@ export default function LogIn({ }) {
         }
     }
 
-    const validateInputs = () => {
-        if (inputs.email != "") {
-            if (inputs.password != "" && inputs.password.length > 6) {
-                return { message: 'ok', status: true };
-            }
-            return { message: "Contraseña muy corta", status: false };
-        }
-        return { message: "Correo vacio o invalido", status: false };
-    }
-
     const handleSubmit = async (email: string, authType: string, pass?: string) => {
         try {
             // const validate = validateInputs();
             // if (!validate.status) setAlert(validate.message); throw;
             const fetchLogin = await logIn(email, authType, pass);
+            console.log(fetchLogin);
             sessionStorage.setItem('user', String(fetchLogin.user_profile_id))
             navigate('/')
         } catch (e) {

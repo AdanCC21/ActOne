@@ -27,4 +27,14 @@ export class AppController {
       return e;
     }
   }
+
+  /**
+   * 
+   * @param email 
+   * @returns True if is in use, false if is free
+   */
+  @MessagePattern({ cmd: 'email/used' })
+  async EmailAlreadyInUse(email: string) {
+    return await this.appService.EmailAlredyInUse(email);
+  }
 }

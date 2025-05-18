@@ -5,6 +5,7 @@ import ParticlesBg from '../../components/ParticlesBg';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { NameAlreadyUsed } from '../../Hooks/ValidateName';
+import { EmailInUse } from '../../Hooks/ValidateEmail';
 
 type RegData = {
     userData: {
@@ -125,15 +126,30 @@ export default function Reg({ }) {
 
             <div className="flex flex-col items-center w-full h-[20%] ">
                 <GoogleLogin
-                    onSuccess={(credentialResult) => {
+                    onSuccess={async (credentialResult) => {
                         const data: any = jwtDecode(credentialResult.credential || '');
-                        // console.log(data);
-                        handleSubmit('google', data.email, data.name);
+                        const emialInUse = await EmailInUse(data.email);
+                        if (emialInUse) { setAlert('Email in use'); return }
+
+                        setInput(prev => {
+                            return {
+                                ...prev,
+                                userData: {
+                                    ...prev.userData,
+                                    type_authentication: 'google',
+                                    email: data.email,
+                                },
+                            }
+                        })
+                        setForm(prev => { setAlert(''); return (prev + 1) })
                     }}
                 />
                 <a className="m-4" href="/login">I have account</a>
             </div>
-            <button className="btn ml-auto" type="submit" onClick={() => {
+            <button className="btn ml-auto" type="submit" onClick={async () => {
+                const emialInUse = await EmailInUse(inputs.userData.email);
+                if (emialInUse) { setAlert('Email in use'); return }
+
                 confirmPass === inputs.userData.authentication ?
                     setForm(prev => { setAlert(''); return (prev + 1) }) :
                     setAlert('Password and confirmation are different')

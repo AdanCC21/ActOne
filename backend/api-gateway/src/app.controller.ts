@@ -26,6 +26,16 @@ export class AppController {
     return await firstValueFrom(this.authClient.send({ cmd: "logIn" }, data));
   }
 
+  /**
+   * 
+   * @param email 
+   * @returns True if is in use, false if is free
+   */
+  @Get("email/used/:email")
+  async EmailInUse(@Param('email') email: string) {
+    return await firstValueFrom(this.authClient.send({ cmd: "email/used" }, email))
+  }
+
 
   // -------------- UPD -------------- //
 

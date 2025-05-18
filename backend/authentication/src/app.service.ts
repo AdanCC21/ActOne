@@ -95,4 +95,15 @@ export class AppService {
     }
   }
 
+  /**
+   * 
+   * @param email 
+   * @returns True if is in use, false if is free
+   */
+  async EmailAlredyInUse(email: string) {
+    const emailUsed = await this.prismaSer.authentication.findUnique({ where: { email: email } });
+    if (!emailUsed) return { message: 'Email ok', data: false };
+    return { message: 'Email in use', data: true };
+  }
+
 }
