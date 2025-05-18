@@ -6,6 +6,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { NameAlreadyUsed } from '../../Hooks/ValidateName';
 import { EmailInUse } from '../../Hooks/ValidateEmail';
+import { RegNewUser } from '../../Hooks/Register';
 
 type RegData = {
     userData: {
@@ -66,42 +67,6 @@ export default function Reg({ }) {
         });
     };
 
-
-    const handleSubmit = async (typeAuth: string, email?: string, name?: string) => {
-        try {
-            const data = {
-                ...inputs,
-                userData: {
-                    ...inputs.userData,
-                    authentication: typeAuth === 'google' ? '' : inputs.userData.authentication,
-                    type_authentication: typeAuth,
-                    email: email || inputs.userData.email
-                },
-                user_name: name || inputs.user_name
-            };
-
-            const res = await fetch(`${backRoute}api/reg-user`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (!res.ok) {
-                throw new Error("Something is wrong with the backend " + res.status);
-            }
-
-            const dataRes = await res.json();
-            if (!dataRes.data) { throw new Error(dataRes.message) }
-            sessionStorage.setItem('user', String(dataRes.data.user_profile_id))
-            navigate('/');
-
-        } catch (error) {
-            console.error(error)
-            setAlert(error.message);
-        }
-    }
 
     const fase1 = () => {
         return (<form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
@@ -182,7 +147,9 @@ export default function Reg({ }) {
                         console.log('entro aqui')
                         const NameUsed = await NameAlreadyUsed(inputs.user_name);
                         if (!NameUsed) {
-                            handleSubmit('email', inputs.userData.email, inputs.user_name);
+                            const data = { ...inputs };
+                            const backendResult = await RegNewUser(data, 'email', inputs.userData.email, inputs.user_name);
+                            backendResult.data ? navigate('/') : setAlert(backendResult.message);
                         } else {
                             setAlert('Name already used');
                         }

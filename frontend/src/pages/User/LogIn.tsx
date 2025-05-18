@@ -37,8 +37,6 @@ export default function LogIn({ }) {
 
     const handleSubmit = async (email: string, authType: string, pass?: string) => {
         try {
-            // const validate = validateInputs();
-            // if (!validate.status) setAlert(validate.message); throw;
             const fetchLogin = await logIn(email, authType, pass);
             console.log(fetchLogin);
             sessionStorage.setItem('user', String(fetchLogin.user_profile_id))

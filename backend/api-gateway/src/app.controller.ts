@@ -15,7 +15,7 @@ export class AppController {
 
   // -------------- AUTH -------------- //
 
-  @Post("reg-user")
+  @Post("reg")
   async registerUser(@Body() data: any) {
     const { userData, user_name, description } = data;
     return firstValueFrom(this.authClient.send({ cmd: "reg/user" }, { userData, user_name, description }));
