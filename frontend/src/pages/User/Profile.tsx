@@ -4,6 +4,7 @@ import { GetUPD } from '../../Hooks/GetUPD';
 import { GetStory } from '../../Hooks/GetStory';
 import { E_UPD } from '../../entities/UPD.entity';
 import { E_Story } from '../../entities/Story.entity';
+import FeedCard from '../../components/FeedCard'
 
 import Like from '../../assets/void_like.png';
 import VoidMark from '../../assets/mark.png';
@@ -16,11 +17,11 @@ import { RiUserFollowLine } from "react-icons/ri";
 export default function Profile() {
     const userId = sessionStorage.getItem('user');
     const [currentUser, setUser] = useState(new E_UPD());
-    const [pubList, setPub] = useState([new E_Story()]);
+    const [pubList, setPub] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
+    const [markedList, setMarked] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
     // 0 Historias Publicadas, 1 Historias Guardadas
     const [tab, setTab] = useState(0);
-    const lista1 = [1, 2, 3, 4, 5, 6];
-    const lista2 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,15 +29,23 @@ export default function Profile() {
                 const upd = await GetUPD(Number(userId));
                 if (!upd) return null;
                 setUser(upd);
-                
-                const pubStories =  upd.published_stories.map(async (current: number) => {
-                    const res = await GetStory(current);
-                    if (res != null || res != undefined) {
-                        return res;
-                    }
-                })
-                console.log(pubStories)
+
+                // if (upd.published_stories.length === 0) console.log('historias publicadas vacias');
+                // if (upd.marked_stories.length === 0) console.log('historias marcadas vacias');
+                const pubStories = await Promise.all(upd.published_stories.map(async (current, index) => {
+                    const story = await GetStory(current);
+                    if (!story) return;
+                    return story
+                }));
+
+
                 setPub(pubStories);
+                const markStories = await Promise.all(upd.marked_stories.map(async (current, index) => {
+                    const story = await GetStory(current);
+                    if (!story) return;
+                    return story
+                }));
+                markStories.length > 0 ? setMarked(markStories): setMarked([]);
             }
         }
         fetchData();
@@ -70,12 +79,14 @@ export default function Profile() {
                                 onClick={() => { setTab(1) }}><p>Historias Guardadas</p></div>
                         </nav>
                         <article className='grid grid-cols-2 gap-5 p-2 bg-(--dark-400) w-full h-[90%]'>
-                            {tab === 0 ? pubList.map((current, index) => {
-                                console.log("Acutalaaaaaa" + current); return (
-                                    <div className='bg-(--dark-200) rounded-2xl p-2 transition-all ease-in-out duration-150'><h2>{current.title}</h2></div>
-                                )
-                            }) : lista2.map((current, index) => (
-                                <div className='bg-(--dark-200) rounded-2xl p-2 transition-all ease-in-out duration-150'>Contenido {index}</div>
+                            {tab === 0 ? pubList.map((current, index) => (
+                                <div key={index} >
+                                    <FeedCard story={current.story} />
+                                </div>
+                            )) : markedList.map((current, index) => (
+                                <div key={index} >
+                                    <FeedCard story={current.story} />
+                                </div>
                             ))}
                         </article>
                     </section>

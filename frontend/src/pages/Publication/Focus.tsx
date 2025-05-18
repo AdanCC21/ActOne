@@ -11,6 +11,15 @@ export default function Focus() {
 
     const [currentAct, setAct] = useState(0);
     const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()] });
+    const [parrafos, setParrafos] = useState('');
+
+    const separarPorParrafos = (texto: string) => {
+        return texto
+            .split(/\n\s*\n/) // Divide por saltos de línea dobles (pueden tener espacios)
+            .map(parrafo => parrafo.trim()) // Elimina espacios extra al inicio y al final
+            .filter(parrafo => parrafo.length > 0); // Elimina párrafos vacíos
+    }
+
 
     useEffect(() => {
         const loadStory = async () => {
@@ -63,7 +72,7 @@ export default function Focus() {
                 ) : (<></>)}
             </main>
             <button className='btn interaction my-2 ml-1 absolute flex items-center bottom-0 left-0 text-(--gray)'
-            onClick={()=>{navigator(`/story/${id}`)}}>
+                onClick={() => { navigator(`/story/${id}`) }}>
                 <TbLogout2 />
                 Salir</button>
         </div>
