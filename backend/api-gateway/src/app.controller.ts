@@ -54,6 +54,11 @@ export class AppController {
     return this.updClient.send({ cmd: "get-mark" }, id);
   }
 
+  @Get('upd/validate/name/:name')
+  async ValidateName(@Param('name') name: string) {
+    return this.updClient.send({ cmd: 'validate/name' }, name);
+  }
+
   // -------------- Story -------------- //
 
   @Get("story/:id")

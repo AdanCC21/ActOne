@@ -10,6 +10,19 @@ export class AppService {
 
   /**
    * 
+   * @param name 
+   * @returns True if is already use, false if is Free to use
+   */
+  async NameAlreadyUse(name: string) {
+    const nameExist = await this.prismaSer.userPublicData.findUnique({ where: { user_name: name } });
+    if (!nameExist) return false;
+    return true;
+  }
+
+  // --------------- CRUD ------------------- //
+
+  /**
+   * 
    * @param user Only need the user_name, because this database is only the public user data
    * @returns the user create
    */
@@ -63,7 +76,7 @@ export class AppService {
       // if (!action && !userExist.marked_stories.includes(storyId)) throw new Error('Story already unmarked');
 
       let listUpdated = new Array<number>;
-      
+
       if (!userExist.marked_stories.includes(storyId)) {
         userExist.marked_stories.push(storyId);
         listUpdated = userExist.marked_stories;
@@ -145,6 +158,8 @@ export class AppService {
       return { message: e.message, data: null };
     }
   }
+
+  // --------------- Find ------------------- //
 
   /**
    * @param id user ID

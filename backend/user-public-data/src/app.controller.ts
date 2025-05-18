@@ -20,6 +20,16 @@ export class AppController {
     return await this.appService.findOne(id);
   }
 
+  @MessagePattern({ cmd: 'validate/name' })
+  async ValidateUser(data:any) {
+    const used = await this.appService.NameAlreadyUse(data);
+    if (used) {
+      return { message: "Name already in use", data: true };
+    } else {
+      return { message: "Name free to use", data: false };
+    }
+  }
+
   @MessagePattern({ cmd: 'get' })
   async GetUPDApi(data: { id: number }) {
     return await this.appService.findOne(data.id);
@@ -46,7 +56,7 @@ export class AppController {
    * @param storyId // Id de la historia
    * @returns null or marked Story
    */
-  @MessagePattern({cmd:"update-mark"})
+  @MessagePattern({ cmd: "update-mark" })
   async MarkStory(data: any) {
     return await this.appService.UpdateMarked(data.userId, data.storyId);
   }
@@ -56,8 +66,8 @@ export class AppController {
    * @param userId 
    * @returns null or MarkedList(ids)
    */
-  @MessagePattern({cmd:"get-mark"})
-  async GetMarkedList(@Payload() userId:number){
+  @MessagePattern({ cmd: "get-mark" })
+  async GetMarkedList(@Payload() userId: number) {
     return await this.appService.GetMarkedList(userId)
   }
 }
