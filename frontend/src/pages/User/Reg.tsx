@@ -4,6 +4,7 @@ import { BackendRoute } from '../../context/AppContext';
 import ParticlesBg from '../../components/ParticlesBg';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
+import { NameAlreadyUsed } from '../../Hooks/ValidateName';
 
 type RegData = {
     userData: {
@@ -91,10 +92,8 @@ export default function Reg({ }) {
             }
 
             const dataRes = await res.json();
-            // console.log(dataRes);
             if (!dataRes.data) { throw new Error(dataRes.message) }
-
-            sessionStorage.setItem('user', dataRes.user_profile_id);
+            sessionStorage.setItem('user', String(dataRes.data.user_profile_id))
             navigate('/');
 
         } catch (error) {
@@ -132,10 +131,7 @@ export default function Reg({ }) {
                         handleSubmit('google', data.email, data.name);
                     }}
                 />
-                {/* <button className="p-2 btn " type="button" aria-label="Continue with google">
-                    <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
-                    Continue with Google</button> */}
-                <a className="m-4" href="/login">Log In</a>
+                <a className="m-4" href="/login">I have account</a>
             </div>
             <button className="btn ml-auto" type="submit" onClick={() => {
                 confirmPass === inputs.userData.authentication ?
@@ -149,12 +145,13 @@ export default function Reg({ }) {
         return (
             <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
                 <legend className="text-center mt-5 text-(--red-100)">
-                    {alert == null ? (<span>{alert}</span>) : (<span>Hi, what is your name?</span>)}
+                    <span>Hi, what is your name?</span>
                 </legend>
+                <span className='text-center text-(--red-800)'>{alert}</span>
                 <fieldset className="flex flex-col  h-[70%] max-h-[80%] mt-[10%]">
                     <div className='mb-5'>
                         <label htmlFor="text" >Name</label>
-                        <input name="userName" value={inputs.user_name} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
+                        <input name="user_name" value={inputs.user_name} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
                     </div>
 
                     <div className='max-h-[60%] h-fit'>
@@ -165,7 +162,15 @@ export default function Reg({ }) {
 
                 <div className="flex w-full justify-between">
                     <button className="btn " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
-                    <button className="btn " type="submit" onClick={(e) => { handleSubmit('email'); }} >Next</button>
+                    <button className="btn " type="submit" onClick={async (e) => {
+                        console.log('entro aqui')
+                        const NameUsed = await NameAlreadyUsed(inputs.user_name);
+                        if (!NameUsed) {
+                            handleSubmit('email', inputs.userData.email, inputs.user_name);
+                        } else {
+                            setAlert('Name already used');
+                        }
+                    }} >Next</button>
                 </div>
             </form>)
     }

@@ -99,7 +99,7 @@ export default function LogIn({ }) {
                     {/* <button className="p-2 btn" type="button" aria-label="Continue with google">
                         <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
                         Continue with Google</button> */}
-                    <a className="m-4" href="/register">Register</a>
+                    <a className="m-4" href="/register">I don't have account</a>
                 </div>
                 <button className="btn red ml-auto" type="submit" >Continue</button>
             </form>
