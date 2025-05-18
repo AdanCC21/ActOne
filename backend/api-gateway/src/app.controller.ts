@@ -13,18 +13,17 @@ export class AppController {
     private appSer: AppService
   ) { }
 
+  // -------------- AUTH -------------- //
+
   @Post("reg-user")
   async registerUser(@Body() data: any) {
     const { userData, user_name, description } = data;
     return this.authClient.send({ cmd: "reg-user" }, { userData, user_name, description });
   }
 
-  @Post("login")
+  @Post("logIn")
   async logIn(@Body() data: JSON) {
-    const userData = data;
-    const resData = await firstValueFrom(this.authClient.send({ cmd: "logIn" }, { userData }));
-    console.log(resData);
-    return resData;
+    return await firstValueFrom(this.authClient.send({ cmd: "logIn" }, data));
   }
 
 
@@ -84,7 +83,7 @@ export class AppController {
   async PostLike(@Body() data) {
     return this.pdClient.send({ cmd: 'post-like' }, data)
   }
-  
+
   /**
    * 
    * @param userId Id del usuario

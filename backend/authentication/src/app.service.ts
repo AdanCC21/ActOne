@@ -18,14 +18,17 @@ export class AppService {
    */
   async logIn(userData: LogIn) {
     const userExist = await this.prismaSer.authentication.findUnique({ where: { email: userData.email } });
+
     if (userExist) {
+      if (userData.type_authentication === 'google') return { message: 'Success', status: 200, data: userExist };
+
       // Bycrypt compara primero la contraseña plana con la hasheada
-      if (await bcrypt.compare(userData.authentication, userExist.authentication)) {
-        return { message: 'Success', status: 200, data: userExist };
-      }
+      if (await bcrypt.compare(userData.authentication, userExist.authentication)) return { message: 'Success', status: 200, data: userExist };
+
       throw { message: "Wrong Password, try again", status: 401 };
     }
     throw { message: "User not found", status: 404 };
+
   }
 
   /**

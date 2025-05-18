@@ -1,12 +1,12 @@
-export async function logInBack(email: string, type_authentication: string, authentication: string) {
-    //cokies:
+export async function logIn(email: string, type_authentication: string, authentication: string = 'email') {
     const data = {
         "email": email,
         "type_authentication": type_authentication,
         "authentication": authentication
     }
+
     try {
-        const res = await fetch(`http://localhost:3000/api/login`, {
+        const res = await fetch(`http://localhost:3000/api/logIn`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

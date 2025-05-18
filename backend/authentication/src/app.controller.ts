@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateAuthDTO } from './DTO/create-auth.dto';
 import { LogIn } from './DTO/login-auth.dto';
 import { log } from 'console';
@@ -19,9 +19,9 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: "logIn" })
-  async logIn(data: { userData: LogIn }) {
+  async logIn(@Payload() data: any) {
     try {
-      return await this.appService.logIn(data.userData);
+      return await this.appService.logIn(data);
     } catch (e) {
       console.error(e.message);
       return e;

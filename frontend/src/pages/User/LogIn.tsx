@@ -1,17 +1,20 @@
 import React, { useContext, useState } from "react";
-import { BackendRoute } from "../../context/AppContext";
 import { useNavigate } from 'react-router';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import ParticlesBg from "../../components/ParticlesBg";
-import { logInBack } from "../../Hooks/LogIn";
+import { logIn } from "../../Hooks/LogIn";
+
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from 'jwt-decode';
+
 
 export default function LogIn({ }) {
-    let [inputs, setInput] = useState({
+    const [inputs, setInput] = useState({
         email: "",
         password: ""
     });
 
-    let [alert, setAlert] = useState("");
+    const [alert, setAlert] = useState("");
 
     const navigate = useNavigate();
 
@@ -42,19 +45,15 @@ export default function LogIn({ }) {
         return { message: "Correo vacio o invalido", status: false };
     }
 
-    const handleSubmit = async () => {
-        const validate = validateInputs();
-        if (validate.status) {
-            setAlert("Login");
-            try {
-                const backRes = await logInBack(inputs.email, 'email', inputs.password);
-                sessionStorage.setItem('user', String(backRes.user_profile_id))
-                navigate('/')
-            } catch (e) {
-                setAlert(e.message);
-            }
-        } else {
-            setAlert(validate.message);
+    const handleSubmit = async (email: string, authType: string, pass?: string) => {
+        try {
+            // const validate = validateInputs();
+            // if (!validate.status) setAlert(validate.message); throw;
+            const fetchLogin = await logIn(email, authType, pass);
+            sessionStorage.setItem('user', String(fetchLogin.user_profile_id))
+            navigate('/')
+        } catch (e) {
+            setAlert(e.message);
         }
     }
 
@@ -68,7 +67,7 @@ export default function LogIn({ }) {
 
 
             <form className="flex flex-col h-[70vh] min-w-[25vw] max-w-[80vw] justify-between p-4 bg-(--dark-400) rounded-2xl"
-                onSubmit={(e) => { handleSubmit(); e.preventDefault(); }}>
+                onSubmit={(e) => { handleSubmit(inputs.email,'email',inputs.password); e.preventDefault(); }}>
                 <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
                     {alert == "Login" ? (<div className="max-h-[50px] w-fit mx-auto">
                         <DotLottieReact
@@ -91,9 +90,14 @@ export default function LogIn({ }) {
                 </fieldset>
 
                 <div className="flex flex-col items-center w-full h-[20%] ">
-                    <button className="p-2 btn" type="button" aria-label="Continue with google">
+                    <GoogleLogin onSuccess={(credentialResponse) => {
+                        const data: any = jwtDecode(credentialResponse.credential || '');
+                        console.log(data.email);
+                        handleSubmit(data.email,'google');
+                    }} />
+                    {/* <button className="p-2 btn" type="button" aria-label="Continue with google">
                         <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
-                        Continue with Google</button>
+                        Continue with Google</button> */}
                     <a className="m-4" href="/register">Register</a>
                 </div>
                 <button className="btn red ml-auto" type="submit" >Continue</button>
