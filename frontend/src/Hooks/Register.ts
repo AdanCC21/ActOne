@@ -26,6 +26,7 @@ export async function RegNewUser(inputs: any, typeAuth: string, email?: string, 
         const dataRes = await res.json();
         if (!dataRes.data) { throw new Error(dataRes.message) }
         sessionStorage.setItem('user', String(dataRes.data.user_profile_id))
+        
         return { message: "ok", data: true };
     } catch (error) {
         console.error(error)

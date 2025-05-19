@@ -1,154 +1,53 @@
-import React, { useState, useRef, useCallback } from "react";
-import { Editor, EditorState, getDefaultKeyBinding, RichUtils } from "draft-js";
-import './css/RichEditor.css'
+// RichTextEditor.jsx
+import React, { useState } from 'react';
+import {
+    Editor,
+    EditorState,
+    RichUtils,
+    convertToRaw,
+    convertFromRaw
+} from 'draft-js';
+import 'draft-js/dist/Draft.css';
 
-const styleMap = {
-    CODE: {
-        backgroundColor: "rgba(0, 0, 0, 0.05)",
-        fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-        fontSize: 16,
-        padding: 2,
-    },
-};
-
-const getBlockStyle = (block) => {
-    switch (block.getType()) {
-        case "blockquote":
-            return "RichEditor-blockquote";
-        default:
-            return null;
-    }
-};
-
-const BLOCK_TYPES = [
-    { label: "H1", style: "header-one" },
-    { label: "H2", style: "header-two" },
-    { label: "H3", style: "header-three" },
-    { label: "H4", style: "header-four" },
-    { label: "H5", style: "header-five" },
-    { label: "P", style: "header-six" },
-    { label: "UL", style: "unordered-list-item" },
-    { label: "OL", style: "ordered-list-item" },
-];
-
-const INLINE_STYLES = [
-    { label: "Bold", style: "BOLD" },
-    { label: "Italic", style: "ITALIC" },
-    { label: "Underline", style: "UNDERLINE" },
-];
-
-const StyleButton = ({ label, style, onToggle, active }) => {
-    const className = active
-        ? "RichEditor-styleButton RichEditor-activeButton"
-        : "RichEditor-styleButton";
-
-    const handleMouseDown = (e) => {
-        e.preventDefault();
-        onToggle(style);
-    };
-
-    return <span className={className} onMouseDown={handleMouseDown}>{label}</span>;
-};
-
-const BlockStyleControls = ({ editorState, onToggle }) => {
-    const selection = editorState.getSelection();
-    const blockType = editorState
-        .getCurrentContent()
-        .getBlockForKey(selection.getStartKey())
-        .getType();
-
-    return (
-        <div className="RichEditor-controls">
-            {BLOCK_TYPES.map((type) => (
-                <StyleButton
-                    key={type.label}
-                    active={type.style === blockType}
-                    label={type.label}
-                    onToggle={onToggle}
-                    style={type.style}
-                />
-            ))}
-        </div>
+export default function RichTextEditor({ initialContent, onSave }) {
+    const [editorState, setEditorState] = useState(
+        initialContent
+            ? EditorState.createWithContent(convertFromRaw(initialContent))
+            : EditorState.createEmpty()
     );
-};
 
-const InlineStyleControls = ({ editorState, onToggle }) => {
-    const currentStyle = editorState.getCurrentInlineStyle();
-
-    return (
-        <div className="RichEditor-controls">
-            {INLINE_STYLES.map((type) => (
-                <StyleButton
-                    key={type.label}
-                    active={currentStyle.has(type.style)}
-                    label={type.label}
-                    onToggle={onToggle}
-                    style={type.style}
-                />
-            ))}
-        </div>
-    );
-};
-
-const RichText = () => {
-    const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
-    const editorRef = useRef(null);
-
-    const focus = () => editorRef.current?.focus();
-
-    const handleKeyCommand = useCallback((command, state) => {
-        const newState = RichUtils.handleKeyCommand(state, command);
+    const handleKeyCommand = (command) => {
+        const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
             setEditorState(newState);
-            return "handled";
+            return 'handled';
         }
-        return "not-handled";
-    }, []);
-
-    const mapKeyToEditorCommand = (e) => {
-        if (e.keyCode === 9 /* TAB */) {
-            const newState = RichUtils.onTab(e, editorState, 4);
-            if (newState !== editorState) {
-                setEditorState(newState);
-            }
-            return null;
-        }
-        return getDefaultKeyBinding(e);
+        return 'not-handled';
     };
 
-    const toggleBlockType = (blockType) => {
-        setEditorState(RichUtils.toggleBlockType(editorState, blockType));
+    const toggleInlineStyle = (style) => {
+        setEditorState(RichUtils.toggleInlineStyle(editorState, style));
     };
 
-    const toggleInlineStyle = (inlineStyle) => {
-        setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+    const saveContent = () => {
+        const content = editorState.getCurrentContent();
+        const raw = convertToRaw(content);
+        onSave(raw); // Puedes guardar esto en una base de datos
     };
-
-    const contentState = editorState.getCurrentContent();
-    let className = "RichEditor-editor";
-    if (!contentState.hasText() && contentState.getBlockMap().first().getType() !== "unstyled") {
-        className += " RichEditor-hidePlaceholder";
-    }
 
     return (
-        <div className="RichEditor-root ">
-            <BlockStyleControls editorState={editorState} onToggle={toggleBlockType} />
-            <InlineStyleControls editorState={editorState} onToggle={toggleInlineStyle} />
-            <div className={className} onClick={focus}>
-                <Editor
-                    ref={editorRef}
-                    blockStyleFn={getBlockStyle}
-                    customStyleMap={styleMap}
-                    editorState={editorState}
-                    handleKeyCommand={handleKeyCommand}
-                    keyBindingFn={mapKeyToEditorCommand}
-                    onChange={setEditorState}
-                    placeholder="Tell a story..."
-                    spellCheck={true}
-                />
+        <div style={{ border: '1px solid #ccc', padding: 10 }}>
+            <div style={{ marginBottom: 10 }}>
+                <button onClick={() => toggleInlineStyle('BOLD')}>Negrita</button>
+                <button onClick={() => toggleInlineStyle('UNDERLINE')}>Subrayado</button>
+                <button onClick={() => toggleInlineStyle('ITALIC')}>Cursiva</button>
+                <button onClick={saveContent}>Guardar</button>
             </div>
+            <Editor
+                editorState={editorState}
+                handleKeyCommand={handleKeyCommand}
+                onChange={setEditorState}
+            />
         </div>
     );
-};
-
-export default RichText;
+}
