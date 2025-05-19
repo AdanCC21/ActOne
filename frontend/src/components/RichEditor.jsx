@@ -1,4 +1,3 @@
-// RichTextEditor.jsx
 import React, { useState } from 'react';
 import {
     Editor,
@@ -8,8 +7,12 @@ import {
     convertFromRaw
 } from 'draft-js';
 import 'draft-js/dist/Draft.css';
+import Bold from '../assets/editorIcons/bold.svg'
+import UnderLine from '../assets/editorIcons/underline.svg'
+import Italic from '../assets/editorIcons/italic.svg'
 
 export default function RichTextEditor({ initialContent, onSave }) {
+    console.log(initialContent);
     const [editorState, setEditorState] = useState(
         initialContent
             ? EditorState.createWithContent(convertFromRaw(initialContent))
@@ -32,17 +35,24 @@ export default function RichTextEditor({ initialContent, onSave }) {
     const saveContent = () => {
         const content = editorState.getCurrentContent();
         const raw = convertToRaw(content);
-        onSave(raw); // Puedes guardar esto en una base de datos
+        onSave(raw);
     };
 
     return (
         <div style={{ border: '1px solid #ccc', padding: 10 }}>
-            <div style={{ marginBottom: 10 }}>
-                <button onClick={() => toggleInlineStyle('BOLD')}>Negrita</button>
-                <button onClick={() => toggleInlineStyle('UNDERLINE')}>Subrayado</button>
-                <button onClick={() => toggleInlineStyle('ITALIC')}>Cursiva</button>
-                <button onClick={saveContent}>Guardar</button>
+            <div className='flex'>
+                <button className='btn interaction' onClick={() => toggleInlineStyle('BOLD')}>
+                    <img src={Bold} alt='Bold' />
+                </button>
+                <button className='btn interaction' onClick={() => toggleInlineStyle('UNDERLINE')}>
+                    <img src={UnderLine} alt='UnderLine' />
+                </button>
+                <button className='btn interaction' onClick={() => toggleInlineStyle('ITALIC')}>
+                    <img src={Italic} alt='Italic' />
+                </button>
+                <button className='btn interaction' onClick={saveContent}>Save</button>
             </div>
+            <hr className='my-5' />
             <Editor
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand}

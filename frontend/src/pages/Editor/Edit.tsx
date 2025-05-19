@@ -1,5 +1,5 @@
-import React from "react";
-import { data, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import Header from "../../components/Header";
 
@@ -8,19 +8,31 @@ import { FaBold } from "react-icons/fa";
 import { FaItalic } from "react-icons/fa";
 import { FaUnderline } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
+
 import { E_Act } from '../../entities/Act.entity'
+import { addAct, deleteAct, SubmitStory } from "../../Hooks/HandleEditor";
+
+// import {
+//     Editor,
+//     EditorState,
+//     convertFromRaw,
+// } from 'draft-js';
+// import RichTextEditor from "../../components/RichEditor";
 
 import '../../css/edit.css'
 import '../../css/inputs.css'
-import Modal from "../../components/Modal";
 
 
 export default function Edit({ }) {
     const { title } = useParams();
     const userId = sessionStorage.getItem('user');
+
     const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new E_Act(1)]);
     const [currentAct, setCurrent] = useState(0);
-    const [modal, setModal] = useState(true);
+
+    // const [editorContent, setEditor] = useState(["", ""]);
+    // const onSave = ()=>{}
+
     const navigate = useNavigate();
 
     const handleChanges = (e: any) => {
@@ -32,60 +44,9 @@ export default function Edit({ }) {
 
     }
 
-    const addAct = () => {
-        setAct(prev => {
-            const newAct = [...prev, new E_Act(prev.length)];
-            setCurrent(newAct.length - 1);
-            return newAct;
-        });
-    }
-
-    const deleteAct = (index: number) => {
-        if (act.length > 1) {
-            setAct(prev => {
-                if (currentAct === index) {
-                    setCurrent(0)
-                } else if (currentAct > index) {
-                    setCurrent(index);
-                }
-                const newAct = prev.filter((_, i) => i !== index);
-                return newAct;
-            });
-        }
-    };
-
-    const hanldeSubmit = async (e: any) => {
-        try {
-            const story = {
-                title: title,
-                author_id: Number(userId),
-                synopsis: act[0].content,
-                visibility: true,
-            }
-            const acts = act.map((current) => { return { title: current.title, content: current.content } })
-            const data = {
-                story: story,
-                acts: acts
-            }
-
-            const res = await fetch('http://localhost:3000/api/story/publish', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-
-            if (!res.ok) {
-                throw new Error('Something is wrong with the backend');
-            }
-            const result = await res.json();
-            if (result.data !== undefined) navigate('/')
-
-
-        } catch (e) {
-            console.error(e.message);
-        }
+    const handleSubmit = async () => {
+        const sub = await SubmitStory(title, userId, act);
+        sub ? navigate('/') : console.error('something is wrong');
     }
 
     return (
@@ -98,12 +59,22 @@ export default function Edit({ }) {
                     </div>
                     <section className="e-editor-st-area">
                         <div className="flex justify-between">
-                            <input
-                                name="title"
-                                value={act[currentAct].title}
-                                placeholder="Titulo para tu acto"
-                                onChange={(e) => { handleChanges(e) }}
-                                className=" text-(--red-500) w-fit mb-2" />
+                            {currentAct === 0 ? (
+                                <input
+                                    name="title"
+                                    value={act[currentAct].title}
+                                    placeholder="Titulo para tu acto"
+                                    onChange={(e) => { handleChanges(e) }}
+                                    disabled
+                                    className="text-(--red-500) w-fit mb-2" />
+                            ) : (
+                                <input
+                                    name="title"
+                                    value={act[currentAct].title}
+                                    placeholder="Titulo para tu acto"
+                                    onChange={(e) => { handleChanges(e) }}
+                                    className=" text-(--red-500) w-fit mb-2" />
+                            )}
                             <div className="flex my-auto">
                                 <ImFontSize className="mr-2" />
                                 <FaBold className="mr-2" />
@@ -111,6 +82,7 @@ export default function Edit({ }) {
                                 <FaUnderline />
                             </div>
                         </div>
+                        {/* <RichTextEditor initialContent={editorContent[currentAct]} onSave={onSave} /> */}
                         <textarea
                             name="content"
                             value={act[currentAct].content}
@@ -130,7 +102,7 @@ export default function Edit({ }) {
                                         onClick={() => { setCurrent(index); }}>{current.title}</span>
                                     {index > 0 ? (
                                         <div className="ml-auto cursor-pointer opacity-20 hover:opacity-100 duration-200 ease-in-out"
-                                            onClick={() => { deleteAct(index); }} >
+                                            onClick={() => { deleteAct(act, setAct, index, currentAct, setCurrent); }} >
                                             <FaRegTrashAlt />
                                         </div>
                                     ) : (<></>)}
@@ -138,14 +110,14 @@ export default function Edit({ }) {
                             ))}
                         </ul>
                         <button className="bg-(--red-800) px-2 rounded-xl my-2 cursor-pointer hover:bg-(--red-600) duration-200"
-                            onClick={() => { addAct() }}>+</button>
+                            onClick={() => { addAct(setAct, setCurrent) }}>+</button>
                     </div>
 
                     <div className="e-sug">
                         <h4 className="text-(--red-500)">Suggestions</h4>
 
                     </div>
-                    <button className="btn red w-fit mt-2" onClick={(e) => { hanldeSubmit(e); }}>Publish</button>
+                    <button className="btn red w-fit mt-2" onClick={() => { handleSubmit(); }}>Publish</button>
                 </div>
             </main>
         </div>

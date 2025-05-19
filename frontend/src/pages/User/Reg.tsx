@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { BackendRoute } from '../../context/AppContext';
 import ParticlesBg from '../../components/ParticlesBg';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
+
 import { NameAlreadyUsed } from '../../Hooks/ValidateName';
 import { EmailInUse } from '../../Hooks/ValidateEmail';
 import { RegNewUser } from '../../Hooks/Register';
+import { HandleKey } from '../../Hooks/Handles';
 
 type RegData = {
     userData: {
@@ -19,17 +20,9 @@ type RegData = {
 }
 
 export default function Reg({ }) {
-
     const navigate = useNavigate();
-    const backRoute = useContext(BackendRoute);
-
     const [currentForm, setForm] = useState(1);
     const [confirmPass, setConf] = useState('');
-
-    useEffect(() => {
-        setForm(1);
-    }, [])
-
     const [inputs, setInput] = useState<RegData>({
         userData: {
             email: '',
@@ -42,9 +35,13 @@ export default function Reg({ }) {
 
     const [alert, setAlert] = useState("");
 
+    useEffect(() => {
+        setForm(1);
+        sessionStorage.removeItem('user');
+    }, [])
+
     const handleChanges = (e: any) => {
         const { name, value } = e.target;
-
         const userDataFields = ["email", "type_authentication", "authentication"];
 
         if (name === 'confirmPass') setConf(value);
@@ -66,6 +63,17 @@ export default function Reg({ }) {
             }
         });
     };
+
+    const HandleSubmit = async () => {
+        const NameUsed = await NameAlreadyUsed(inputs.user_name);
+        if (!NameUsed) {
+            const data = { ...inputs };
+            const backendResult = await RegNewUser(data, 'email', inputs.userData.email, inputs.user_name);
+            backendResult.data ? navigate('/') : setAlert(backendResult.message);
+        } else {
+            setAlert('Name already used');
+        }
+    }
 
 
     const fase1 = () => {
@@ -137,24 +145,12 @@ export default function Reg({ }) {
 
                     <div className='max-h-[60%] h-fit'>
                         <label htmlFor="text" >Description</label>
-                        <textarea name="description" value={inputs.description} onChange={(e) => { handleChanges(e) }} id="nameReg" placeholder="adan_gcm"></textarea>
+                        <textarea name="description" value={inputs.description} onChange={(e) => { handleChanges(e) }} onKeyDown={(e) => { HandleKey(e, HandleSubmit) }} id="nameReg" placeholder="adan_gcm"></textarea>
                     </div>
                 </fieldset>
 
-                <div className="flex w-full justify-between">
-                    <button className="btn " type="button" onClick={() => { setForm(prev => (prev - 1)) }} >Return</button>
-                    <button className="btn " type="submit" onClick={async (e) => {
-                        console.log('entro aqui')
-                        const NameUsed = await NameAlreadyUsed(inputs.user_name);
-                        if (!NameUsed) {
-                            const data = { ...inputs };
-                            const backendResult = await RegNewUser(data, 'email', inputs.userData.email, inputs.user_name);
-                            backendResult.data ? navigate('/') : setAlert(backendResult.message);
-                        } else {
-                            setAlert('Name already used');
-                        }
-                    }} >Next</button>
-                </div>
+
+                <button className="btn w-fit ml-auto" type="submit" onClick={() => { HandleSubmit(); }} >Next</button>
             </form>)
     }
 
@@ -172,7 +168,7 @@ export default function Reg({ }) {
     return (
         <div className="flex flex-col min-h-screen min-w-screen items-center justify-center overflow-hidden">
             <ParticlesBg></ParticlesBg>
-            <header className="mb-[-40px] z-3 flex flex-col">
+            <header className="z-3 flex flex-col">
                 <h5 className="text-center font-medium mb-[-20px]">Welcome to</h5>
                 <h1 className="text-center font-bold mt-0 text-(--red-500)">ActOne</h1>
             </header>

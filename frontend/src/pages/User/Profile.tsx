@@ -30,8 +30,6 @@ export default function Profile() {
                 if (!upd) return;
                 setUser(upd);
 
-                // if (upd.published_stories.length === 0) console.log('historias publicadas vacias');
-                // if (upd.marked_stories.length === 0) console.log('historias marcadas vacias');
                 const pubStories = await Promise.all(upd.published_stories.map(async (current, index) => {
                     const story = await GetStory(current);
                     if (!story) return;
@@ -45,7 +43,7 @@ export default function Profile() {
                     if (!story) return;
                     return story
                 }));
-                markStories.length > 0 ? setMarked(markStories): setMarked([]);
+                markStories.length > 0 ? setMarked(markStories) : setMarked([]);
             }
         }
         fetchData();
@@ -56,19 +54,19 @@ export default function Profile() {
             <div className='flex h-(--page-h)'>
                 <main className='flex m-auto w-[95%] h-[95%] bg-(--dark-200) p-5 rounded-2xl'>
                     <section className='flex flex-col h-full w-[20%] '>
-                        <article className='flex flex-col h-[60%] items-center'>
+                        <article className='flex flex-col h-[60%] my-auto items-center'>
                             <img className='w-[50%] h-fit my-4 aspect-square object-cover  rounded-full mx-auto' src='https://kinsta.com/wp-content/uploads/2022/06/nest-js-logo.png' />
                             <h4 className='font-bold'>@{currentUser.user_name}</h4>
-                            <p className='text-(--gray)'>{currentUser.description}</p>
-                            <ul className='flex flex-wrap justify-around w-[80%] my-3 text-[#9a9999]'>
-                                {/* Me hace falta un fetch para obtener los likes y comentarios  del usuario*/}
-                                <li className='flex items-center mx-5'> <img src={Like} className='h-[15px] mr-2' /> 0 </li>
-                                <li className='flex items-center mx-5'> <img src={Comments} className='h-[15px] mr-2' /> 0 </li>
-                                <li className='flex items-center mx-5'> <img src={VoidMark} className='h-[15px] mr-2' /> 0 </li>
-                                <li className='flex items-center mx-5'> <FaRegUser className='h-[15px] mr-2' /> {currentUser.followers} </li>
-                                <li className='flex items-center mx-5'> <RiUserFollowLine className='h-[15px] mr-2' /> {currentUser.following} </li>
-                            </ul>
+                            <p className='text-(--gray)'>{currentUser.description !== '' ? (<>{currentUser.description}</>) : (<>No hay descripcion</>)}</p>
                         </article>
+                        <ul className='flex mb-3 mx-auto text-[#9a9999]'>
+                            {/* Me hace falta un fetch para obtener los likes y comentarios  del usuario*/}
+                            <li className='flex items-center mx-5'> <img src={Like} className='h-[15px] mr-2' /> 0 </li>
+                            <li className='flex items-center mx-5'> <img src={Comments} className='h-[15px] mr-2' /> 0 </li>
+                            <li className='flex items-center mx-5'> <img src={VoidMark} className='h-[15px] mr-2' /> 0 </li>
+                            <li className='flex items-center mx-5'> <FaRegUser className='h-[15px] mr-2' /> {currentUser.followers} </li>
+                            <li className='flex items-center mx-5'> <RiUserFollowLine className='h-[15px] mr-2' /> {currentUser.following} </li>
+                        </ul>
                     </section>
 
                     <section className='w-[80%] h-full'>
@@ -81,11 +79,11 @@ export default function Profile() {
                         <article className='grid grid-cols-2 gap-5 p-2 bg-(--dark-400) w-full h-[90%]'>
                             {tab === 0 ? pubList.map((current, index) => (
                                 <div key={index} >
-                                    <FeedCard story={current.story} authorName={'hola'}/>
+                                    <FeedCard story={current.story} authorName={'hola'} />
                                 </div>
                             )) : markedList.map((current, index) => (
                                 <div key={index} >
-                                    <FeedCard story={current.story} authorName={'hola'}/>
+                                    <FeedCard story={current.story} authorName={'hola'} />
                                 </div>
                             ))}
                         </article>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import ParticlesBg from "../../components/ParticlesBg";
@@ -46,13 +46,14 @@ export default function LogIn({ }) {
         }
     }
 
+    useEffect(() => { sessionStorage.removeItem('user'); }, [])
+
     return (
         <div className="flex flex-col min-h-screen min-w-screen items-center justify-center overflow-hidden">
             <ParticlesBg></ParticlesBg>
-            <header className="mb-[-40px] z-3 flex flex-col">
+            <header className=" z-3 flex flex-col">
                 <h5 className="text-center font-medium mb-[-20px]">Welcome to</h5>
                 <h1 className="text-center font-bold mt-0 text-(--red-500)">ActOne</h1>
-                <span className="text-center mx-auto">LogIn</span>
             </header>
 
 
@@ -65,7 +66,9 @@ export default function LogIn({ }) {
                             loop
                             autoplay
                         />
-                    </div>) : (<div className="text-(--red-700) text-center">{alert}</div>)}
+                    </div>) : (<>{alert === '' ? (
+                        <span className="text-center">Log In</span>) : (
+                        <span className="text-(--red-600) text-center">{alert}</span>)}</>)}
                     <div>
                         <label htmlFor="emailLog" >Email</label>
                         <input id="emailLog" name="email" value={inputs.email} onChange={(e) => { handleChanges(e) }}
@@ -85,9 +88,6 @@ export default function LogIn({ }) {
                         console.log(data.email);
                         handleSubmit(data.email, 'google');
                     }} onError={() => { setAlert('Error, try again') }} />
-                    {/* <button className="p-2 btn" type="button" aria-label="Continue with google">
-                        <img src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" />
-                        Continue with Google</button> */}
                     <a className="m-4" href="/register">I don't have account</a>
                 </div>
                 <button className="btn red ml-auto" type="submit" >Continue</button>
