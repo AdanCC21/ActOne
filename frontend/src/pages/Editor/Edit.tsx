@@ -10,7 +10,7 @@ import { FaUnderline } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 import { E_Act } from '../../entities/Act.entity'
-import { addAct, deleteAct, SubmitStory } from "../../Hooks/HandleEditor";
+import { addAct, deleteAct, HandleSuggestions, SubmitStory } from "../../Hooks/HandleEditor";
 
 // import {
 //     Editor,
@@ -22,13 +22,13 @@ import { addAct, deleteAct, SubmitStory } from "../../Hooks/HandleEditor";
 import '../../css/edit.css'
 import '../../css/inputs.css'
 
-
 export default function Edit({ }) {
     const { title } = useParams();
     const userId = sessionStorage.getItem('user');
 
     const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new E_Act(1)]);
     const [currentAct, setCurrent] = useState(0);
+    const [suggestions, setSuggestions] = useState({ maxWords: '', badWords: [''], wordMostUsed: [''], intWords: [''] });
 
     // const [editorContent, setEditor] = useState(["", ""]);
     // const onSave = ()=>{}
@@ -41,12 +41,17 @@ export default function Edit({ }) {
         setAct(prev => prev.map((current, index) =>
             index === currentAct ? { ...current, [name]: value } : current
         ));
-
+        handleSug(act[currentAct].content);
     }
 
     const handleSubmit = async () => {
         const sub = await SubmitStory(title, userId, act);
         sub ? navigate('/') : console.error('something is wrong');
+    }
+
+    const handleSug = (text: string) => {
+        const sugg = HandleSuggestions(text);
+        setSuggestions(sugg);
     }
 
     return (
@@ -92,7 +97,7 @@ export default function Edit({ }) {
                     </section>
                 </div>
 
-                <div className="flex flex-col mr-[1em]">
+                <div className="flex max-w-[12vw] w-[12vw] flex-col mr-[1em]">
                     <div className="e-acts">
                         <h4 className="text-(--red-500)">Actos</h4>
                         <ul>
@@ -115,7 +120,28 @@ export default function Edit({ }) {
 
                     <div className="e-sug">
                         <h4 className="text-(--red-500)">Suggestions</h4>
-
+                        <p className="mb-3">{suggestions.maxWords}</p>
+                        {suggestions.wordMostUsed ? (
+                            <p>
+                                {suggestions.wordMostUsed[0]}
+                                <span className="font-bold text-(--red-400)">"{suggestions.wordMostUsed[1]}"</span>
+                                {suggestions.wordMostUsed[2]}
+                            </p>
+                        ) : (<></>)}
+                        {suggestions.badWords[0] ? (
+                            <>
+                                <p className="mb-1">Procura no usar malas palabras.</p>
+                                <span className="text-(--gray)"> Palabras encontradas :</span>
+                                <ul className="text-(--gray)">
+                                    {suggestions.badWords.map((current, index) => (
+                                        <li className="ml-5">{current}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                        {suggestions.intWords}
                     </div>
                     <button className="btn red w-fit mt-2" onClick={() => { handleSubmit(); }}>Publish</button>
                 </div>
