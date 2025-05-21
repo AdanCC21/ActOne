@@ -77,8 +77,12 @@ const BadWordsList: string[] = [
     "chingada",
     "chingar",
     "mierd@",
+    "mierda",
     "hdp",
-    "hijo de puta"
+    "hijo de puta",
+    "maricon",
+    "joto",
+    "haro",
 ];
 
 const StopWords: string[] = [
@@ -110,7 +114,8 @@ const interestingWords: string[] = [
     "trauma", "abandono", "infidelidad", "ruptura", "misterio", "sorpresa",
     "impacto", "dolor", "locura", "obsesión", "culpa", "mentira", "adicción",
     "escándalos", "abusos", "pérdida", "tentación", "descontrol", "engañó",
-    "fama", "revelación", "pánico", "traidor"
+    "fama", "revelación", "pánico", "traidor", "traiciono", "traicion", "abuso", "ilegal",
+    "pecado","pecar", "falso"
 ];
 
 
@@ -129,8 +134,9 @@ export function HandleSuggestions(text: string) {
     }
 
     const intWords = HaveInterestingWords(maxWords.wordsList);
-    if (intWords.length > 0) ansewer.intWords = intWords;
+    intWords.length > 0 ? ansewer.intWords = intWords : ansewer.intWords = [''];
 
+    console.log(ansewer);
     return ansewer;
 }
 

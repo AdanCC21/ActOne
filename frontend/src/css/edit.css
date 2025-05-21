@@ -15,7 +15,6 @@
     border-radius: 16px;
     
     height: fit-content;
-    max-height: 50%;
     
     background-color: var(--dark-400);
     margin-bottom: 1em;
@@ -28,6 +27,7 @@
     flex-grow: 1;
     text-overflow: ellipsis;
     background-color: var(--dark-400);
+    overflow-y: auto;
 }
 
 .e-editor{

@@ -35,6 +35,8 @@ export default function Edit({ }) {
 
     const navigate = useNavigate();
 
+    useEffect(() => { handleSug(act[currentAct].content); }, [currentAct, act[currentAct].content])
+
     const handleChanges = (e: any) => {
         const { name, value } = e.target;
 
@@ -65,13 +67,14 @@ export default function Edit({ }) {
                     <section className="e-editor-st-area">
                         <div className="flex justify-between">
                             {currentAct === 0 ? (
-                                <input
-                                    name="title"
-                                    value={act[currentAct].title}
-                                    placeholder="Titulo para tu acto"
-                                    onChange={(e) => { handleChanges(e) }}
-                                    disabled
-                                    className="text-(--red-500) w-fit mb-2" />
+                                <h4 className="mb-4 text-(--red-500)">Sinposis</h4>
+                                // <input
+                                //     name="title"
+                                //     value={act[currentAct].title}
+                                //     placeholder="Titulo para tu acto"
+                                //     onChange={(e) => { handleChanges(e) }}
+                                //     disabled
+                                //     className="text-(--red-500) w-fit mb-2" />
                             ) : (
                                 <input
                                     name="title"
@@ -97,14 +100,14 @@ export default function Edit({ }) {
                     </section>
                 </div>
 
-                <div className="flex max-w-[12vw] w-[12vw] flex-col mr-[1em]">
-                    <div className="e-acts">
+                <div className="flex max-w-[15vw] w-[15vw] flex-col mr-[1em]">
+                    <div className="e-acts max-h-[40%]">
                         <h4 className="text-(--red-500)">Actos</h4>
                         <ul>
                             {act.map((current, index) => (
                                 <li key={index} className="flex items-center">
                                     <span className={`truncate max-w-[250px] overflow-hidden whitespace-nowrap ${index === currentAct ? 'text-(--red-600)' : ''} cursor-pointer`}
-                                        onClick={() => { setCurrent(index); }}>{current.title}</span>
+                                        onClick={() => { setCurrent(index); handleSug(act[currentAct].content); }}>{current.title}</span>
                                     {index > 0 ? (
                                         <div className="ml-auto cursor-pointer opacity-20 hover:opacity-100 duration-200 ease-in-out"
                                             onClick={() => { deleteAct(act, setAct, index, currentAct, setCurrent); }} >
@@ -118,34 +121,43 @@ export default function Edit({ }) {
                             onClick={() => { addAct(setAct, setCurrent) }}>+</button>
                     </div>
 
-                    <div className="e-sug">
+                    <div className="e-sug max-h-[60%]">
                         <h4 className="text-(--red-500)">Suggestions</h4>
-                        <p className="mb-3">{suggestions.maxWords}</p>
-                        {suggestions.wordMostUsed ? (
-                            <p>
+                        {suggestions.maxWords ? (<p className="mb-5">- {suggestions.maxWords} <span className="text-(--gray)">Considera usar mas actos</span></p>) : (<></>)}
+                        {suggestions.wordMostUsed[0] ? (
+                            <p className="mb-5">-
                                 {suggestions.wordMostUsed[0]}
-                                <span className="font-bold text-(--red-400)">"{suggestions.wordMostUsed[1]}"</span>
+                                <span className="font-bold text-(--red-500)"> "{suggestions.wordMostUsed[1]}"</span>
                                 {suggestions.wordMostUsed[2]}
                             </p>
                         ) : (<></>)}
                         {suggestions.badWords[0] ? (
                             <>
-                                <p className="mb-1">Procura no usar malas palabras.</p>
+                                <p>- Procura no usar malas palabras.</p>
                                 <span className="text-(--gray)"> Palabras encontradas :</span>
-                                <ul className="text-(--gray)">
+                                <ul className="mb-5 text-(--gray)">
                                     {suggestions.badWords.map((current, index) => (
-                                        <li className="ml-5">{current}</li>
+                                        <li className="ml-5" key={index}>{current}</li>
                                     ))}
                                 </ul>
                             </>
                         ) : (
                             <></>
                         )}
-                        {suggestions.intWords}
+                        {suggestions.intWords[0] ? (
+                            <>
+                                <p>Considera remarcar estas palabras:</p>
+                                <ul className="mb-5">
+                                    {suggestions.intWords.map((current, index) => (
+                                        <li className="ml-5 font-bold text-(--red-500)" key={index}>{current}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        ) : (<></>)}
                     </div>
                     <button className="btn red w-fit mt-2" onClick={() => { handleSubmit(); }}>Publish</button>
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     )
 }
