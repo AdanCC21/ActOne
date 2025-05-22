@@ -25,3 +25,14 @@ export async function GetStories() {
         return { message: e.message, data: null };
     }
 }
+
+export async function SearchStory(title: string) {
+    try {
+        const fetchData = await fetch(`http://localhost:3000/api/search/title/${title}`);
+        if (!fetchData.ok) throw new Error("Error with the featch: " + fetchData.status);
+        return await fetchData.json();
+    }catch(e){
+        console.error(e);
+        return null;
+    }
+}

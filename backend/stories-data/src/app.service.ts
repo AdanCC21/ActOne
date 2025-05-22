@@ -13,7 +13,8 @@ export class AppService {
             const results = await this.prismaSer.storieData.findMany({
                 where: {
                     title: {
-                        contains: title
+                        contains: title,
+                        mode: 'insensitive'
                     }
                 }
             })
@@ -23,6 +24,50 @@ export class AppService {
             return false;
         }
     }
+
+    async SearchByDuration(duration: string) {
+        try {
+            const results = await this.prismaSer.storieData.findMany({
+                where: {
+                    duration: duration
+                }
+            })
+            return { message: 'ok', data: results };
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+    }
+
+    async SearchByAuthor(author: number) {
+        try {
+            const results = await this.prismaSer.storieData.findMany({
+                where: {
+                    author_id: author
+                }
+            })
+            return { message: 'ok', data: results };
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+    }
+
+    // async SearchByLabels(labels:string) {
+    //     try {
+    //         const results = await this.prismaSer.storieData.findMany({
+    //             where: {
+    //                 labels:{
+                        
+    //                 }
+    //             }
+    //         })
+    //         return { message: 'ok', data: results };
+    //     } catch (e) {
+    //         console.error(e);
+    //         return false;
+    //     }
+    // }
 
     async ListStories() {
         try {

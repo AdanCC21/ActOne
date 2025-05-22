@@ -31,9 +31,10 @@ export default function FeedCard({ story, authorName }: Props) {
                 setAuthor('undefined');
             }
         }
-        if (authorName== undefined || authorName == null) fetchData();
+        if (authorName == undefined || authorName == null) fetchData();
     }, [])
 
+    console.log(story);
     return (
         <article className="feed-card">
             <div onClick={() => {
@@ -60,6 +61,12 @@ export default function FeedCard({ story, authorName }: Props) {
                     func={() => { MarkStory(story.id, Number(userId)) }}
                     amount={story.marked_count} />
                 <Reports extraClass='mx-2 my-auto' state={false} func={() => { Report(story.author_id, story.id) }} amount={story.reports_count} />
+                <p className='text-(--gray) mx-2'>{story.duration}</p>
+                <ul className='mx-2 text-(--gray) max-w-[100px] overflow-x-auto'>
+                    {story.labels[0] ? story.labels.map((current) => (
+                        <li>#{current}</li>
+                    )) : (<></>)}
+                </ul>
             </section>
         </article>
     )

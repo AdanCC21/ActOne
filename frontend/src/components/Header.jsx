@@ -7,22 +7,21 @@ import './css/header.css'
 import Modal from './Modal'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import { SearchStory } from '../Hooks/GetStory'
 
 export default function Header({ }) {
     const userId = sessionStorage.getItem('user');
-    let [modalAnimation, setAnimation] = useState("hidden");
-    let [title, setTitle] = useState("");
-    let [actTitle, setAct] = useState("");
-    let [alert, setAlert] = useState("");
-    let [currentMod, setModal] = useState(0);
+
+    const [modalAnimation, setAnimation] = useState("hidden");
+    const [title, setTitle] = useState("");
+    const [alert, setAlert] = useState("");
+    const [inputSearch, setSearch] = useState("");
+    const [searchRes, setResults] = useState([]);
+
     const navigate = useNavigate();
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
-    }
-
-    const handleAct = (e) => {
-        setAct(e.target.value);
     }
 
     const handleKey = (e) => {
@@ -39,6 +38,14 @@ export default function Header({ }) {
             navigate(`/edit/${title}`);
         }
 
+    }
+
+    const handleSearch = async (e) => {
+        const { value } = e.target;
+        setSearch(value);
+
+        const fetchBack = await SearchStory(value);
+        if(fetchBack != null) setResults(fetchBack.data);
     }
 
     return (
@@ -69,11 +76,20 @@ export default function Header({ }) {
 
             <div className='h-nav'>
                 <form className='h-nav-search' onSubmit={(e) => { e.preventDefault(); }}>
-                    <input className='rounded-2xl' id='searcher' type='text' ></input>
-                    <button className="btn m-auto " type="button" aria-label="search something">
+                    <fieldset className='h-nav-input '>
+                        <input id='searcher' 
+                        type='text' value={inputSearch} onChange={(e) => { handleSearch(e) }} />
+                        <ul className='absolute max-h-[200px] overflow-y-scroll'>
+                            {searchRes.map((current,index) => (
+                                <li className='mb-2 hover:outline-1' onClick={()=>{navigate(`/story/${current.id}`)}}>{current.title}</li>
+                            ))}
+                        </ul>
+                    </fieldset>
+                    <button className="btn my-auto " type="button" aria-label="search something">
                         <img src={searcher} alt='searcher' />
                     </button>
                 </form>
+                
                 <div className='h-nav-items'>
                     <div className='h-nav-add' onClick={() => {
                         !userId ? navigate('/login') : setAnimation("show fadeIn")

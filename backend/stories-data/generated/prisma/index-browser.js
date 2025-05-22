@@ -127,6 +127,8 @@ exports.Prisma.StorieDataScalarFieldEnum = {
   comments_count: 'comments_count',
   reports_count: 'reports_count',
   marked_count: 'marked_count',
+  labels: 'labels',
+  duration: 'duration',
   visibility: 'visibility',
   creation_date: 'creation_date',
   mody_date: 'mody_date'

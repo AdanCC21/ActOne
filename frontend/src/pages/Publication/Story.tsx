@@ -13,7 +13,8 @@ import { GetStory } from '../../Hooks/GetStory'
 import { useNavigate, useParams } from 'react-router-dom'
 import { GetComments, SubmitComment } from '../../Hooks/Comments'
 import { PostLike, Report } from '../../Hooks/HandlePD'
-import { GetMarkCount, MarkStory } from '../../Hooks/Marked'
+import { MarkStory } from '../../Hooks/Marked'
+import tempUser from '../../assets/tempUser.png'
 
 
 export default function Story() {
@@ -42,11 +43,11 @@ export default function Story() {
     loadStory();
   }, [])
 
-  const handleInput = (e) => {
+  const handleInput = (e:any) => {
     setInput(e.target.value);
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     if (e.key === 'Enter') {
       const fetchData = await SubmitComment(Number(userId), story.story.id, inputVal);
       if (!fetchData) return
@@ -64,9 +65,11 @@ export default function Story() {
         <section className='flex flex-col bg-(--dark-400) h-full w-[20%] rounded-xl'>
           {/* Profile */}
           <article className='flex flex-col h-[50%] w-[80%] mx-auto my-2'>
-            <img src={story.upd.profile_image_url ? (story.upd.profile_image_url) : ('')}
+            <img src={tempUser}
               className='w-[200px] rounded-full m-auto ' />
-            <h3 className='text-center font-semibold'>{story.upd.user_name}</h3>
+            {/* <img src={story.upd.profile_image_url ? (story.upd.profile_image_url) : ('')}
+              className='w-[200px] rounded-full m-auto ' /> */}
+            <h3 className='text-center font-semibold'>@{story.upd.user_name}</h3>
             <span className='text-(--gray) text-center '>{story.upd.description}</span>
             <button className='btn red w-fit mx-auto my-2'>Seguir</button>
           </article>

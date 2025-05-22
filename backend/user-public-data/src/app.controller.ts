@@ -21,7 +21,7 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'validate/name' })
-  async ValidateUser(data:any) {
+  async ValidateUser(data: any) {
     const used = await this.appService.NameAlreadyUse(data);
     if (used) {
       return { message: "Name already in use", data: true };
@@ -30,15 +30,20 @@ export class AppController {
     }
   }
 
-  @MessagePattern({ cmd: 'get' })
+  @MessagePattern({ cmd: 'get/by/id' })
   async GetUPDApi(data: { id: number }) {
     return await this.appService.findOne(data.id);
   }
 
-  @Post('update')
-  async UpdateUPD(@Body() data: UpdateUserDTO) {
-    return await this.appService.updateUser(data);
+  @MessagePattern({ cmd: 'get/by/name' })
+  async GetByName(@Payload() name: string) {
+    return await this.appService.findByName(name);
   }
+
+  // @Post('update')
+  // async UpdateUPD(@Body() data: UpdateUserDTO) {
+  //   return await this.appService.updateUser(data);
+  // }
 
   /**
    * 

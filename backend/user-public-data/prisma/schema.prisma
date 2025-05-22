@@ -12,10 +12,10 @@ model UserPublicData {
   user_name         String   @unique
   description       String   @default("")
   profile_image_url String   @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfwfzTPVw45cJcHNUp3sWUWLOkYAfQlAEBOQ&s")
-  // Followers count
-  followers         Int      @default(0)
-  // Following count
-  following         Int      @default(0)
+  // ids
+  followers         Int[]    @default([])
+  // ids
+  following         Int[]    @default([])
   published_stories Int[]    @default([])
   marked_stories    Int[]    @default([])
   modify_date       DateTime @default(now())

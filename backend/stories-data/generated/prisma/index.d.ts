@@ -1001,6 +1001,7 @@ export namespace Prisma {
     comments_count: number | null
     reports_count: number | null
     marked_count: number | null
+    duration: string | null
     visibility: boolean | null
     creation_date: Date | null
     mody_date: Date | null
@@ -1015,6 +1016,7 @@ export namespace Prisma {
     comments_count: number | null
     reports_count: number | null
     marked_count: number | null
+    duration: string | null
     visibility: boolean | null
     creation_date: Date | null
     mody_date: Date | null
@@ -1030,6 +1032,8 @@ export namespace Prisma {
     comments_count: number
     reports_count: number
     marked_count: number
+    labels: number
+    duration: number
     visibility: number
     creation_date: number
     mody_date: number
@@ -1066,6 +1070,7 @@ export namespace Prisma {
     comments_count?: true
     reports_count?: true
     marked_count?: true
+    duration?: true
     visibility?: true
     creation_date?: true
     mody_date?: true
@@ -1080,6 +1085,7 @@ export namespace Prisma {
     comments_count?: true
     reports_count?: true
     marked_count?: true
+    duration?: true
     visibility?: true
     creation_date?: true
     mody_date?: true
@@ -1095,6 +1101,8 @@ export namespace Prisma {
     comments_count?: true
     reports_count?: true
     marked_count?: true
+    labels?: true
+    duration?: true
     visibility?: true
     creation_date?: true
     mody_date?: true
@@ -1197,6 +1205,8 @@ export namespace Prisma {
     comments_count: number
     reports_count: number
     marked_count: number
+    labels: string[]
+    duration: string
     visibility: boolean
     creation_date: Date
     mody_date: Date
@@ -1231,6 +1241,8 @@ export namespace Prisma {
     comments_count?: boolean
     reports_count?: boolean
     marked_count?: boolean
+    labels?: boolean
+    duration?: boolean
     visibility?: boolean
     creation_date?: boolean
     mody_date?: boolean
@@ -1246,6 +1258,8 @@ export namespace Prisma {
     comments_count?: boolean
     reports_count?: boolean
     marked_count?: boolean
+    labels?: boolean
+    duration?: boolean
     visibility?: boolean
     creation_date?: boolean
     mody_date?: boolean
@@ -1261,6 +1275,8 @@ export namespace Prisma {
     comments_count?: boolean
     reports_count?: boolean
     marked_count?: boolean
+    labels?: boolean
+    duration?: boolean
     visibility?: boolean
     creation_date?: boolean
     mody_date?: boolean
@@ -1276,12 +1292,14 @@ export namespace Prisma {
     comments_count?: boolean
     reports_count?: boolean
     marked_count?: boolean
+    labels?: boolean
+    duration?: boolean
     visibility?: boolean
     creation_date?: boolean
     mody_date?: boolean
   }
 
-  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "author_id" | "title" | "synopsis" | "acts" | "likes_count" | "comments_count" | "reports_count" | "marked_count" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
+  export type StorieDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "author_id" | "title" | "synopsis" | "acts" | "likes_count" | "comments_count" | "reports_count" | "marked_count" | "labels" | "duration" | "visibility" | "creation_date" | "mody_date", ExtArgs["result"]["storieData"]>
 
   export type $StorieDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StorieData"
@@ -1296,6 +1314,8 @@ export namespace Prisma {
       comments_count: number
       reports_count: number
       marked_count: number
+      labels: string[]
+      duration: string
       visibility: boolean
       creation_date: Date
       mody_date: Date
@@ -1731,6 +1751,8 @@ export namespace Prisma {
     readonly comments_count: FieldRef<"StorieData", 'Int'>
     readonly reports_count: FieldRef<"StorieData", 'Int'>
     readonly marked_count: FieldRef<"StorieData", 'Int'>
+    readonly labels: FieldRef<"StorieData", 'String[]'>
+    readonly duration: FieldRef<"StorieData", 'String'>
     readonly visibility: FieldRef<"StorieData", 'Boolean'>
     readonly creation_date: FieldRef<"StorieData", 'DateTime'>
     readonly mody_date: FieldRef<"StorieData", 'DateTime'>
@@ -3144,6 +3166,8 @@ export namespace Prisma {
     comments_count: 'comments_count',
     reports_count: 'reports_count',
     marked_count: 'marked_count',
+    labels: 'labels',
+    duration: 'duration',
     visibility: 'visibility',
     creation_date: 'creation_date',
     mody_date: 'mody_date'
@@ -3262,6 +3286,8 @@ export namespace Prisma {
     comments_count?: IntFilter<"StorieData"> | number
     reports_count?: IntFilter<"StorieData"> | number
     marked_count?: IntFilter<"StorieData"> | number
+    labels?: StringNullableListFilter<"StorieData">
+    duration?: StringFilter<"StorieData"> | string
     visibility?: BoolFilter<"StorieData"> | boolean
     creation_date?: DateTimeFilter<"StorieData"> | Date | string
     mody_date?: DateTimeFilter<"StorieData"> | Date | string
@@ -3277,6 +3303,8 @@ export namespace Prisma {
     comments_count?: SortOrder
     reports_count?: SortOrder
     marked_count?: SortOrder
+    labels?: SortOrder
+    duration?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3295,6 +3323,8 @@ export namespace Prisma {
     comments_count?: IntFilter<"StorieData"> | number
     reports_count?: IntFilter<"StorieData"> | number
     marked_count?: IntFilter<"StorieData"> | number
+    labels?: StringNullableListFilter<"StorieData">
+    duration?: StringFilter<"StorieData"> | string
     visibility?: BoolFilter<"StorieData"> | boolean
     creation_date?: DateTimeFilter<"StorieData"> | Date | string
     mody_date?: DateTimeFilter<"StorieData"> | Date | string
@@ -3310,6 +3340,8 @@ export namespace Prisma {
     comments_count?: SortOrder
     reports_count?: SortOrder
     marked_count?: SortOrder
+    labels?: SortOrder
+    duration?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3333,6 +3365,8 @@ export namespace Prisma {
     comments_count?: IntWithAggregatesFilter<"StorieData"> | number
     reports_count?: IntWithAggregatesFilter<"StorieData"> | number
     marked_count?: IntWithAggregatesFilter<"StorieData"> | number
+    labels?: StringNullableListFilter<"StorieData">
+    duration?: StringWithAggregatesFilter<"StorieData"> | string
     visibility?: BoolWithAggregatesFilter<"StorieData"> | boolean
     creation_date?: DateTimeWithAggregatesFilter<"StorieData"> | Date | string
     mody_date?: DateTimeWithAggregatesFilter<"StorieData"> | Date | string
@@ -3396,6 +3430,8 @@ export namespace Prisma {
     comments_count?: number
     reports_count?: number
     marked_count?: number
+    labels?: StorieDataCreatelabelsInput | string[]
+    duration?: string
     visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
@@ -3411,6 +3447,8 @@ export namespace Prisma {
     comments_count?: number
     reports_count?: number
     marked_count?: number
+    labels?: StorieDataCreatelabelsInput | string[]
+    duration?: string
     visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
@@ -3425,6 +3463,8 @@ export namespace Prisma {
     comments_count?: IntFieldUpdateOperationsInput | number
     reports_count?: IntFieldUpdateOperationsInput | number
     marked_count?: IntFieldUpdateOperationsInput | number
+    labels?: StorieDataUpdatelabelsInput | string[]
+    duration?: StringFieldUpdateOperationsInput | string
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3440,6 +3480,8 @@ export namespace Prisma {
     comments_count?: IntFieldUpdateOperationsInput | number
     reports_count?: IntFieldUpdateOperationsInput | number
     marked_count?: IntFieldUpdateOperationsInput | number
+    labels?: StorieDataUpdatelabelsInput | string[]
+    duration?: StringFieldUpdateOperationsInput | string
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3455,6 +3497,8 @@ export namespace Prisma {
     comments_count?: number
     reports_count?: number
     marked_count?: number
+    labels?: StorieDataCreatelabelsInput | string[]
+    duration?: string
     visibility?: boolean
     creation_date?: Date | string
     mody_date?: Date | string
@@ -3469,6 +3513,8 @@ export namespace Prisma {
     comments_count?: IntFieldUpdateOperationsInput | number
     reports_count?: IntFieldUpdateOperationsInput | number
     marked_count?: IntFieldUpdateOperationsInput | number
+    labels?: StorieDataUpdatelabelsInput | string[]
+    duration?: StringFieldUpdateOperationsInput | string
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3484,6 +3530,8 @@ export namespace Prisma {
     comments_count?: IntFieldUpdateOperationsInput | number
     reports_count?: IntFieldUpdateOperationsInput | number
     marked_count?: IntFieldUpdateOperationsInput | number
+    labels?: StorieDataUpdatelabelsInput | string[]
+    duration?: StringFieldUpdateOperationsInput | string
     visibility?: BoolFieldUpdateOperationsInput | boolean
     creation_date?: DateTimeFieldUpdateOperationsInput | Date | string
     mody_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3569,6 +3617,14 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -3595,6 +3651,8 @@ export namespace Prisma {
     comments_count?: SortOrder
     reports_count?: SortOrder
     marked_count?: SortOrder
+    labels?: SortOrder
+    duration?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3619,6 +3677,7 @@ export namespace Prisma {
     comments_count?: SortOrder
     reports_count?: SortOrder
     marked_count?: SortOrder
+    duration?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3633,6 +3692,7 @@ export namespace Prisma {
     comments_count?: SortOrder
     reports_count?: SortOrder
     marked_count?: SortOrder
+    duration?: SortOrder
     visibility?: SortOrder
     creation_date?: SortOrder
     mody_date?: SortOrder
@@ -3739,6 +3799,10 @@ export namespace Prisma {
     set: number[]
   }
 
+  export type StorieDataCreatelabelsInput = {
+    set: string[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -3754,6 +3818,11 @@ export namespace Prisma {
   export type StorieDataUpdateactsInput = {
     set?: number[]
     push?: number | number[]
+  }
+
+  export type StorieDataUpdatelabelsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type BoolFieldUpdateOperationsInput = {

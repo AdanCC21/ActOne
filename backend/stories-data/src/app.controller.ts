@@ -12,12 +12,26 @@ export class AppController {
     return await this.appService.FoundStoryById(id);
   }
 
-  @MessagePattern({ cmd: 'search/by/title' })
+
+  // --------------------------- SEARCH ---------------------------
+
+  @MessagePattern({ cmd: 'search/title' })
   async SearchByTitle(@Payload() title: string) {
     return await this.appService.SearchByTitle(title);
   }
 
-  @MessagePattern({ cmd: 'get-list' })
+  @MessagePattern({ cmd: 'search/duration' })
+  async SearchByDuration(@Payload() duration: string) {
+    return await this.appService.SearchByDuration(duration);
+  }
+
+  @MessagePattern({ cmd: 'search/author' })
+  async SearchByAuthor(@Payload() author: number) {
+    return await this.appService.SearchByAuthor(author);
+  }
+
+
+  @MessagePattern({ cmd: 'get/list' })
   async ListStories() {
     return await this.appService.ListStories();
   }

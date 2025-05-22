@@ -53,12 +53,12 @@ export class AppService {
    * @param user Only the attributes your are going to change
    * @returns the user updated or null
    */
-  async updateUser(user: UpdateUserDTO) {
-    const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: user.id } });
-    if (!userFound) return null;
+  // async updateUser(user: UpdateUserDTO) {
+  //   const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: user.id } });
+  //   if (!userFound) return null;
 
-    return await this.prismaSer.userPublicData.update({ where: { id: user.id }, data: user })
-  }
+  //   return await this.prismaSer.userPublicData.update({ where: { id: user.id }, data: user })
+  // }
 
   // --------------- Saved / Marked ------------------- //
   /**
@@ -169,6 +169,14 @@ export class AppService {
     const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: id } });
     if (!userExist) {
       return { message: 'user not found', status: 404 }
+    }
+    return { message: 'success', status: 200, data: userExist };
+  }
+
+  async findByName(name: string) {
+    const userExist = await this.prismaSer.userPublicData.findUnique({ where: { user_name: name } });
+    if (!userExist) {
+      return { message: 'user not found', status: 404, data: null }
     }
     return { message: 'success', status: 200, data: userExist };
   }

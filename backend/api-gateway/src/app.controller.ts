@@ -39,9 +39,9 @@ export class AppController {
 
   // -------------- UPD -------------- //
 
-  @Get("upd/get/:id")
+  @Get("upd/get/by/:id")
   async GetUser(@Param('id', ParseIntPipe) id: number) {
-    return this.updClient.send({ cmd: 'get' }, { id: id });
+    return this.updClient.send({ cmd: 'get/by/id' }, { id: id });
   }
 
   /**
@@ -83,7 +83,26 @@ export class AppController {
 
   @Get("list/stories")
   async GetStories() {
-    return this.storyClient.send({ cmd: "get-list" }, {});
+    return this.storyClient.send({ cmd: "get/list" }, {});
+  }
+
+  @Get("search/title/:title")
+  async SearchByTitle(@Param('title') title: string) {
+    return this.storyClient.send({ cmd: 'search/title' }, title)
+  }
+
+  @Get("search/duration/:duration")
+  async SearchByDuration(@Param('duration') duration: string) {
+    return this.storyClient.send({ cmd: "search/duration" }, duration);
+  }
+
+  @Get("search/author/:author")
+  async SearchByAuthor(@Param('author') author: string) {
+    const authorId = await firstValueFrom(this.updClient.send({ cmd: "get/by/name" }, author));
+    if(authorId.status === 200){
+      return this.storyClient.send({ cmd: "search/author" }, authorId.data.id);
+    }
+
   }
 
   // -------------- PD -------------- //

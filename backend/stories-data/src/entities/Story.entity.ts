@@ -10,14 +10,17 @@ export class Story {
     report_count: number;
     marked_count: number;
 
+    labels: string[];
+    duration: string;
+
     visibility: boolean;
     creation_date: Date;
     mody_date: Date;
 
     constructor();
-    constructor(title: string, acts: Array<number>, author_id: number, synopsis: string, visibility: boolean);
+    constructor(title: string, acts: Array<number>, author_id: number, synopsis: string, visibility: boolean, label?: string[], duration?: string);
 
-    constructor(title?: string, acts?: Array<number>, author_id?: number, synopsis?: string, visibility?: boolean) {
+    constructor(title?: string, acts?: Array<number>, author_id?: number, synopsis?: string, visibility?: boolean, label?: string[], duration?: string) {
         this.id = 0;
         this.title = title ?? '';
         this.author_id = author_id ?? 0;
@@ -28,6 +31,9 @@ export class Story {
         this.comments_count = 0;
         this.report_count = 0;
         this.marked_count = 0;
+
+        this.labels = label ?? [];
+        this.duration = duration ?? "Short";
 
         this.visibility = visibility ?? false;
         this.creation_date = new Date();

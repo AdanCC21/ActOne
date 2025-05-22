@@ -1,12 +1,22 @@
 import { E_Act } from "../entities/Act.entity"
 
-export async function SubmitStory(title, userId, act,) {
+export async function SubmitStory(title, userId, act, labels = [""], visibility = true) {
     try {
+        let duration = "Short";
+        if (act.length >= 3) {
+            if (act.length >= 6) {
+                duration = "Large";
+            }
+            duration = "Medium";
+        }
+
         const story = {
             title: title,
             author_id: Number(userId),
             synopsis: act[0].content,
-            visibility: true,
+            labels: labels,
+            duration: duration,
+            visibility: visibility,
         }
         const acts = act.map((current) => { return { title: current.title, content: current.content } })
         const data = {
@@ -86,7 +96,7 @@ const BadWordsList: string[] = [
 ];
 
 const StopWords: string[] = [
-    "a", "acá", "ahí", "al", "algo", "algunas", "algunos", "allá", "allí",
+    "a", "y", "acá", "ahí", "al", "algo", "algunas", "algunos", "allá", "allí",
     "antes", "así", "aun", "aunque", "bien", "cada", "casi", "como", "con",
     "contra", "cual", "cuales", "cuando", "de", "del", "desde", "donde",
     "dos", "el", "él", "ella", "ellas", "ellos", "en", "entre", "era", "erais",
@@ -130,7 +140,7 @@ export function HandleSuggestions(text: string) {
 
     if (maxWords.wordsList.length > 30) {
         const wordMostUsed = WordMostUsed(maxWords.wordsList);
-        if (wordMostUsed != null) ansewer.wordMostUsed = ["La palabra que mas usas es", wordMostUsed.palabra, ". Considera remarcarla si es algo importante."]
+        if (wordMostUsed != null) ansewer.wordMostUsed = ["La palabra mas usada es", wordMostUsed.palabra, ". Considera remarcarla si es algo importante."]
     }
 
     const intWords = HaveInterestingWords(maxWords.wordsList);
