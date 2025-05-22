@@ -34,7 +34,7 @@ export default function FeedCard({ story, authorName }: Props) {
         if (authorName == undefined || authorName == null) fetchData();
     }, [])
 
-    console.log(story);
+    // console.log(story);
     return (
         <article className="feed-card">
             <div onClick={() => {

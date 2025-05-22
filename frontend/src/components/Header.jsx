@@ -4,7 +4,7 @@ import notification from '../assets/notification.svg'
 import searcher from '../assets/buscador.png'
 import tempUser from '../assets/tempUser.png'
 import './css/header.css'
-import Modal from './Modal'
+import Modal2 from './Modal2'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { SearchStory } from '../Hooks/GetStory'
@@ -12,7 +12,7 @@ import { SearchStory } from '../Hooks/GetStory'
 export default function Header({ }) {
     const userId = sessionStorage.getItem('user');
 
-    const [modalAnimation, setAnimation] = useState("hidden");
+    const [modalState, setModal] = useState(false);
     const [title, setTitle] = useState("");
     const [alert, setAlert] = useState("");
     const [inputSearch, setSearch] = useState("");
@@ -35,6 +35,7 @@ export default function Header({ }) {
             setAlert("empty title");
             return;
         } else {
+            setModal(false);
             navigate(`/edit/${title}`);
         }
 
@@ -75,7 +76,7 @@ export default function Header({ }) {
 
     return (
         <header className='header'>
-            <Modal extraClass={modalAnimation}  >
+            <Modal2 isOpen={modalState} onClose={() => { setModal(false) }} >
                 <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
                     <label htmlFor='title'><h3 className='text-(--red-500) font-semibold my-2'>Titulo</h3></label>
                     <div className='flex flex-col my-2'>
@@ -88,11 +89,11 @@ export default function Header({ }) {
                         )}
                     </div>
                     <div className='flex w-full ml-auto mt-auto'>
-                        <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setAnimation("fadeOut"); setAlert('') }}>Cancelar</button>
+                        <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setModal(false); setAlert('') }}>Cancelar</button>
                         <button type='submit' className='btn red w-fit ml-3'>Subir</button>
                     </div>
                 </form>
-            </Modal>
+            </Modal2>
 
             <div onClick={() => { navigate('/') }} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
                 <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' />
@@ -120,7 +121,7 @@ export default function Header({ }) {
 
                 <div className='h-nav-items'>
                     <div className='h-nav-add' onClick={() => {
-                        !userId ? navigate('/login') : setAnimation("show fadeIn")
+                        !userId ? navigate('/login') : setModal(true)
                     }} >
                         <span className='mr-2'>+</span>Add
                     </div>

@@ -1,6 +1,6 @@
 import { E_Act } from "../entities/Act.entity"
 
-export async function SubmitStory(title, userId, act, labels = [""], visibility = true) {
+export async function SubmitStory(title, userId, act, labels, visibility) {
     try {
         let duration = "Short";
         if (act.length >= 3) {
@@ -10,6 +10,7 @@ export async function SubmitStory(title, userId, act, labels = [""], visibility 
             duration = "Medium";
         }
 
+        console.log(visibility)
         const story = {
             title: title,
             author_id: Number(userId),

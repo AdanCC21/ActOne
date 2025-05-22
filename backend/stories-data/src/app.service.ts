@@ -144,6 +144,7 @@ export class AppService {
 
     async PublishStory(story: CreateStoryDto, acts: CreateActDto[]) {
         try {
+            console.log(story);
             const storyRes = await this.prismaSer.storieData.create({ data: story });
 
             const actsId = await Promise.all(

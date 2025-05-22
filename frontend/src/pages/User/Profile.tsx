@@ -85,11 +85,11 @@ export default function Profile() {
                         <article className='grid grid-cols-2 gap-5 p-2 bg-(--dark-400) w-full h-[90%]'>
                             {tab === 0 ? pubList.map((current, index) => (
                                 <div key={index} >
-                                    <FeedCard story={current.story} authorName={'hola'} />
+                                    <FeedCard story={current.story} authorName={currentUser.user_name} />
                                 </div>
                             )) : markedList.map((current, index) => (
                                 <div key={index} >
-                                    <FeedCard story={current.story} authorName={'hola'} />
+                                    <FeedCard story={current.story} authorName={''} />
                                 </div>
                             ))}
                         </article>

@@ -3,8 +3,6 @@ import Header from "../components/Header"
 import FeedCard from "../components/FeedCard"
 import SideBar from "../components/SideBar"
 import { GetStories } from "../Hooks/GetStory"
-import { GetUPD } from "../Hooks/GetUPD"
-import { E_Story } from "../entities/Story.entity"
 
 
 export default function Home({ }) {
@@ -31,11 +29,14 @@ export default function Home({ }) {
         <SideBar />
         <section className="flex flex-col w-[50vw] mx-auto my-10">
           {storiesList.length > 0 ? (
-            storiesList.map((current, index) => (
-              <div key={index}>
-                <FeedCard story={current}></FeedCard>
-              </div>
-            ))
+
+            storiesList.map((current: any, index) => {
+              if (current.visibility) {
+                return (<div key={index}>
+                  <FeedCard story={current}></FeedCard>
+                </div>)
+              }
+            })
           ) : (
             <span className="text-(--gray) text-center">We don't have stories :(</span>
           )}

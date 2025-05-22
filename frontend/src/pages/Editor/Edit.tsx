@@ -21,17 +21,17 @@ import { addAct, deleteAct, HandleSuggestions, SubmitStory } from "../../Hooks/H
 
 import '../../css/edit.css'
 import '../../css/inputs.css'
+import Modal2 from "../../components/Modal2";
 
 export default function Edit({ }) {
     const { title } = useParams();
     const userId = sessionStorage.getItem('user');
 
     const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new E_Act(1)]);
+    const [storyDetails, setDetails] = useState({ visibility: false, labels: [''] });
     const [currentAct, setCurrent] = useState(0);
     const [suggestions, setSuggestions] = useState({ maxWords: '', badWords: [''], wordMostUsed: [''], intWords: [''] });
-
-    // const [editorContent, setEditor] = useState(["", ""]);
-    // const onSave = ()=>{}
+    const [modalState, setModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -46,9 +46,26 @@ export default function Edit({ }) {
         handleSug(act[currentAct].content);
     }
 
+    const handleDetails = (e: any) => {
+        const { name, value } = e.target;
+        if (name === 'visibility') {
+            value === 'true' ? setDetails(prev => { return { ...prev, visibility: true } }) : setDetails(prev => { return { ...prev, visibility: false } })
+        } else {
+            const labelsList = value.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/);
+            setDetails(prev => { return { ...prev, labels: labelsList } })
+        }
+        console.log(storyDetails);
+    }
+
     const handleSubmit = async () => {
-        const sub = await SubmitStory(title, userId, act);
+        const sub = await SubmitStory(title, userId, act, storyDetails.labels, storyDetails.visibility);
+        console.log(sub);
         sub ? navigate('/') : console.error('something is wrong');
+    }
+
+
+    const handlePublish = () => {
+        setModal(true);
     }
 
     const handleSug = (text: string) => {
@@ -156,9 +173,32 @@ export default function Edit({ }) {
                         )}
 
                     </div>
-                    <button className="btn red w-fit mt-2" onClick={() => { handleSubmit(); }}>Publish</button>
+                    <button className="btn red w-fit mt-2" onClick={() => { handlePublish(); }}>Publish</button>
                 </div>
             </main >
+            <Modal2 isOpen={modalState} onClose={() => { setModal(false) }}>
+                <form className="flex flex-col" onSubmit={(e) => { e.preventDefault(); }}>
+                    <h1 className="mb-10">Last Details</h1>
+
+                    <fieldset className="mb-5 flex flex-col">
+                        <h5 className="text-(--red-500)">Visibility</h5>
+                        <select className="bg-(--dark-700) px-3 py-2" name="visibility" onChange={(e) => { handleDetails(e) }}>
+                            <option value={'false'}>Private</option>
+                            <option value={'true'}>Public</option>
+                        </select>
+                    </fieldset>
+                    <hr />
+                    <fieldset className="mb-5 flex flex-col">
+                        <h5 className="mt-5 text-(--red-500)">Labels</h5>
+                        <input placeholder="Lables" type="text" onChange={(e) => { handleDetails(e) }}></input>
+                    </fieldset>
+
+                    <div className="flex mt-5">
+                        <button className="ml-auto mr-2 w-fit btn void" onClick={() => { setModal(false) }}>Cancel</button>
+                        <button className="w-fit btn red" onClick={() => { handleSubmit() }}>Submit</button>
+                    </div>
+                </form>
+            </Modal2>
         </div >
     )
 }
