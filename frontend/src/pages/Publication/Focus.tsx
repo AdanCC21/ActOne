@@ -63,7 +63,7 @@ export default function Focus() {
                     {currentAct === 0 ? (
                         <h1>{story.story.title}</h1>
                     ) : (<></>)}
-                    <h5 className='text-(--red-800)'>{story.acts[currentAct].title}</h5>
+                    <h5 className='text-(--yellow-800)'>{story.acts[currentAct].title}</h5>
                     <p>{story.acts[currentAct].content}</p>
                 </div>
 

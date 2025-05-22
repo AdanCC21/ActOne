@@ -57,11 +57,11 @@
 }
 
 .btn.red {
-    background-color: var(--red-700);
+    background-color: var(--yellow-700);
 }
 
 .btn.red:hover {
-    background-color: var(--red-900);
+    background-color: var(--yellow-900);
 }
 
 /* -------- COLORES -------- */
@@ -117,6 +117,6 @@
 }
 
 .red-button:hover {
-    background-color: var(--red-800);
+    background-color: var(--yellow-800);
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
 } */

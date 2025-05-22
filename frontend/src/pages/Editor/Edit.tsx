@@ -84,21 +84,21 @@ export default function Edit({ }) {
                     <section className="e-editor-st-area">
                         <div className="flex justify-between">
                             {currentAct === 0 ? (
-                                <h4 className="mb-4 text-(--red-500)">Sinposis</h4>
+                                <h4 className="mb-4 text-(--yellow-500)">Sinposis</h4>
                                 // <input
                                 //     name="title"
                                 //     value={act[currentAct].title}
                                 //     placeholder="Titulo para tu acto"
                                 //     onChange={(e) => { handleChanges(e) }}
                                 //     disabled
-                                //     className="text-(--red-500) w-fit mb-2" />
+                                //     className="text-(--yellow-500) w-fit mb-2" />
                             ) : (
                                 <input
                                     name="title"
                                     value={act[currentAct].title}
                                     placeholder="Titulo para tu acto"
                                     onChange={(e) => { handleChanges(e) }}
-                                    className=" text-(--red-500) w-fit mb-2" />
+                                    className=" text-(--yellow-500) w-fit mb-2" />
                             )}
                             <div className="flex my-auto">
                                 <ImFontSize className="mr-2" />
@@ -119,11 +119,11 @@ export default function Edit({ }) {
 
                 <div className="flex max-w-[15vw] w-[15vw] flex-col mr-[1em]">
                     <div className="e-acts max-h-[40%]">
-                        <h4 className="text-(--red-500)">Actos</h4>
+                        <h4 className="text-(--yellow-500)">Actos</h4>
                         <ul>
                             {act.map((current, index) => (
                                 <li key={index} className="flex items-center">
-                                    <span className={`truncate max-w-[250px] overflow-hidden whitespace-nowrap ${index === currentAct ? 'text-(--red-600)' : ''} cursor-pointer`}
+                                    <span className={`truncate max-w-[250px] overflow-hidden whitespace-nowrap ${index === currentAct ? 'text-(--yellow-600)' : ''} cursor-pointer`}
                                         onClick={() => { setCurrent(index); handleSug(act[currentAct].content); }}>{current.title}</span>
                                     {index > 0 ? (
                                         <div className="ml-auto cursor-pointer opacity-20 hover:opacity-100 duration-200 ease-in-out"
@@ -134,18 +134,18 @@ export default function Edit({ }) {
                                 </li>
                             ))}
                         </ul>
-                        <button className="bg-(--red-800) px-2 rounded-xl my-2 cursor-pointer hover:bg-(--red-600) duration-200"
+                        <button className="bg-(--yellow-800) px-2 rounded-xl my-2 cursor-pointer hover:bg-(--yellow-600) duration-200"
                             onClick={() => { addAct(setAct, setCurrent) }}>+</button>
                     </div>
 
                     <div className="e-sug max-h-[60%]">
-                        <h4 className="text-(--red-500)">Suggestions</h4>
+                        <h4 className="text-(--yellow-500)">Suggestions</h4>
                         {suggestions.intWords[0] ? (
                             <>
                                 <p>Considera remarcar estas palabras:</p>
                                 <ul className="mb-5">
                                     {suggestions.intWords.map((current, index) => (
-                                        <li className="ml-5 font-bold text-(--red-500)" key={index}>{current}</li>
+                                        <li className="ml-5 font-bold text-(--yellow-500)" key={index}>{current}</li>
                                     ))}
                                 </ul>
                             </>
@@ -154,7 +154,7 @@ export default function Edit({ }) {
                         {suggestions.wordMostUsed[0] ? (
                             <p className="mb-5">-
                                 {suggestions.wordMostUsed[0]}
-                                <span className="font-bold text-(--red-500)"> "{suggestions.wordMostUsed[1]}"</span>
+                                <span className="font-bold text-(--yellow-500)"> "{suggestions.wordMostUsed[1]}"</span>
                                 {suggestions.wordMostUsed[2]}
                             </p>
                         ) : (<></>)}
@@ -181,7 +181,7 @@ export default function Edit({ }) {
                     <h1 className="mb-10">Last Details</h1>
 
                     <fieldset className="mb-5 flex flex-col">
-                        <h5 className="text-(--red-500)">Visibility</h5>
+                        <h5 className="text-(--yellow-500)">Visibility</h5>
                         <select className="bg-(--dark-700) px-3 py-2" name="visibility" onChange={(e) => { handleDetails(e) }}>
                             <option value={'false'}>Private</option>
                             <option value={'true'}>Public</option>
@@ -189,7 +189,7 @@ export default function Edit({ }) {
                     </fieldset>
                     <hr />
                     <fieldset className="mb-5 flex flex-col">
-                        <h5 className="mt-5 text-(--red-500)">Labels</h5>
+                        <h5 className="mt-5 text-(--yellow-500)">Labels</h5>
                         <input placeholder="Lables" type="text" onChange={(e) => { handleDetails(e) }}></input>
                     </fieldset>
 

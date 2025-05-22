@@ -78,14 +78,14 @@ export default function Header({ }) {
         <header className='header'>
             <Modal2 isOpen={modalState} onClose={() => { setModal(false) }} >
                 <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
-                    <label htmlFor='title'><h3 className='text-(--red-500) font-semibold my-2'>Titulo</h3></label>
+                    <label htmlFor='title'><h3 className='text-(--yellow-500) font-semibold my-2'>Titulo</h3></label>
                     <div className='flex flex-col my-2'>
                         <input id='title' placeholder='Titulo' className='my-auto'
                             name='title' value={title} onChange={(e) => { handleTitle(e) }} onKeyDown={(e) => { handleKey(e) }} />
                         {alert === '' ? (
-                            <span className='none text-(--red-600) '>{alert}</span>
+                            <span className='none text-(--yellow-600) '>{alert}</span>
                         ) : (
-                            <span className='text-(--red-600) '>{alert}</span>
+                            <span className='text-(--yellow-600) '>{alert}</span>
                         )}
                     </div>
                     <div className='flex w-full ml-auto mt-auto'>
@@ -96,8 +96,8 @@ export default function Header({ }) {
             </Modal2>
 
             <div onClick={() => { navigate('/') }} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
-                <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' />
-                <h3 className='my-auto font-semibold text-(--red-500)'>ActOne</h3>
+                {/* <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' /> */}
+                <h3 className='my-auto font-semibold text-(--yellow-500)'>ActOne</h3>
             </div>
 
             <div className='h-nav'>
@@ -114,7 +114,7 @@ export default function Header({ }) {
                         </section>) : (<></>)}
 
                     </fieldset>
-                    <button className="btn red my-auto h-nav-search-btn" type="button" aria-label="search something">
+                    <button className="btn  my-auto h-nav-search-btn" type="button" aria-label="search something">
                         <img src={searcher} alt='searcher' />
                     </button>
                 </form>

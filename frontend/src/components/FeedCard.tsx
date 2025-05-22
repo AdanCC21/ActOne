@@ -41,7 +41,7 @@ export default function FeedCard({ story, authorName }: Props) {
                 navigator(`/story/${story.id}`);
             }} >
                 <header className='flex justify-between h-fit'>
-                    <h4 className='font-semibold text-(--red-500)'>{story.title}</h4>
+                    <h4 className='font-semibold text-(--yellow-500)'>{story.title}</h4>
                     <div className='flex h-full my-auto'>
                         <span className='my-auto mr-2'>{author}</span>
                         <img src={userProfile} />

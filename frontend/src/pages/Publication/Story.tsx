@@ -118,7 +118,7 @@ export default function Story() {
                   <img src='https://openclipart.org/image/2000px/247319' />
                 </button>
               </div>
-              <h5 className='font-semibold  text-(--red-800)'>{story.acts[currentAct].title}</h5>
+              <h5 className='font-semibold  text-(--yellow-800)'>{story.acts[currentAct].title}</h5>
             </div>
 
             <div className='ml-auto flex mt-2'>

@@ -80,7 +80,7 @@ export default function Reg({ }) {
         return (<form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
             <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
                 <span className="text-center mx-auto">Register</span>
-                <span className='text-(--red-800) text-center'>{alert}</span>
+                <span className='text-(--yellow-800) text-center'>{alert}</span>
                 <div>
                     <label htmlFor="emailLog" >Email</label>
                     <input name="email" value={inputs.userData.email} onChange={(e) => { handleChanges(e) }} id="emailReg" type="email" placeholder="user@gmail.com"></input>
@@ -133,10 +133,10 @@ export default function Reg({ }) {
     const fase2 = () => {
         return (
             <form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
-                <legend className="text-center mt-5 text-(--red-100)">
+                <legend className="text-center mt-5 text-(--yellow-100)">
                     <span>Hi, what is your name?</span>
                 </legend>
-                <span className='text-center text-(--red-800)'>{alert}</span>
+                <span className='text-center text-(--yellow-800)'>{alert}</span>
                 <fieldset className="flex flex-col  h-[70%] max-h-[80%] mt-[10%]">
                     <div className='mb-5'>
                         <label htmlFor="text" >Name</label>
@@ -170,7 +170,7 @@ export default function Reg({ }) {
             <ParticlesBg></ParticlesBg>
             <header className="z-3 flex flex-col">
                 <h5 className="text-center font-medium mb-[-20px]">Welcome to</h5>
-                <h1 className="text-center font-bold mt-0 text-(--red-500)">ActOne</h1>
+                <h1 className="text-center font-bold mt-0 text-(--yellow-500)">ActOne</h1>
             </header>
 
             {getForm()}

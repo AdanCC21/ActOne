@@ -10,7 +10,7 @@ export default function WelcomeBack({ }) {
 
             <div className='flex flex-col m-auto text-center'>
                 <h3>Bienvenido</h3>
-                <h1 className='text-(--red-500) font-bold uppercase mx-2'>{name}</h1>
+                <h1 className='text-(--yellow-500) font-bold uppercase mx-2'>{name}</h1>
             </div>
         </div>
     )

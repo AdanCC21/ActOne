@@ -77,9 +77,9 @@ export default function Profile() {
 
                     <section className='w-[80%] h-full'>
                         <nav className='flex h-[6%]'>
-                            <div className={`px-4 py-2 ${tab === 0 ? 'bg-(--dark-400) text-(--red-500) font-semibold' : 'bg-(--dark-800) text-(--gray)'} cursor-pointer  rounded-t-md transition-all ease-in-out duration-150`}
+                            <div className={`px-4 py-2 ${tab === 0 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-800) text-(--gray)'} cursor-pointer  rounded-t-md transition-all ease-in-out duration-150`}
                                 onClick={() => { setTab(0) }}><p>Historias Publicadas</p></div>
-                            <div className={`px-4 py-2 ${tab === 1 ? 'bg-(--dark-400) text-(--red-500) font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
+                            <div className={`px-4 py-2 ${tab === 1 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
                                 onClick={() => { setTab(1) }}><p>Historias Guardadas</p></div>
                         </nav>
                         <article className='grid grid-cols-2 gap-5 p-2 bg-(--dark-400) w-full h-[90%]'>

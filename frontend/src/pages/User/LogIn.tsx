@@ -53,7 +53,7 @@ export default function LogIn({ }) {
             <ParticlesBg></ParticlesBg>
             <header className=" z-3 flex flex-col">
                 <h5 className="text-center font-medium mb-[-20px]">Welcome to</h5>
-                <h1 className="text-center font-bold mt-0 text-(--red-500)">ActOne</h1>
+                <h1 className="text-center font-bold mt-0 text-(--yellow-500)">ActOne</h1>
             </header>
 
 
@@ -68,7 +68,7 @@ export default function LogIn({ }) {
                         />
                     </div>) : (<>{alert === '' ? (
                         <span className="text-center">Log In</span>) : (
-                        <span className="text-(--red-600) text-center">{alert}</span>)}</>)}
+                        <span className="text-(--yellow-600) text-center">{alert}</span>)}</>)}
                     <div>
                         <label htmlFor="emailLog" >Email</label>
                         <input id="emailLog" name="email" value={inputs.email} onChange={(e) => { handleChanges(e) }}

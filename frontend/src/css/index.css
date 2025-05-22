@@ -10,6 +10,7 @@ body {
 
 :root {
 
+  /* calor */
   /* --dark-50:#1F1F1F;
   --dark-100:#1A1A1A;
   --dark-200:#1c1717;
@@ -31,17 +32,43 @@ body {
   --dark-700: #0B0B0E;
   --dark-800: #060608;
 
-  --red-50: #fef3f2;
-  --red-100: #fee4e2;
-  --red-200: #ffcec9;
-  --red-300: #fdaca4;
-  --red-400: #fa7b6f;
-  --red-500: #f25041;
-  --red-600: #df3323;
-  --red-700: #bc2719;
-  --red-800: #9b2419;
-  --red-900: #81241b;
-  --red-950: #460e09;
+
+  --yellow-50:  #fefce8;
+  --yellow-100: #fef9c3;
+  --yellow-200: #fef08a;
+  --yellow-300: #fde047;
+  --yellow-400: #facc15;
+  --yellow-500: #eab308;
+  --yellow-600: #ca8a04;
+  --yellow-700: #a16207;
+  --yellow-800: #854d0e;
+  --yellow-900: #713f12;
+
+  /* Blue */
+  /* --yellow-50: #f0f4ff;
+  --yellow-100: #d9e2ff;
+  --yellow-200: #b0c4ff;
+  --yellow-300: #86a4ff;
+  --yellow-400: #5e83f4;
+  --yellow-500: #3e65e4;
+  --yellow-600: #2e4fc4;
+  --yellow-700: #223e9e;
+  --yellow-800: #192d73;
+  --yellow-900: #111d47;
+  --yellow-950: #0a1026; */
+
+  /* RED */
+  /* --yellow-50: #fef3f2;
+  --yellow-100: #fee4e2;
+  --yellow-200: #ffcec9;
+  --yellow-300: #fdaca4;
+  --yellow-400: #fa7b6f;
+  --yellow-500: #f25041;
+  --yellow-600: #df3323;
+  --yellow-700: #bc2719;
+  --yellow-800: #9b2419;
+  --yellow-900: #81241b;
+  --yellow-950: #460e09; */
 
   --gray: #737373;
 
@@ -70,18 +97,18 @@ html {
 
 h1 {
   font-size: 3rem;
-  color: var(--red-500);
+  color: var(--yellow-500);
   font-weight: 600;
 }
 
 h2 {
   font-size: 2.5rem;
-  color: var(--red-500);
+  color: var(--yellow-500);
 }
 
 h3 {
   font-size: 2rem;
-  color: var(--red-500);
+  color: var(--yellow-500);
 }
 
 h4 {
@@ -104,7 +131,7 @@ a {
 
 a:hover {
   text-decoration: underline;
-  color: var(--red-400);
+  color: var(--yellow-400);
 }
 
 input {

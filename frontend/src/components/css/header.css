@@ -27,7 +27,7 @@
 .h-nav-search{
     display: flex;
     width: fit-content;
-    background-color: var(--red-900);
+    background-color: var(--dark-800);
     justify-content: end;
     border-radius: 12px;
 }
