@@ -26,12 +26,26 @@ export async function GetStories() {
     }
 }
 
-export async function SearchStory(title: string) {
+export async function SearchStory(value: string, filtro: string) {
     try {
-        const fetchData = await fetch(`http://localhost:3000/api/search/title/${title}`);
-        if (!fetchData.ok) throw new Error("Error with the featch: " + fetchData.status);
-        return await fetchData.json();
-    }catch(e){
+        if (filtro === 'labels') {
+            const data = { labels: value.split('/\s+/') };
+            const fetchData = await fetch(`http://localhost:3000/api/search/${filtro}`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json',
+                },
+                body: JSON.stringify(data)
+            }
+            );
+            if (!fetchData.ok) throw new Error("Error with the featch: " + fetchData.status);
+            return await fetchData.json();
+        } else {
+            const fetchData = await fetch(`http://localhost:3000/api/search/${filtro}/${value}`);
+            if (!fetchData.ok) throw new Error("Error with the featch: " + fetchData.status);
+            return await fetchData.json();
+        }
+    } catch (e) {
         console.error(e);
         return null;
     }

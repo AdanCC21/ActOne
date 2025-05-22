@@ -99,10 +99,20 @@ export class AppController {
   @Get("search/author/:author")
   async SearchByAuthor(@Param('author') author: string) {
     const authorId = await firstValueFrom(this.updClient.send({ cmd: "get/by/name" }, author));
-    if(authorId.status === 200){
+    if (authorId.status === 200) {
       return this.storyClient.send({ cmd: "search/author" }, authorId.data.id);
     }
+    return { message: 'not found', data: null };
+  }
 
+  @Get("search/acts/:actsNumber")
+  async SearchByActsNumber(@Param('actsNumber', ParseIntPipe) actsNumber: number) {
+    return this.storyClient.send({ cmd: "search/actsNumber" }, actsNumber);
+  }
+
+  @Post("search/labels")
+  async SearchByLabels(@Body() data: any) {
+    return this.storyClient.send({ cmd: "search/labels" }, data);
   }
 
   // -------------- PD -------------- //

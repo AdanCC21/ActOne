@@ -44,9 +44,34 @@ export default function Header({ }) {
         const { value } = e.target;
         setSearch(value);
 
-        const fetchBack = await SearchStory(value);
-        if(fetchBack != null) setResults(fetchBack.data);
-    }
+        if (!value || value.length <= 1) return;
+
+        let fetchBack;
+
+        if (/^[0-9]/.test(value)) {
+            fetchBack = await SearchStory(value.slice(1), 'acts');
+        } else {
+            switch (value[0]) {
+                case '@':
+                    fetchBack = await SearchStory(value.slice(1), 'author');
+                    break;
+                case '~':
+                    fetchBack = await SearchStory(value.slice(1), 'duration');
+                    break;
+                case '#':
+                    fetchBack = await SearchStory(value.slice(1), 'label');
+                    break;
+                default:
+                    fetchBack = await SearchStory(value, 'title');
+                    break;
+            }
+        }
+
+        if (fetchBack) {
+            fetchBack.data ? setResults(fetchBack.data) : setResults([]);
+        }
+    };
+
 
     return (
         <header className='header'>
@@ -77,19 +102,22 @@ export default function Header({ }) {
             <div className='h-nav'>
                 <form className='h-nav-search' onSubmit={(e) => { e.preventDefault(); }}>
                     <fieldset className='h-nav-input '>
-                        <input id='searcher' 
-                        type='text' value={inputSearch} onChange={(e) => { handleSearch(e) }} />
-                        <ul className='absolute max-h-[200px] overflow-y-scroll'>
-                            {searchRes.map((current,index) => (
-                                <li className='mb-2 hover:outline-1' onClick={()=>{navigate(`/story/${current.id}`)}}>{current.title}</li>
-                            ))}
-                        </ul>
+                        <input className='h-nav-input-search-box' id='searcher'
+                            type='text' value={inputSearch} onChange={(e) => { handleSearch(e) }} />
+                        {searchRes[0] && inputSearch ? (<section className='h-nav-input-box'>
+                            <ul>
+                                {searchRes.map((current, index) => (
+                                    <li className='mb-2 hover:outline-1' onClick={() => { navigate(`/story/${current.id}`) }}>{current.title}</li>
+                                ))}
+                            </ul>
+                        </section>) : (<></>)}
+
                     </fieldset>
-                    <button className="btn my-auto " type="button" aria-label="search something">
+                    <button className="btn red my-auto h-nav-search-btn" type="button" aria-label="search something">
                         <img src={searcher} alt='searcher' />
                     </button>
                 </form>
-                
+
                 <div className='h-nav-items'>
                     <div className='h-nav-add' onClick={() => {
                         !userId ? navigate('/login') : setAnimation("show fadeIn")

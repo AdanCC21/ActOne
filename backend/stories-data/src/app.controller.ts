@@ -30,6 +30,16 @@ export class AppController {
     return await this.appService.SearchByAuthor(author);
   }
 
+  @MessagePattern({ cmd: 'search/actsNumber' })
+  async SearchByActs(@Payload() actsNumber: number) {
+    return await this.appService.SearchByActs(actsNumber);
+  }
+
+  @MessagePattern({ cmd: 'search/labels' })
+  async SearchByLabels(@Payload() labels: any) {
+    return await this.appService.SearchByLabels(labels.labels);
+  }
+
 
   @MessagePattern({ cmd: 'get/list' })
   async ListStories() {

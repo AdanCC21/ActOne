@@ -21,7 +21,7 @@ export class AppService {
             return { message: 'ok', data: results };
         } catch (e) {
             console.error(e);
-            return false;
+            return { message: 'not found', data: null };
         }
     }
 
@@ -35,7 +35,7 @@ export class AppService {
             return { message: 'ok', data: results };
         } catch (e) {
             console.error(e);
-            return false;
+            return { message: 'not found', data: null };
         }
     }
 
@@ -49,25 +49,42 @@ export class AppService {
             return { message: 'ok', data: results };
         } catch (e) {
             console.error(e);
-            return false;
+            return { message: 'not found', data: null };
         }
     }
 
-    // async SearchByLabels(labels:string) {
-    //     try {
-    //         const results = await this.prismaSer.storieData.findMany({
-    //             where: {
-    //                 labels:{
-                        
-    //                 }
-    //             }
-    //         })
-    //         return { message: 'ok', data: results };
-    //     } catch (e) {
-    //         console.error(e);
-    //         return false;
-    //     }
-    // }
+    async SearchByActs(actsNumber: number) {
+        try {
+            console.log('entro en actos' + actsNumber)
+            const allStories = await this.prismaSer.storieData.findMany();
+
+            const filtered = allStories.filter(story => story.acts.length === actsNumber);
+
+            return { message: 'ok', data: filtered };
+        } catch (e) {
+            console.error(e);
+            return { message: 'not found', data: null };
+        }
+    }
+
+
+    async SearchByLabels(labels: string[]) {
+        try {
+            console.log("labels");
+            console.log(labels);
+            const results = await this.prismaSer.storieData.findMany({
+                where: {
+                    labels: {
+                        hasSome: labels
+                    }
+                }
+            })
+            return { message: 'ok', data: results };
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+    }
 
     async ListStories() {
         try {
