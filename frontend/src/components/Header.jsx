@@ -48,23 +48,23 @@ export default function Header({ }) {
 
         let fetchBack;
 
-        if (/^[0-9]/.test(value)) {
-            fetchBack = await SearchStory(value.slice(1), 'acts');
-        } else {
-            switch (value[0]) {
-                case '@':
-                    fetchBack = await SearchStory(value.slice(1), 'author');
-                    break;
-                case '~':
-                    fetchBack = await SearchStory(value.slice(1), 'duration');
-                    break;
-                case '#':
-                    fetchBack = await SearchStory(value.slice(1), 'label');
-                    break;
-                default:
-                    fetchBack = await SearchStory(value, 'title');
-                    break;
-            }
+
+        switch (value[0]) {
+            case '@':
+                fetchBack = await SearchStory(value.slice(1), 'author');
+                break;
+            case '~':
+                fetchBack = await SearchStory(value.slice(1), 'duration');
+                break;
+            case '#':
+                fetchBack = await SearchStory(value.slice(1), 'labels');
+                break;
+            case '-':
+                fetchBack = await SearchStory(value.slice(1), 'acts');
+                break;
+            default:
+                fetchBack = await SearchStory(value, 'title');
+                break;
         }
 
         if (fetchBack) {
