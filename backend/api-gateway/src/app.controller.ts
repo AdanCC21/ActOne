@@ -39,9 +39,14 @@ export class AppController {
 
   // -------------- UPD -------------- //
 
-  @Get("upd/get/by/:id")
+  @Get("upd/get/by/id/:id")
   async GetUser(@Param('id', ParseIntPipe) id: number) {
     return this.updClient.send({ cmd: 'get/by/id' }, { id: id });
+  }
+  
+  @Get("upd/get/by/name/:name")
+  async GetUserByName(@Param('name') name: string) {
+    return this.updClient.send({ cmd: 'get/by/name' }, name);
   }
 
   /**

@@ -24,14 +24,16 @@ export default function FeedCard({ story, authorName }: Props) {
         const fetchData = async () => {
             try {
                 const updData = await GetUPD(story.author_id)
-
+                console.log("awd");
+                console.log(story);
+                console.log(updData);
                 setAuthor(updData.user_name);
             } catch (e) {
                 console.error(e.message);
                 setAuthor('undefined');
             }
         }
-        if (authorName == undefined || authorName == null) fetchData();
+        if (!authorName) fetchData();
     }, [])
 
     // console.log(story);

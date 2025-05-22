@@ -16,13 +16,13 @@ window.global = window;
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ThemeProvider>
-      <BrowserRouter>
-        <GoogleOAuthProvider clientId={CLIENT_ID}>
-          <App />
-        </GoogleOAuthProvider>
-      </BrowserRouter>
-    </ThemeProvider>
-  </StrictMode>,
+
+  <ThemeProvider>
+    <BrowserRouter>
+      <GoogleOAuthProvider clientId={CLIENT_ID}>
+        <App />
+      </GoogleOAuthProvider>
+    </BrowserRouter>
+  </ThemeProvider>
+
 )

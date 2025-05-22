@@ -87,11 +87,11 @@ export default function Profile() {
                                 <div key={index} >
                                     <FeedCard story={current.story} authorName={currentUser.user_name} />
                                 </div>
-                            )) : markedList.map((current, index) => (
+                            )) : markedList.map((current, index) => {if(index > 0) return(
                                 <div key={index} >
-                                    <FeedCard story={current.story} authorName={''} />
+                                    <FeedCard story={current.story} />
                                 </div>
-                            ))}
+                            )})}
                         </article>
                     </section>
                 </main>
