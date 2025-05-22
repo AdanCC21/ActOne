@@ -18,5 +18,6 @@ model UserPublicData {
   following         Int[]    @default([])
   published_stories Int[]    @default([])
   marked_stories    Int[]    @default([])
+  stories_liked     Int[]    @default([])
   modify_date       DateTime @default(now())
 }

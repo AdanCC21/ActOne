@@ -40,7 +40,7 @@ export class AppController {
    * @param pubType story || comment
    * @returns {message, data:null || like}
    */
-  @MessagePattern({ cmd: 'post-like' })
+  @MessagePattern({ cmd: 'post/like' })
   async PostLike(data: any) {
     return await this.appService.InsertLike(data.userId, data.pubId, data.pubType);
   }

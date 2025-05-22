@@ -43,7 +43,7 @@ export class AppController {
   async GetUser(@Param('id', ParseIntPipe) id: number) {
     return this.updClient.send({ cmd: 'get/by/id' }, { id: id });
   }
-  
+
   @Get("upd/get/by/name/:name")
   async GetUserByName(@Param('name') name: string) {
     return this.updClient.send({ cmd: 'get/by/name' }, name);
@@ -134,8 +134,37 @@ export class AppController {
    * @returns {message, data:null || like}
    */
   @Post('pd/like')
-  async PostLike(@Body() data) {
-    return this.pdClient.send({ cmd: 'post-like' }, data)
+  async PostLike(@Body() data: any) {
+    /**
+     * 
+     * @param userId Id del usuario
+     * @param pubId Id de la publicacion
+     * @param pubType story || comment
+     * @returns {message, data:null || like}
+     */
+    // data{
+    //   pd:{
+    //     userId,
+    //     pubId,
+    //     pubType
+    //   },
+    //   upd:{
+    //     id,
+    //     username,
+    //     likes, etc
+    //   }
+    // }
+    const pdFetch = await firstValueFrom(this.pdClient.send({ cmd: 'post/like' }, { data: data.pd }));
+    if (pdFetch.data) {
+      /**
+       * Actualizar upd
+       * @param data {id:id, data:{informacion a actualizar}}
+       * @returns upd || null
+       */
+      const updFetch = await firstValueFrom(this.updClient.send({ cmd: '' }, { id: data.upd.id, data: data.upd }));
+      return updFetch;
+    }
+    return { message: 'bad', data: null };
   }
 
   /**

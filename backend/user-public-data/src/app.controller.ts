@@ -11,8 +11,8 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Post('create')
-  createUserPublic(@Body() userData: CreateUserDTO) {
-    return this.appService.createUser(userData);
+  async createUserPublic(@Body() userData: CreateUserDTO) {
+    return await this.appService.createUser(userData);
   }
 
   @Get('get/:id')
@@ -43,6 +43,16 @@ export class AppController {
   @MessagePattern({ cmd: 'follow' })
   async Follow(@Payload() data: any) {
     return await this.appService.Follow(data.origin, data.target, data.action);
+  }
+
+  /**
+   * Actualizar upd
+   * @param data {id:id, data:{informacion a actualizar}}
+   * @returns upd || null
+   */
+  @MessagePattern({ cmd: "update" })
+  async UpdateUPD(@Payload() data: any) {
+    return await this.appService.UpdateUPD(data.id, data.data);
   }
 
   // @Post('update')

@@ -24,9 +24,10 @@ export default function FeedCard({ story, authorName }: Props) {
         const fetchData = async () => {
             try {
                 const updData = await GetUPD(story.author_id)
-                console.log("awd");
-                console.log(story);
-                console.log(updData);
+                const updCurrentUsaer = await GetUPD(Number(userId));
+                if (updCurrentUsaer) {
+                    updCurrentUsaer
+                }
                 setAuthor(updData.user_name);
             } catch (e) {
                 console.error(e.message);
@@ -36,7 +37,6 @@ export default function FeedCard({ story, authorName }: Props) {
         if (!authorName) fetchData();
     }, [])
 
-    // console.log(story);
     return (
         <article className="feed-card">
             <div onClick={() => {

@@ -1,4 +1,5 @@
 export async function PostLike(userId: number, pubId: number, pubType: string) {
+    // Empujar el id de la publicacion a el UPD del usuario actual,
     try {
         const sendData = await fetch('http://localhost:3000/api/pd/like', {
             method: "POST",

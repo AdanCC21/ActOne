@@ -97,17 +97,21 @@ export class AppService {
     return { message: "ok", data: [updatedOrigin, updatedTarget] };
   }
 
-
   /**
-   * @param user Only the attributes your are going to change
-   * @returns the user updated or null
+   * 
+   * @param id 
+   * @param user 
+   * @returns {message , data:user || null}
    */
-  // async updateUser(user: UpdateUserDTO) {
-  //   const userFound = await this.prismaSer.userPublicData.findUnique({ where: { id: user.id } });
-  //   if (!userFound) return null;
+  async UpdateUPD(id: number, user: UpdateUserDTO) {
+    const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: id } });
+    if (!userExist) return { message: "user not found", data: null };
 
-  //   return await this.prismaSer.userPublicData.update({ where: { id: user.id }, data: user })
-  // }
+    const { id: _, ...userDataWithoutId } = user;
+    const result = await this.prismaSer.userPublicData.update({ where: { id: userExist.id }, data: userDataWithoutId })
+    if (result) return { message: "ok", data: result };
+    return { message: "Something is wrong", data: null };
+  }
 
   // --------------- Saved / Marked ------------------- //
   /**
