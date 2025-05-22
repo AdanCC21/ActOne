@@ -15,6 +15,8 @@ import { GetComments, SubmitComment } from '../../Hooks/Comments'
 import { PostLike, Report } from '../../Hooks/HandlePD'
 import { MarkStory } from '../../Hooks/Marked'
 import tempUser from '../../assets/tempUser.png'
+import { GetUPD } from '../../Hooks/GetUPD'
+import { Follow } from '../../Hooks/Follow'
 
 
 export default function Story() {
@@ -22,6 +24,7 @@ export default function Story() {
   const navigator = useNavigate();
 
   const userId = sessionStorage.getItem('user');
+  const [currentUser, setCurrent] = useState(new E_UPD());
   const [currentAct, setAct] = useState(0);
   const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()], upd: new E_UPD() });
   const [comments, setComments] = useState(Array<E_Comment>);
@@ -34,7 +37,11 @@ export default function Story() {
         navigator('/404');
         return
       }
+      // Commentario
       const commetsFetch = await GetComments(storyFetch.story.id);
+      // Current user
+      const updCU = await GetUPD(Number(userId));
+      setCurrent(updCU)
 
       setComments(commetsFetch.data);
       setStory(storyFetch)
@@ -43,11 +50,11 @@ export default function Story() {
     loadStory();
   }, [])
 
-  const handleInput = (e:any) => {
+  const handleInput = (e: any) => {
     setInput(e.target.value);
   }
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     if (e.key === 'Enter') {
       const fetchData = await SubmitComment(Number(userId), story.story.id, inputVal);
       if (!fetchData) return
@@ -55,6 +62,12 @@ export default function Story() {
       setInput('');
       window.location.reload();
     }
+  }
+
+  const handleFollow = async (action: boolean) => {
+    const follow = await Follow(currentUser.id, story.upd.id, action);
+    console.log(follow);
+    window.location.reload();
   }
 
   return (
@@ -71,7 +84,16 @@ export default function Story() {
               className='w-[200px] rounded-full m-auto ' /> */}
             <h3 className='text-center font-semibold'>@{story.upd.user_name}</h3>
             <span className='text-(--gray) text-center '>{story.upd.description}</span>
-            <button className='btn red w-fit mx-auto my-2'>Seguir</button>
+            {currentUser.id != story.upd.id ? (<>
+              {currentUser.following.includes(story.upd.id) ? (
+                <button className='btn red w-fit mx-auto my-2' onClick={() => { handleFollow(false) }}>Unfollow</button>
+              ) : (
+                <button className='btn red w-fit mx-auto my-2' onClick={() => { handleFollow(true) }}>Follow</button>
+              )
+              } </>
+            ) : (<></>)}
+
+
           </article>
 
 

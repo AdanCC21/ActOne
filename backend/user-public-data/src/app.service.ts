@@ -50,6 +50,55 @@ export class AppService {
   }
 
   /**
+ * El usuario origen sigue o deja de seguir a target
+ * @param originId ID del usuario que realiza la acción
+ * @param targetId ID del usuario que será seguido o dejado de seguir
+ * @param action true = seguir, false = dejar de seguir
+ */
+  async Follow(originId: number, targetId: number, action: boolean) {
+    if (originId === targetId) {
+      return { message: "cannot follow self", data: null };
+    }
+
+    const [origin, target] = await this.prismaSer.$transaction([
+      this.prismaSer.userPublicData.findUnique({ where: { id: originId } }),
+      this.prismaSer.userPublicData.findUnique({ where: { id: targetId } }),
+    ]);
+
+    if (!origin) return { message: "origin not found", data: null };
+    if (!target) return { message: "target not found", data: null };
+
+    let updatedOriginFollowing = origin.following ?? [];
+    let updatedTargetFollowers = target.followers ?? [];
+
+    if (action) {
+      if (!updatedOriginFollowing.includes(targetId)) {
+        updatedOriginFollowing.push(targetId);
+      }
+      if (!updatedTargetFollowers.includes(originId)) {
+        updatedTargetFollowers.push(originId);
+      }
+    } else {
+      updatedOriginFollowing = updatedOriginFollowing.filter(id => id !== targetId);
+      updatedTargetFollowers = updatedTargetFollowers.filter(id => id !== originId);
+    }
+
+    const [updatedOrigin, updatedTarget] = await this.prismaSer.$transaction([
+      this.prismaSer.userPublicData.update({
+        where: { id: originId },
+        data: { following: updatedOriginFollowing },
+      }),
+      this.prismaSer.userPublicData.update({
+        where: { id: targetId },
+        data: { followers: updatedTargetFollowers },
+      }),
+    ]);
+
+    return { message: "ok", data: [updatedOrigin, updatedTarget] };
+  }
+
+
+  /**
    * @param user Only the attributes your are going to change
    * @returns the user updated or null
    */
@@ -168,7 +217,7 @@ export class AppService {
   async findOne(id: number) {
     const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: id } });
     if (!userExist) {
-      return { message: 'user not found', status: 404 }
+      return { message: 'user not found', status: 404, data: null }
     }
     return { message: 'success', status: 200, data: userExist };
   }

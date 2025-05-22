@@ -23,7 +23,7 @@ type Props = {
 export function Like({ amount, state, func, extraClass }: Props) {
     const amountFormat = handleAmount(amount);
     return (
-        <button className={`btn interaction ${extraClass}`} onClick={() => { func() }}>
+        <button className={`btn interaction ${extraClass}`} onClick={() => { func(); window.location.reload(); }}>
             {state ? (
                 <img src={like} />
             ) : (<img src={voidLike} />)}
@@ -40,7 +40,7 @@ export function Mark({ amount, state, func, extraClass }: Props) {
     const amountFormat = handleAmount(amount);
 
     return (
-        <button className={`btn interaction ${extraClass}`} onClick={() => { func() }}>
+        <button className={`btn interaction ${extraClass}`} onClick={() => { func(); window.location.reload(); }}>
             {state ? (
                 <img src={marked} />
             ) : (<img src={mark} />)}
@@ -56,7 +56,7 @@ export function Comments({ amount, func, extraClass }: Props) {
     const amountFormat = handleAmount(amount);
 
     return (
-        <button className={`btn interaction ${extraClass}`} onClick={() => { func() }}>
+        <button className={`btn interaction ${extraClass}`} onClick={() => { func(); window.location.reload(); }}>
             <img src={commentIcon} />
             <span className='ml-2'>
                 {amountFormat}
@@ -69,7 +69,7 @@ export function Reports({ amount, func, extraClass }: Props) {
     const amountFormat = handleAmount(amount);
 
     return (
-        <button className={`btn interaction ${extraClass}`} onClick={() => { func() }}>
+        <button className={`btn interaction ${extraClass}`} onClick={() => { func(); window.location.reload(); }}>
             <img src={reportIcon} />
             <span className='ml-2'>
                 {amountFormat}

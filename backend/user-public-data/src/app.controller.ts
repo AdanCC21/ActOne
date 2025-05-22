@@ -40,6 +40,11 @@ export class AppController {
     return await this.appService.findByName(name);
   }
 
+  @MessagePattern({ cmd: 'follow' })
+  async Follow(@Payload() data: any) {
+    return await this.appService.Follow(data.origin, data.target, data.action);
+  }
+
   // @Post('update')
   // async UpdateUPD(@Body() data: UpdateUserDTO) {
   //   return await this.appService.updateUser(data);

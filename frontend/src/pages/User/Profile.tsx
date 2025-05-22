@@ -70,8 +70,8 @@ export default function Profile() {
                             <li className='flex items-center mx-5'> <img src={Like} className='h-[15px] mr-2' /> 0 </li>
                             <li className='flex items-center mx-5'> <img src={Comments} className='h-[15px] mr-2' /> 0 </li>
                             <li className='flex items-center mx-5'> <img src={VoidMark} className='h-[15px] mr-2' /> 0 </li>
-                            <li className='flex items-center mx-5'> <FaRegUser className='h-[15px] mr-2' /> {currentUser.followers} </li>
-                            <li className='flex items-center mx-5'> <RiUserFollowLine className='h-[15px] mr-2' /> {currentUser.following} </li>
+                            <li className='flex items-center mx-5'> <FaRegUser className='h-[15px] mr-2' /> {currentUser.followers.length} </li>
+                            <li className='flex items-center mx-5'> <RiUserFollowLine className='h-[15px] mr-2' /> {currentUser.following.length} </li>
                         </ul>
                     </section>
 

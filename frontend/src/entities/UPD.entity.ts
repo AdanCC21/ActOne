@@ -3,8 +3,8 @@ export class E_UPD{
     user_name: string;
     description: string;
     profile_image_url: string;
-    followers: number;
-    following: number;
+    followers: number[];
+    following: number[];
     published_stories: number[];
     modify_date: Date;
 
@@ -13,8 +13,8 @@ export class E_UPD{
         this.user_name = ""; 
         this.description = "";
         this.profile_image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfwfzTPVw45cJcHNUp3sWUWLOkYAfQlAEBOQ&s";
-        this.followers = 0;
-        this.following = 0;
+        this.followers = [];
+        this.following = [];
         this.published_stories = [];
         this.modify_date = new Date(); 
     }

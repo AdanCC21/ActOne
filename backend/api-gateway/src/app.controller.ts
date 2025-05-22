@@ -69,6 +69,11 @@ export class AppController {
     return this.updClient.send({ cmd: 'validate/name' }, name);
   }
 
+  @Post('upd/follow')
+  async Follow(@Body() data: any) {
+    return this.updClient.send({ cmd: "follow" }, data);
+  }
+
   // -------------- Story -------------- //
 
   @Get("story/:id")
