@@ -8,6 +8,22 @@ import { UpdatePdDTO } from './DTO/UpdatePd.dto';
 export class AppService {
     constructor(private readonly prismaSer: PrismaService) { }
 
+    async SearchByTitle(title: string) {
+        try {
+            const results = await this.prismaSer.storieData.findMany({
+                where: {
+                    title: {
+                        contains: title
+                    }
+                }
+            })
+            return { message: 'ok', data: results };
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+    }
+
     async ListStories() {
         try {
             const stories = await this.prismaSer.storieData.findMany();
@@ -126,7 +142,7 @@ export class AppService {
                 marked_count: storyExist.marked_count + (data.marked_count ?? 0),
                 reports_count: storyExist.reports_count + (data.reports_count ?? 0),
             };
-            
+
             await this.prismaSer.storieData.update({
                 where: { id: storyId },
                 data: updatedData,

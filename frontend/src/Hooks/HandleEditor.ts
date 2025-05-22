@@ -115,7 +115,7 @@ const interestingWords: string[] = [
     "impacto", "dolor", "locura", "obsesión", "culpa", "mentira", "adicción",
     "escándalos", "abusos", "pérdida", "tentación", "descontrol", "engañó",
     "fama", "revelación", "pánico", "traidor", "traiciono", "traicion", "abuso", "ilegal",
-    "pecado","pecar", "falso"
+    "pecado", "pecar", "falso"
 ];
 
 
@@ -150,7 +150,9 @@ function HaveBadWords(text: string) {
     const found: string[] = [];
     for (const word of words) {
         if (BadWordsSet.has(word)) {
-            found.push(word);
+            if (!found.includes(word)) {
+                found.push(word);
+            }
         }
     }
 
@@ -195,7 +197,11 @@ function HaveInterestingWords(words: string[]) {
     const intWordSet = new Set(interestingWords);
     let wordsList: string[] = [];
     for (const word of words) {
-        if (intWordSet.has(word)) wordsList.push(word);
+        if (intWordSet.has(word)) {
+            if (!wordsList.includes(word)) {
+                wordsList.push(word);
+            }
+        }
     }
     return wordsList;
 }

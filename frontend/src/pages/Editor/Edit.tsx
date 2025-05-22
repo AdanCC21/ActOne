@@ -123,6 +123,16 @@ export default function Edit({ }) {
 
                     <div className="e-sug max-h-[60%]">
                         <h4 className="text-(--red-500)">Suggestions</h4>
+                        {suggestions.intWords[0] ? (
+                            <>
+                                <p>Considera remarcar estas palabras:</p>
+                                <ul className="mb-5">
+                                    {suggestions.intWords.map((current, index) => (
+                                        <li className="ml-5 font-bold text-(--red-500)" key={index}>{current}</li>
+                                    ))}
+                                </ul>
+                            </>
+                        ) : (<></>)}
                         {suggestions.maxWords ? (<p className="mb-5">- {suggestions.maxWords} <span className="text-(--gray)">Considera usar mas actos</span></p>) : (<></>)}
                         {suggestions.wordMostUsed[0] ? (
                             <p className="mb-5">-
@@ -144,16 +154,7 @@ export default function Edit({ }) {
                         ) : (
                             <></>
                         )}
-                        {suggestions.intWords[0] ? (
-                            <>
-                                <p>Considera remarcar estas palabras:</p>
-                                <ul className="mb-5">
-                                    {suggestions.intWords.map((current, index) => (
-                                        <li className="ml-5 font-bold text-(--red-500)" key={index}>{current}</li>
-                                    ))}
-                                </ul>
-                            </>
-                        ) : (<></>)}
+
                     </div>
                     <button className="btn red w-fit mt-2" onClick={() => { handleSubmit(); }}>Publish</button>
                 </div>

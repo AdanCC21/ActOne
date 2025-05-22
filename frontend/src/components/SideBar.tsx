@@ -15,9 +15,9 @@ export default function SideBar() {
     <nav className="side-bar">
       <ul>
         <li onClick={() => { navigator('/') }}><FaHome /> <span className="ml-2">Home</span></li>
-        <li onClick={()=>{navigator('/profile')}}><FaRegUser /> <span className="ml-2">Following</span></li>
-        <li onClick={()=>{navigator('/profile')}}><CiBookmark /> <span className="ml-2">Saved</span></li>
-        <li onClick={()=>{navigator('/profile')}}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
+        <li onClick={()=>{navigator('/profile/pub')}}><FaRegUser /> <span className="ml-2">Following</span></li>
+        <li onClick={()=>{navigator('/profile/mark')}}><CiBookmark /> <span className="ml-2">Saved</span></li>
+        <li onClick={()=>{navigator('/profile/pub')}}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
       </ul>
       <div className="flex items-center mt-auto mb-1 cursor-pointer">
         {user != null || user != undefined ? (

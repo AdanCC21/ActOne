@@ -11,11 +11,14 @@ import VoidMark from '../../assets/mark.png';
 import Comments from '../../assets/comments.svg'
 import { FaRegUser } from "react-icons/fa";
 import { RiUserFollowLine } from "react-icons/ri";
+import tempUser from '../../assets/tempUser.png'
+import { useParams } from 'react-router-dom';
 
 // Me falta que aparezcan las historias correspondientes, y un campo con las historias guardads
 
 export default function Profile() {
     const userId = sessionStorage.getItem('user');
+    const { mark } = useParams();
     const [currentUser, setUser] = useState(new E_UPD());
     const [pubList, setPub] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
     const [markedList, setMarked] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
@@ -24,6 +27,9 @@ export default function Profile() {
 
 
     useEffect(() => {
+        if(mark === "mark"){
+            setTab(1)
+        }
         const fetchData = async () => {
             if (userId != null) {
                 const upd = await GetUPD(Number(userId));
@@ -55,7 +61,7 @@ export default function Profile() {
                 <main className='flex m-auto w-[95%] h-[95%] bg-(--dark-200) p-5 rounded-2xl'>
                     <section className='flex flex-col h-full w-[20%] '>
                         <article className='flex flex-col h-[60%] my-auto items-center'>
-                            <img className='w-[50%] h-fit my-4 aspect-square object-cover  rounded-full mx-auto' src='https://kinsta.com/wp-content/uploads/2022/06/nest-js-logo.png' />
+                            <img className='w-[50%] h-fit my-4 aspect-square object-cover  rounded-full mx-auto' src={tempUser} />
                             <h4 className='font-bold'>@{currentUser.user_name}</h4>
                             <p className='text-(--gray)'>{currentUser.description !== '' ? (<>{currentUser.description}</>) : (<>No hay descripcion</>)}</p>
                         </article>

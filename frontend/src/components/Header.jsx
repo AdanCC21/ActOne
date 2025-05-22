@@ -80,8 +80,7 @@ export default function Header({ }) {
                     }} >
                         <span className='mr-2'>+</span>Add
                     </div>
-                    <img className='cursor-pointer' src={notification} alt='notification' />
-                    <img className='user-icon' src={tempUser} alt='user' onClick={() => { !userId ? navigate('/login') : navigate('/profile') }} />
+                    <img className='user-icon' src={tempUser} alt='user' onClick={() => { !userId ? navigate('/login') : navigate('/profile/pub') }} />
                 </div>
             </div>
         </header>

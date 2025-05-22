@@ -12,6 +12,11 @@ export class AppController {
     return await this.appService.FoundStoryById(id);
   }
 
+  @MessagePattern({ cmd: 'search/by/title' })
+  async SearchByTitle(@Payload() title: string) {
+    return await this.appService.SearchByTitle(title);
+  }
+
   @MessagePattern({ cmd: 'get-list' })
   async ListStories() {
     return await this.appService.ListStories();
