@@ -120,15 +120,13 @@ export class AppService {
    * 
    * @param userId // Id del usuario
    * @param storyId // Id de la historia
-   * @returns null or marked Story
+   * @returns null or updUpdated
    */
   async UpdateMarked(userId: number, storyId: number) {
     try {
       const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: userId } });
 
       if (!userExist) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-      // if (action && userExist.marked_stories.includes(storyId)) throw new Error('Story already marked');
-      // if (!action && !userExist.marked_stories.includes(storyId)) throw new Error('Story already unmarked');
 
       let listUpdated = new Array<number>;
 
@@ -141,8 +139,8 @@ export class AppService {
         await this.UpdateStory(storyId, { marked_count: -1 })
       }
 
-      await this.prismaSer.userPublicData.update({ where: { id: userId }, data: { marked_stories: listUpdated } })
-      return { message: "ok", data: listUpdated };
+      const result = await this.prismaSer.userPublicData.update({ where: { id: userId }, data: { marked_stories: listUpdated } })
+      return { message: "ok", data: result };
     } catch (e) {
       console.error(e.message);
       return { message: e.message, data: null };

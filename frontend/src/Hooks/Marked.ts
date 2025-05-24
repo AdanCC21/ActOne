@@ -10,7 +10,9 @@ export async function MarkStory(storyId: number, userId: number) {
         if (!fetchData.ok) throw new Error('Something is wrong with the backend. Satus' + fetchData.status);
 
         const data = await fetchData.json();
-        return data;
+        if(!data.data) throw new Error(data.message);
+
+        return data.data;
     } catch (e) {
         console.error(e.message);
         return null;

@@ -19,6 +19,9 @@ type Props = {
 }
 
 export default function FeedCard({ story, authorName }: Props) {
+    if(story.id === 0){
+        return (<></>)
+    }
     const navigator = useNavigate();
     const [author, setAuthor] = useState(authorName);
 
@@ -43,7 +46,7 @@ export default function FeedCard({ story, authorName }: Props) {
         const fetchData = async () => {
             try {
                 const updData = await GetUPD(story.author_id)
-                console.log(updData);
+                // console.log(updData);
                 setAuthor(updData.user_name);
                 if (sessionUpd) {
                     if (sessionUpd.stories_liked.includes(story.id)) setLiked(true);

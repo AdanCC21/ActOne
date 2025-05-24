@@ -47,11 +47,15 @@ export default function Profile() {
             setUser(upd);
 
 
-            const pubStories = await Promise.all(upd.published_stories.map(async (current, index) => {
-                const story = await GetStory(current);
-                if (!story) return;
-                return story
-            }));
+            if (upd.published_stories.length > 0) {
+                const pubStories = await Promise.all(upd.published_stories.map(async (current, index) => {
+                    const story = await GetStory(current);
+                    if (!story) return;
+                    return story
+                }));
+                setPub(pubStories);
+            } else { setPub([]) }
+
 
             const likedStories = await Promise.all(upd.stories_liked.map(async (current, index) => {
                 const story = await GetStory(current);
@@ -60,7 +64,7 @@ export default function Profile() {
             }));
             setLikedPub(likedStories);
 
-            setPub(pubStories);
+
             const markStories = await Promise.all(upd.marked_stories.map(async (current, index) => {
                 const story = await GetStory(current);
                 if (!story) return;
@@ -80,7 +84,7 @@ export default function Profile() {
                     <>
                         {pubList.map((current, index) => (
                             <div key={index} >
-                                <FeedCard story={current.story} authorName={currentUser.user_name || sessionUser?.user_name} />
+                                <FeedCard story={current.story} />
                             </div>))}
                     </>
                 )
@@ -107,7 +111,9 @@ export default function Profile() {
                     <>
                         {pubList.map((current, index) => (
                             <div key={index} >
-                                <FeedCard story={current.story} authorName={currentUser.user_name || sessionUser?.user_name} />
+                                {current.story.id != 0 ?
+                                    (<FeedCard story={current.story} authorName={currentUser.user_name || sessionUser?.user_name} />) :
+                                    (<span>You don't have stories</span>)}
                             </div>))}
                     </>
                 )

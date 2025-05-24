@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { act, useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import { Comments, Like, Mark, Reports } from '../../components/Interactions'
 import CommentCard from '../../components/CommentCard'
@@ -17,7 +17,7 @@ import { MarkStory } from '../../Hooks/Marked'
 import tempUser from '../../assets/tempUser.png'
 import { GetUPD } from '../../Hooks/GetUPD'
 import { Follow } from '../../Hooks/Follow'
-import { HandleSession } from '../../Hooks/HandleSession'
+import { HandleSession, UpdateSession } from '../../Hooks/HandleSession'
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 
 
@@ -32,9 +32,11 @@ export default function Story() {
     console.error(e);
   }
 
-  const [currentUser, setCurrent] = useState(new E_UPD());
+  const [userPdState, setPD] = useState({ like: { amount: 0, state: false }, marked: { amount: 0, state: false } })
+
   const [currentAct, setAct] = useState(0);
   const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()], upd: new E_UPD() });
+
   const [comments, setComments] = useState(Array<any>);
   const [inputVal, setInput] = useState('')
 
@@ -45,18 +47,17 @@ export default function Story() {
         navigator('/404');
         return
       }
-      // Commentario
+
       const commetsFetch = await GetComments(storyFetch.story.id);
       setComments(commetsFetch);
 
-      // Current user
-      const updCU = await GetUPD(sessionUpd?.id || 0);
-      setCurrent(updCU)
-
-
       const acts = storyFetch.acts.filter(current => current.title != 'Sinopsis');
-      storyFetch.acts = acts.sort((a, b) => a.act_number - b.act_number);
+      storyFetch.acts = acts.sort((a: any, b: any) => a.act_number - b.act_number);
       setStory(storyFetch)
+
+      const liked = sessionUpd.stories_liked.includes(Number(id));
+      const marked = sessionUpd.marked_stories.includes(Number(id));
+      setPD(prev => { return { ...prev, like: { amount: storyFetch.story.likes_count, state: liked }, marked: { amount: storyFetch.story.marked_count, state: marked } } });
     }
 
     loadStory();
@@ -78,7 +79,7 @@ export default function Story() {
   }
 
   const handleFollow = async (action: boolean) => {
-    const follow = await Follow(currentUser.id, story.upd.id, action);
+    const follow = await Follow(sessionUpd.id, story.upd.id, action);
     console.log(follow);
   }
 
@@ -107,8 +108,8 @@ export default function Story() {
               className='w-[200px] rounded-full m-auto ' /> */}
             <h3 className='text-center font-semibold'>@{story.upd.user_name}</h3>
             <span className='text-(--gray) text-center '>{story.upd.description}</span>
-            {currentUser.id != story.upd.id ? (<>
-              {currentUser.following.includes(story.upd.id) ? (
+            {sessionUpd.id != story.upd.id ? (<>
+              {sessionUpd.following.includes(story.upd.id) ? (
                 <button className='btn red w-fit mx-auto my-2' onClick={() => { handleFollow(false) }}>Unfollow</button>
               ) : (
                 <button className='btn red w-fit mx-auto my-2' onClick={() => { handleFollow(true) }}>Follow</button>
@@ -140,18 +141,37 @@ export default function Story() {
             </article>
 
             <article className='flex mx-2 mt-auto mb-2 justify-around h-[10%] '>
-              <Like extraClass='mr-2 my-auto' state={false} func={() => {
-                if (sessionUpd) PostLike(story.story.author_id, story.story.id, 'story', sessionUpd);
-              }
-              } amount={story.story.likes_count} />
+              <Like
+                extraClass='mr-2 my-auto'
+                state={userPdState.like.state}
+                func={async () => {
+                  if (sessionUpd) {
+                    const fetchDa = await PostLike(sessionUpd?.id, story.story.id, 'story', sessionUpd)
+                    if (fetchDa) {
+                      UpdateSession(fetchDa.upd.data);
+                      let amount
+                      if (userPdState.like.state) { amount = userPdState.like.amount - 1 } else { amount = userPdState.like.amount + 1 }
+                      setPD(prev => { return { ...prev, like: { amount:amount, state: !prev.like.state } } });
+                    }
+                  }
+                }}
+                amount={userPdState.like.amount} />
               <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.story.comments_count} />
               <Mark
-                extraClass='mx-2 my-auto' state={false}
-                func={() => {
-                  if (sessionUpd)
-                    MarkStory(story.story.id, sessionUpd?.id)
+                extraClass='mx-2 my-auto'
+                state={userPdState.marked.state}
+                func={async () => {
+                  if (sessionUpd) {
+                    const fetchData = await MarkStory(story.story.id, sessionUpd.id)
+                    if (fetchData) {
+                      UpdateSession(fetchData);
+                      let amount:number;
+                      if (userPdState.marked.state) { amount = userPdState.marked.amount - 1 } else { amount = userPdState.marked.amount + 1 }
+                      setPD(prev => { return { ...prev, marked: { amount: amount, state: !prev.marked.state } } });
+                    }
+                  }
                 }}
-                amount={story.story.marked_count} />
+                amount={userPdState.marked.amount} />
               <Reports extraClass='mx-2 my-auto' state={false} func={() => { Report(story.story.author_id, story.story.id) }} amount={story.story.reports_count} />
             </article>
 

@@ -21,8 +21,6 @@ export async function PostLike(userId: number, pubId: number, pubType: string, u
         if (!sendData.ok) throw new Error('Something is wrong in the fetch. Status: ' + sendData.status);
 
         const data = await sendData.json();
-        console.log("DATAAAAA");
-        console.log(data)
         return data.data;
     } catch (e) {
         console.error(e.message);

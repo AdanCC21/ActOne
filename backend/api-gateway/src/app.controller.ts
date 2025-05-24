@@ -56,7 +56,7 @@ export class AppController {
    */
   @Post('upd/mark/update')
   async UpdateMark(@Body() data: any) {
-    return this.updClient.send({ cmd: 'update-mark' }, data)
+    return this.updClient.send({ cmd: 'update/mark' }, data)
   }
 
   /**

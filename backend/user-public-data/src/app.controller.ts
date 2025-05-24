@@ -74,7 +74,7 @@ export class AppController {
    * @param storyId // Id de la historia
    * @returns null or marked Story
    */
-  @MessagePattern({ cmd: "update-mark" })
+  @MessagePattern({ cmd: "update/mark" })
   async MarkStory(data: any) {
     return await this.appService.UpdateMarked(data.userId, data.storyId);
   }
