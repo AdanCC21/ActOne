@@ -96,6 +96,16 @@ export class AppService {
         }
     }
 
+    async ListLikedStories(userId: number) {
+        try {
+            const stories = await this.prismaSer.storieData.findMany({ where: { author_id: userId } });
+            return { message: 'ok', data: stories };
+        } catch (e) {
+            console.error(e);
+            return { message: e.message, data: null };
+        }
+    }
+
     async FoundStoryById(id: number) {
         try {
             const story = await this.GetStory(id);

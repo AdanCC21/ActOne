@@ -22,10 +22,11 @@ import { addAct, deleteAct, HandleSuggestions, SubmitStory } from "../../Hooks/H
 import '../../css/edit.css'
 import '../../css/inputs.css'
 import Modal2 from "../../components/Modal2";
+import { HandleSession } from "../../Hooks/HandleSession";
+import { E_UPD } from "../../entities/UPD.entity";
 
 export default function Edit({ }) {
     const { title } = useParams();
-    const userId = sessionStorage.getItem('user');
 
     const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new E_Act(1)]);
     const [storyDetails, setDetails] = useState({ visibility: false, labels: [''] });
@@ -34,6 +35,13 @@ export default function Edit({ }) {
     const [modalState, setModal] = useState(false);
 
     const navigate = useNavigate();
+    let sessionUser;
+    try {
+        sessionUser = HandleSession(sessionStorage.getItem('user') || '');
+    } catch (e) {
+        console.log(e);
+        navigate('/404');
+    }
 
     useEffect(() => { handleSug(act[currentAct].content); }, [currentAct, act[currentAct].content])
 
@@ -58,7 +66,7 @@ export default function Edit({ }) {
     }
 
     const handleSubmit = async () => {
-        const sub = await SubmitStory(title, userId, act, storyDetails.labels, storyDetails.visibility);
+        const sub = await SubmitStory(title, sessionUser.id, act, storyDetails.labels, storyDetails.visibility);
         console.log(sub);
         sub ? navigate('/') : console.error('something is wrong');
     }

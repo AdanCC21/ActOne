@@ -17,13 +17,15 @@ import { MarkStory } from '../../Hooks/Marked'
 import tempUser from '../../assets/tempUser.png'
 import { GetUPD } from '../../Hooks/GetUPD'
 import { Follow } from '../../Hooks/Follow'
+import { HandleSession } from '../../Hooks/HandleSession'
 
 
 export default function Story() {
   const { id } = useParams();
   const navigator = useNavigate();
 
-  const userId = sessionStorage.getItem('user');
+  const sessionUpd = HandleSession(sessionStorage.getItem('user') || '');
+
   const [currentUser, setCurrent] = useState(new E_UPD());
   const [currentAct, setAct] = useState(0);
   const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()], upd: new E_UPD() });
@@ -40,7 +42,7 @@ export default function Story() {
       // Commentario
       const commetsFetch = await GetComments(storyFetch.story.id);
       // Current user
-      const updCU = await GetUPD(Number(userId));
+      const updCU = await GetUPD(sessionUpd?.id || 0);
       setCurrent(updCU)
 
       setComments(commetsFetch.data);
@@ -56,18 +58,16 @@ export default function Story() {
 
   const handleSubmit = async (e: any) => {
     if (e.key === 'Enter') {
-      const fetchData = await SubmitComment(Number(userId), story.story.id, inputVal);
+      const fetchData = await SubmitComment(Number(sessionUpd?.id || 0), story.story.id, inputVal);
       if (!fetchData) return
       console.log(fetchData);
       setInput('');
-      window.location.reload();
     }
   }
 
   const handleFollow = async (action: boolean) => {
     const follow = await Follow(currentUser.id, story.upd.id, action);
     console.log(follow);
-    window.location.reload();
   }
 
   return (
@@ -117,11 +117,17 @@ export default function Story() {
             </article>
 
             <article className='flex mx-2 mt-auto mb-2 justify-around h-[10%] '>
-              <Like extraClass='mr-2 my-auto' state={false} func={() => { PostLike(story.story.author_id, story.story.id, 'story'); window.location.reload(); }} amount={story.story.likes_count} />
+              <Like extraClass='mr-2 my-auto' state={false} func={() => {
+                if (sessionUpd) PostLike(story.story.author_id, story.story.id, 'story', sessionUpd);
+              }
+              } amount={story.story.likes_count} />
               <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.story.comments_count} />
               <Mark
                 extraClass='mx-2 my-auto' state={false}
-                func={() => { MarkStory(story.story.id, Number(userId)) }}
+                func={() => {
+                  if (sessionUpd)
+                    MarkStory(story.story.id, sessionUpd?.id)
+                }}
                 amount={story.story.marked_count} />
               <Reports extraClass='mx-2 my-auto' state={false} func={() => { Report(story.story.author_id, story.story.id) }} amount={story.story.reports_count} />
             </article>

@@ -46,6 +46,12 @@ export class AppController {
   }
 
 
+  @MessagePattern({ cmd: "get/user/likes" })
+  async GetUserLikes(@Payload() userId: number) {
+    return await this.appService.GetUserLikes(userId);
+  }
+
+
   /**
    * 
    * @param userId Id del usuario

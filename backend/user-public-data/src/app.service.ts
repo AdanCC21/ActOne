@@ -108,6 +108,8 @@ export class AppService {
     if (!userExist) return { message: "user not found", data: null };
 
     const { id: _, ...userDataWithoutId } = user;
+    console.log("UPD ACTUALIZAR INFOR");
+    console.log(user);
     const result = await this.prismaSer.userPublicData.update({ where: { id: userExist.id }, data: userDataWithoutId })
     if (result) return { message: "ok", data: result };
     return { message: "Something is wrong", data: null };

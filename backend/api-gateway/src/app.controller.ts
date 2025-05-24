@@ -96,6 +96,11 @@ export class AppController {
     return this.storyClient.send({ cmd: "get/list" }, {});
   }
 
+  @Get('stories/liked/:id')
+  async GetUserLikes(@Param('id', ParseIntPipe) id: number) {
+    return this.storyClient.send({ cmd: 'get/liked/stories' }, id);
+  }
+
   @Get("search/title/:title")
   async SearchByTitle(@Param('title') title: string) {
     return this.storyClient.send({ cmd: 'search/title' }, title)
@@ -142,29 +147,25 @@ export class AppController {
      * @param pubType story || comment
      * @returns {message, data:null || like}
      */
-    // data{
-    //   pd:{
-    //     userId,
-    //     pubId,
-    //     pubType
-    //   },
-    //   upd:{
-    //     id,
-    //     username,
-    //     likes, etc
-    //   }
-    // }
-    const pdFetch = await firstValueFrom(this.pdClient.send({ cmd: 'post/like' }, { data: data.pd }));
+    console.log(data);
+    const pdFetch = await firstValueFrom(this.pdClient.send({ cmd: 'post/like' }, data.pd));
     if (pdFetch.data) {
-      /**
-       * Actualizar upd
-       * @param data {id:id, data:{informacion a actualizar}}
-       * @returns upd || null
-       */
-      const updFetch = await firstValueFrom(this.updClient.send({ cmd: '' }, { id: data.upd.id, data: data.upd }));
-      return updFetch;
+      if (data.upd.stories_liked.includes(data.pd.pubId)) {
+        const temp = data.upd.stories_liked.filter(current => current != data.pd.pubId);
+        data.upd.stories_liked = temp;
+      } else {
+        data.upd.stories_liked.push(data.pd.pubId);
+      }
+
+      const dataToUpdate = { stories_liked: data.upd.stories_liked };
+      const updFetch = await firstValueFrom(this.updClient.send({ cmd: 'update' }, { id: data.upd.id, data: dataToUpdate }));
+      if (updFetch.data) {
+        return { message: "ok", data: { pd: pdFetch, upd: updFetch } };
+      }
+      console.log("result :" + updFetch + " Data sended: ", data.upd.id + " ", data.upd)
+      return { message: "Error updating the upd", data: null };
     }
-    return { message: 'bad', data: null };
+    return { message: 'Error with the PD fetch', data: null };
   }
 
   /**

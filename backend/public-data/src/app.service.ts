@@ -73,6 +73,22 @@ export class AppService {
 
   /**
    * 
+   * @param userId 
+   * @returns 
+   */
+  async GetUserLikes(userId: number) {
+    try {
+      const likesList = await this.prismaSer.likes.findMany({ where: { user_id: userId } });
+      return { message: "ok", data: likesList };
+    } catch (e) {
+      console.error(e);
+      return { message: e.message, data: null };
+    }
+
+  }
+
+  /**
+   * 
    * @param userId Id del usuario
    * @param pubId Id de la publicacion
    * @param pubType story || comment
@@ -80,6 +96,7 @@ export class AppService {
    */
   async InsertLike(userId: number, pubId: number, pubType: string) {
     try {
+      console.log(userId);
       const likeExist = await this.prismaSer.likes.findFirst({ where: { user_id: userId, publication_id: pubId } });
       if (!likeExist) {
         const newLike = await this.prismaSer.likes.create({
@@ -143,7 +160,7 @@ export class AppService {
     }
   }
 
-  
+
   async UpdateStory(storyId: number, data) {
     try {
       const fetchData = await fetch('http://localhost:3013/story/set/pd', {

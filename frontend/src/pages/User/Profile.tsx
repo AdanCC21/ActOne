@@ -12,48 +12,108 @@ import Comments from '../../assets/comments.svg'
 import { FaRegUser } from "react-icons/fa";
 import { RiUserFollowLine } from "react-icons/ri";
 import tempUser from '../../assets/tempUser.png'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { HandleSession } from '../../Hooks/HandleSession';
 
-// Me falta que aparezcan las historias correspondientes, y un campo con las historias guardads
 
 export default function Profile() {
-    const userId = sessionStorage.getItem('user');
+    const navigate = useNavigate();
+    let sessionUser;
+    try {
+        sessionUser = HandleSession(sessionStorage.getItem('user') || '');
+        if (!sessionUser) throw new Error('session invalid');
+    } catch (e) {
+        console.error(e);
+        navigate('/error');
+    }
+
     const { mark } = useParams();
     const [currentUser, setUser] = useState(new E_UPD());
     const [pubList, setPub] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
     const [markedList, setMarked] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
+    const [likedList, setLikedPub] = useState([{ story: new E_Story() }]);
+
     // 0 Historias Publicadas, 1 Historias Guardadas
     const [tab, setTab] = useState(0);
 
 
     useEffect(() => {
-        if(mark === "mark"){
+        if (mark === "mark") {
             setTab(1)
         }
         const fetchData = async () => {
-            if (userId != null) {
-                const upd = await GetUPD(Number(userId));
-                if (!upd) return;
-                setUser(upd);
-
-                const pubStories = await Promise.all(upd.published_stories.map(async (current, index) => {
-                    const story = await GetStory(current);
-                    if (!story) return;
-                    return story
-                }));
+            const upd = await GetUPD(Number(sessionUser.id));
+            if (!upd) return;
+            setUser(upd);
 
 
-                setPub(pubStories);
-                const markStories = await Promise.all(upd.marked_stories.map(async (current, index) => {
-                    const story = await GetStory(current);
-                    if (!story) return;
-                    return story
-                }));
-                markStories.length > 0 ? setMarked(markStories) : setMarked([]);
-            }
+            const pubStories = await Promise.all(upd.published_stories.map(async (current, index) => {
+                const story = await GetStory(current);
+                if (!story) return;
+                return story
+            }));
+
+            const likedStories = await Promise.all(upd.stories_liked.map(async (current, index) => {
+                const story = await GetStory(current);
+                if (!story) return;
+                return story
+            }));
+            setLikedPub(likedStories);
+
+            setPub(pubStories);
+            const markStories = await Promise.all(upd.marked_stories.map(async (current, index) => {
+                const story = await GetStory(current);
+                if (!story) return;
+                return story
+            }));
+            markStories.length > 0 ? setMarked(markStories) : setMarked([]);
+
         }
         fetchData();
     }, [])
+
+
+    const handleTabs = () => {
+        switch (tab) {
+            case 0:
+                return (
+                    <>
+                        {pubList.map((current, index) => (
+                            <div key={index} >
+                                <FeedCard story={current.story} authorName={currentUser.user_name || sessionUser?.user_name} />
+                            </div>))}
+                    </>
+                )
+            case 1:
+                return (
+                    markedList.map((current, index) => {
+                        return (
+                            <div key={index} >
+                                <FeedCard story={current.story} />
+                            </div>
+                        )
+                    }))
+            case 2:
+                return (
+                    likedList.map((current, index) => {
+                        return (
+                            <div key={index} >
+                                <FeedCard story={current.story} />
+                            </div>
+                        )
+                    }))
+            default:
+                return (
+                    <>
+                        {pubList.map((current, index) => (
+                            <div key={index} >
+                                <FeedCard story={current.story} authorName={currentUser.user_name || sessionUser?.user_name} />
+                            </div>))}
+                    </>
+                )
+        }
+    }
+
     return (
         <>
             <Header />
@@ -81,17 +141,11 @@ export default function Profile() {
                                 onClick={() => { setTab(0) }}><p>Historias Publicadas</p></div>
                             <div className={`px-4 py-2 ${tab === 1 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
                                 onClick={() => { setTab(1) }}><p>Historias Guardadas</p></div>
+                            <div className={`px-4 py-2 ${tab === 2 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
+                                onClick={() => { setTab(2) }}><p>Me Gusta</p></div>
                         </nav>
                         <article className='grid grid-cols-2 gap-5 p-2 bg-(--dark-400) w-full h-[90%]'>
-                            {tab === 0 ? pubList.map((current, index) => (
-                                <div key={index} >
-                                    <FeedCard story={current.story} authorName={currentUser.user_name} />
-                                </div>
-                            )) : markedList.map((current, index) => {if(index > 0) return(
-                                <div key={index} >
-                                    <FeedCard story={current.story} />
-                                </div>
-                            )})}
+                            {handleTabs()}
                         </article>
                     </section>
                 </main>

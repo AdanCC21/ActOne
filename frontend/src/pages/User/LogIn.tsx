@@ -6,6 +6,7 @@ import { logIn } from "../../Hooks/LogIn";
 
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from 'jwt-decode';
+import { GetUPD } from "../../Hooks/GetUPD";
 
 
 export default function LogIn({ }) {
@@ -37,9 +38,10 @@ export default function LogIn({ }) {
 
     const handleSubmit = async (email: string, authType: string, pass?: string) => {
         try {
-            const fetchLogin = await logIn(email, authType, pass);
-            console.log(fetchLogin);
-            sessionStorage.setItem('user', String(fetchLogin.user_profile_id))
+            const loginfetch = await logIn(email, authType, pass);
+            const upd = await GetUPD(loginfetch.user_profile_id);
+            if(upd) sessionStorage.setItem('user', JSON.stringify(upd));
+            console.log("login upd ", upd);
             navigate('/')
         } catch (e) {
             setAlert(e.message);
@@ -85,7 +87,6 @@ export default function LogIn({ }) {
                 <div className="flex flex-col items-center w-full h-[20%] ">
                     <GoogleLogin onSuccess={(credentialResponse) => {
                         const data: any = jwtDecode(credentialResponse.credential || '');
-                        console.log(data.email);
                         handleSubmit(data.email, 'google');
                     }} onError={() => { setAlert('Error, try again') }} />
                     <a className="m-4" href="/register">I don't have account</a>

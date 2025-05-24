@@ -12,6 +12,11 @@ export class AppController {
     return await this.appService.FoundStoryById(id);
   }
 
+  @MessagePattern({ cmd: 'get/liked/stories' })
+  async GetLikedStories(@Payload() userId: number) {
+    return await this.appService.ListLikedStories(userId);
+  }
+
 
   // --------------------------- SEARCH ---------------------------
 

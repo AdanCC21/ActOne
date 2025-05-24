@@ -8,6 +8,8 @@ import { Like, Comments, Mark, Reports } from './Interactions';
 import { GetUPD } from '../Hooks/GetUPD';
 import { PostLike, Report } from '../Hooks/HandlePD'
 import { MarkStory } from '../Hooks/Marked';
+import { HandleSession, UpdateSession } from '../Hooks/HandleSession';
+import { E_UPD } from '../entities/UPD.entity';
 
 type Props = {
     story: E_Story
@@ -18,17 +20,24 @@ type Props = {
 export default function FeedCard({ story, authorName }: Props) {
     const navigator = useNavigate();
     const [author, setAuthor] = useState(authorName);
-    const userId = sessionStorage.getItem('user');
+
+    let sessionUpd: any;
+    try {
+        sessionUpd = HandleSession(sessionStorage.getItem('user') || '');
+        if (!sessionUpd) throw new Error('Invalid session');
+    } catch (e) {
+        console.error(e);
+        navigator('/error');
+    }
+    const [isLiked, setLiked] = useState(false);
+    const [likeCount, setLikesCount] = useState(story.likes_count || 0);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const updData = await GetUPD(story.author_id)
-                const updCurrentUsaer = await GetUPD(Number(userId));
-                if (updCurrentUsaer) {
-                    updCurrentUsaer
-                }
                 setAuthor(updData.user_name);
+                if (sessionUpd.stories_liked.includes(story.id)) setLiked(true);
             } catch (e) {
                 console.error(e.message);
                 setAuthor('undefined');
@@ -56,16 +65,27 @@ export default function FeedCard({ story, authorName }: Props) {
             </div>
 
             <section className='interactions ' style={{ zIndex: 2 }}>
-                <Like extraClass='mr-2 my-auto' state={false} func={() => { PostLike(story.author_id, story.id, 'story'); window.location.reload(); }} amount={story.likes_count} />
+                <Like extraClass='mr-2 my-auto' state={isLiked} func={async () => {
+                    if (sessionUpd) {
+                        const fetchDa = await PostLike(sessionUpd?.id, story.id, 'story', sessionUpd)
+                        if (fetchDa) {
+                            UpdateSession(fetchDa.upd.data);
+                            setLiked(prev => {
+                                prev ? setLikesCount(prev => prev - 1) : setLikesCount(prev => prev + 1)
+                                return !prev;
+                            });
+                        }
+                    }
+                }} amount={likeCount} />
                 <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.comments_count} />
                 <Mark
                     extraClass='mx-2 my-auto' state={false}
-                    func={() => { MarkStory(story.id, Number(userId)) }}
+                    func={() => { MarkStory(story.id, sessionUpd.id) }}
                     amount={story.marked_count} />
                 <Reports extraClass='mx-2 my-auto' state={false} func={() => { Report(story.author_id, story.id) }} amount={story.reports_count} />
                 <p className='text-(--gray) mx-2'>{story.duration}</p>
                 <ul className='mx-2 text-(--gray) max-w-[100px] overflow-x-auto'>
-                    {story.labels[0] ? story.labels.map((current) => (
+                    {story.labels && story.labels[0] ? story.labels.map((current) => (
                         <li>#{current}</li>
                     )) : (<></>)}
                 </ul>

@@ -9,6 +9,7 @@ import NotFound from "./pages/Error/NotFound";
 import Focus from "./pages/Publication/Focus";
 import Profile from "./pages/User/Profile";
 import TestEditor from "./pages/Editor/TestEditor";
+import GenericError from "./pages/Error/GenericError";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
       <Route path="/test" element={<TestEditor />} />
 
       <Route path="/404" element={<NotFound />} />
+      <Route path="/error" element={<GenericError />} />
     </Routes>
   );
 }

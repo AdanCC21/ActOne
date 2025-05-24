@@ -8,6 +8,7 @@ import { NameAlreadyUsed } from '../../Hooks/ValidateName';
 import { EmailInUse } from '../../Hooks/ValidateEmail';
 import { RegNewUser } from '../../Hooks/Register';
 import { HandleKey } from '../../Hooks/Handles';
+import { GetUPD } from '../../Hooks/GetUPD';
 
 type RegData = {
     userData: {
@@ -69,7 +70,21 @@ export default function Reg({ }) {
         if (!NameUsed) {
             const data = { ...inputs };
             const backendResult = await RegNewUser(data, 'email', inputs.userData.email, inputs.user_name);
-            backendResult.data ? navigate('/') : setAlert(backendResult.message);
+            console.log(backendResult);
+
+            // dataRes.data.user_profile_id
+            if (backendResult.data) {
+                const upd = await GetUPD(backendResult.data.user_profile_id);
+                if (upd) {
+                    sessionStorage.setItem('user', JSON.stringify(upd));
+                    console.log('session', upd);
+                } else {
+                    setAlert("Wait, error with the upd");
+                }
+                navigate('/')
+            } else {
+                setAlert(backendResult.message)
+            };
         } else {
             setAlert('Name already used');
         }

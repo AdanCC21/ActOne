@@ -10,6 +10,7 @@ import { NotFoundError } from 'rxjs';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
+  // Post Get
   @Post('create')
   async createUserPublic(@Body() userData: CreateUserDTO) {
     return await this.appService.createUser(userData);
@@ -19,6 +20,19 @@ export class AppController {
   async GetUPD(@Param('id', ParseIntPipe) id: number) {
     return await this.appService.findOne(id);
   }
+
+  /**
+   * 
+   * @param acts acts id, only ids
+   * @param user_id upd id
+   * @returns the upd or null
+   */
+  @Post('push/act/:id')
+  async PushActs(@Body() data: any, @Param('id', ParseIntPipe) user_id: number) {
+    return await this.appService.AddStory(user_id, data.storyId);
+  }
+
+  // Microservice Exclusive ---------------
 
   @MessagePattern({ cmd: 'validate/name' })
   async ValidateUser(data: any) {
@@ -53,22 +67,6 @@ export class AppController {
   @MessagePattern({ cmd: "update" })
   async UpdateUPD(@Payload() data: any) {
     return await this.appService.UpdateUPD(data.id, data.data);
-  }
-
-  // @Post('update')
-  // async UpdateUPD(@Body() data: UpdateUserDTO) {
-  //   return await this.appService.updateUser(data);
-  // }
-
-  /**
-   * 
-   * @param acts acts id, only ids
-   * @param user_id upd id
-   * @returns the upd or null
-   */
-  @Post('push/act/:id')
-  async PushActs(@Body() data: any, @Param('id', ParseIntPipe) user_id: number) {
-    return await this.appService.AddStory(user_id, data.storyId);
   }
 
   /**
