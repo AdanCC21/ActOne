@@ -2136,16 +2136,19 @@ export namespace Prisma {
 
   export type ActDataAvgAggregateOutputType = {
     id: number | null
+    act_number: number | null
     story_id: number | null
   }
 
   export type ActDataSumAggregateOutputType = {
     id: number | null
+    act_number: number | null
     story_id: number | null
   }
 
   export type ActDataMinAggregateOutputType = {
     id: number | null
+    act_number: number | null
     story_id: number | null
     title: string | null
     content: string | null
@@ -2153,6 +2156,7 @@ export namespace Prisma {
 
   export type ActDataMaxAggregateOutputType = {
     id: number | null
+    act_number: number | null
     story_id: number | null
     title: string | null
     content: string | null
@@ -2160,6 +2164,7 @@ export namespace Prisma {
 
   export type ActDataCountAggregateOutputType = {
     id: number
+    act_number: number
     story_id: number
     title: number
     content: number
@@ -2169,16 +2174,19 @@ export namespace Prisma {
 
   export type ActDataAvgAggregateInputType = {
     id?: true
+    act_number?: true
     story_id?: true
   }
 
   export type ActDataSumAggregateInputType = {
     id?: true
+    act_number?: true
     story_id?: true
   }
 
   export type ActDataMinAggregateInputType = {
     id?: true
+    act_number?: true
     story_id?: true
     title?: true
     content?: true
@@ -2186,6 +2194,7 @@ export namespace Prisma {
 
   export type ActDataMaxAggregateInputType = {
     id?: true
+    act_number?: true
     story_id?: true
     title?: true
     content?: true
@@ -2193,6 +2202,7 @@ export namespace Prisma {
 
   export type ActDataCountAggregateInputType = {
     id?: true
+    act_number?: true
     story_id?: true
     title?: true
     content?: true
@@ -2287,6 +2297,7 @@ export namespace Prisma {
 
   export type ActDataGroupByOutputType = {
     id: number
+    act_number: number
     story_id: number
     title: string
     content: string
@@ -2313,6 +2324,7 @@ export namespace Prisma {
 
   export type ActDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    act_number?: boolean
     story_id?: boolean
     title?: boolean
     content?: boolean
@@ -2320,6 +2332,7 @@ export namespace Prisma {
 
   export type ActDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    act_number?: boolean
     story_id?: boolean
     title?: boolean
     content?: boolean
@@ -2327,6 +2340,7 @@ export namespace Prisma {
 
   export type ActDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    act_number?: boolean
     story_id?: boolean
     title?: boolean
     content?: boolean
@@ -2334,18 +2348,20 @@ export namespace Prisma {
 
   export type ActDataSelectScalar = {
     id?: boolean
+    act_number?: boolean
     story_id?: boolean
     title?: boolean
     content?: boolean
   }
 
-  export type ActDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "story_id" | "title" | "content", ExtArgs["result"]["actData"]>
+  export type ActDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "act_number" | "story_id" | "title" | "content", ExtArgs["result"]["actData"]>
 
   export type $ActDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ActData"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      act_number: number
       story_id: number
       title: string
       content: string
@@ -2773,6 +2789,7 @@ export namespace Prisma {
    */
   interface ActDataFieldRefs {
     readonly id: FieldRef<"ActData", 'Int'>
+    readonly act_number: FieldRef<"ActData", 'Int'>
     readonly story_id: FieldRef<"ActData", 'Int'>
     readonly title: FieldRef<"ActData", 'String'>
     readonly content: FieldRef<"ActData", 'String'>
@@ -3178,6 +3195,7 @@ export namespace Prisma {
 
   export const ActDataScalarFieldEnum: {
     id: 'id',
+    act_number: 'act_number',
     story_id: 'story_id',
     title: 'title',
     content: 'content'
@@ -3377,6 +3395,7 @@ export namespace Prisma {
     OR?: ActDataWhereInput[]
     NOT?: ActDataWhereInput | ActDataWhereInput[]
     id?: IntFilter<"ActData"> | number
+    act_number?: IntFilter<"ActData"> | number
     story_id?: IntFilter<"ActData"> | number
     title?: StringFilter<"ActData"> | string
     content?: StringFilter<"ActData"> | string
@@ -3384,6 +3403,7 @@ export namespace Prisma {
 
   export type ActDataOrderByWithRelationInput = {
     id?: SortOrder
+    act_number?: SortOrder
     story_id?: SortOrder
     title?: SortOrder
     content?: SortOrder
@@ -3394,6 +3414,7 @@ export namespace Prisma {
     AND?: ActDataWhereInput | ActDataWhereInput[]
     OR?: ActDataWhereInput[]
     NOT?: ActDataWhereInput | ActDataWhereInput[]
+    act_number?: IntFilter<"ActData"> | number
     story_id?: IntFilter<"ActData"> | number
     title?: StringFilter<"ActData"> | string
     content?: StringFilter<"ActData"> | string
@@ -3401,6 +3422,7 @@ export namespace Prisma {
 
   export type ActDataOrderByWithAggregationInput = {
     id?: SortOrder
+    act_number?: SortOrder
     story_id?: SortOrder
     title?: SortOrder
     content?: SortOrder
@@ -3416,6 +3438,7 @@ export namespace Prisma {
     OR?: ActDataScalarWhereWithAggregatesInput[]
     NOT?: ActDataScalarWhereWithAggregatesInput | ActDataScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"ActData"> | number
+    act_number?: IntWithAggregatesFilter<"ActData"> | number
     story_id?: IntWithAggregatesFilter<"ActData"> | number
     title?: StringWithAggregatesFilter<"ActData"> | string
     content?: StringWithAggregatesFilter<"ActData"> | string
@@ -3538,6 +3561,7 @@ export namespace Prisma {
   }
 
   export type ActDataCreateInput = {
+    act_number: number
     story_id: number
     title: string
     content: string
@@ -3545,12 +3569,14 @@ export namespace Prisma {
 
   export type ActDataUncheckedCreateInput = {
     id?: number
+    act_number: number
     story_id: number
     title: string
     content: string
   }
 
   export type ActDataUpdateInput = {
+    act_number?: IntFieldUpdateOperationsInput | number
     story_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
@@ -3558,6 +3584,7 @@ export namespace Prisma {
 
   export type ActDataUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    act_number?: IntFieldUpdateOperationsInput | number
     story_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
@@ -3565,12 +3592,14 @@ export namespace Prisma {
 
   export type ActDataCreateManyInput = {
     id?: number
+    act_number: number
     story_id: number
     title: string
     content: string
   }
 
   export type ActDataUpdateManyMutationInput = {
+    act_number?: IntFieldUpdateOperationsInput | number
     story_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
@@ -3578,6 +3607,7 @@ export namespace Prisma {
 
   export type ActDataUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    act_number?: IntFieldUpdateOperationsInput | number
     story_id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
@@ -3766,6 +3796,7 @@ export namespace Prisma {
 
   export type ActDataCountOrderByAggregateInput = {
     id?: SortOrder
+    act_number?: SortOrder
     story_id?: SortOrder
     title?: SortOrder
     content?: SortOrder
@@ -3773,11 +3804,13 @@ export namespace Prisma {
 
   export type ActDataAvgOrderByAggregateInput = {
     id?: SortOrder
+    act_number?: SortOrder
     story_id?: SortOrder
   }
 
   export type ActDataMaxOrderByAggregateInput = {
     id?: SortOrder
+    act_number?: SortOrder
     story_id?: SortOrder
     title?: SortOrder
     content?: SortOrder
@@ -3785,6 +3818,7 @@ export namespace Prisma {
 
   export type ActDataMinOrderByAggregateInput = {
     id?: SortOrder
+    act_number?: SortOrder
     story_id?: SortOrder
     title?: SortOrder
     content?: SortOrder
@@ -3792,6 +3826,7 @@ export namespace Prisma {
 
   export type ActDataSumOrderByAggregateInput = {
     id?: SortOrder
+    act_number?: SortOrder
     story_id?: SortOrder
   }
 

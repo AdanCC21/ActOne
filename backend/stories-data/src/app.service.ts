@@ -163,7 +163,8 @@ export class AppService {
                         data: {
                             title: act.title,
                             story_id: storyRes.id,
-                            content: act.content
+                            content: act.content,
+                            act_number: act.act_number
                         }
                     })
                     return temp.id;

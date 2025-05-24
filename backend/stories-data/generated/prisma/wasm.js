@@ -136,6 +136,7 @@ exports.Prisma.StorieDataScalarFieldEnum = {
 
 exports.Prisma.ActDataScalarFieldEnum = {
   id: 'id',
+  act_number: 'act_number',
   story_id: 'story_id',
   title: 'title',
   content: 'content'

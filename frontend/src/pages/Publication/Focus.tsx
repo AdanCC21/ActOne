@@ -20,7 +20,6 @@ export default function Focus() {
             .filter(parrafo => parrafo.length > 0); // Elimina párrafos vacíos
     }
 
-
     useEffect(() => {
         const loadStory = async () => {
             const result = await GetStory(Number(id));
@@ -30,6 +29,8 @@ export default function Focus() {
                 return
             }
 
+            const acts = result.acts.filter(current => current.title != 'Sinopsis');
+            result.acts = acts.sort((a, b) => a.act_number - b.act_number);
             setStory(result)
         }
         loadStory();

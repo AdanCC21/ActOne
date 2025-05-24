@@ -20,7 +20,7 @@ export default function Profile() {
     const navigate = useNavigate();
     let sessionUser;
     try {
-        sessionUser = HandleSession(sessionStorage.getItem('user') || '');
+        sessionUser = HandleSession(sessionStorage.getItem('user') || 'invitado');
         if (!sessionUser) throw new Error('session invalid');
     } catch (e) {
         console.error(e);

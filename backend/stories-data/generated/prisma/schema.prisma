@@ -31,8 +31,9 @@ model StorieData {
 }
 
 model ActData {
-  id       Int    @id @default(autoincrement())
-  story_id Int
-  title    String
-  content  String
+  id         Int    @id @default(autoincrement())
+  act_number Int
+  story_id   Int
+  title      String
+  content    String
 }

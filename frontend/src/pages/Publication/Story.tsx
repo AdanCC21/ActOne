@@ -18,6 +18,7 @@ import tempUser from '../../assets/tempUser.png'
 import { GetUPD } from '../../Hooks/GetUPD'
 import { Follow } from '../../Hooks/Follow'
 import { HandleSession } from '../../Hooks/HandleSession'
+import { Editor, EditorState, convertFromRaw } from 'draft-js';
 
 
 export default function Story() {
@@ -46,6 +47,9 @@ export default function Story() {
       setCurrent(updCU)
 
       setComments(commetsFetch.data);
+      console.log(storyFetch);
+      const acts = storyFetch.acts.filter(current => current.title != 'Sinopsis');
+      storyFetch.acts = acts.sort((a, b) => a.act_number - b.act_number);
       setStory(storyFetch)
     }
 
@@ -69,6 +73,17 @@ export default function Story() {
     const follow = await Follow(currentUser.id, story.upd.id, action);
     console.log(follow);
   }
+
+  let displayState = EditorState.createEmpty();
+
+  try {
+    const raw = JSON.parse(story.acts[currentAct].content || '{}');
+    const content = convertFromRaw(raw);
+    displayState = EditorState.createWithContent(content);
+  } catch (e) {
+    // Si falla al parsear, se mantiene vacío
+  }
+
 
   return (
     <div className='flex flex-col'>
@@ -171,9 +186,12 @@ export default function Story() {
             </div>
           </div>
 
-          <div className='my-2 overflow-auto pr-[4%] h-[80%]'>
-            <p style={{ fontSize: '1.2em' }}>{story.acts[currentAct].content}</p>
+          <div className='my-2 overflow-auto pr-[4%] h-[80%] story-content'>
+            <Editor editorState={displayState} readOnly={true} onChange={function (editorState: EditorState): void {
+              throw new Error('Function not implemented.')
+            } } />
           </div>
+
         </section>
       </div>
     </div >

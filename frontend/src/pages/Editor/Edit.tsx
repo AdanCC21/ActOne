@@ -3,38 +3,34 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import Header from "../../components/Header";
 
-import { ImFontSize } from "react-icons/im";
-import { FaBold } from "react-icons/fa";
-import { FaItalic } from "react-icons/fa";
-import { FaUnderline } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 import { E_Act } from '../../entities/Act.entity'
 import { addAct, deleteAct, HandleSuggestions, SubmitStory } from "../../Hooks/HandleEditor";
 
-// import {
-//     Editor,
-//     EditorState,
-//     convertFromRaw,
-// } from 'draft-js';
-// import RichTextEditor from "../../components/RichEditor";
+
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
+import RichTextEditor from '../../components/RichEditor';
 
 import '../../css/edit.css'
 import '../../css/inputs.css'
 import Modal2 from "../../components/Modal2";
 import { HandleSession } from "../../Hooks/HandleSession";
-import { E_UPD } from "../../entities/UPD.entity";
 
 export default function Edit({ }) {
     const { title } = useParams();
 
-    const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed'), new E_Act(1)]);
+    const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed', 0), new E_Act(1)]);
     const [storyDetails, setDetails] = useState({ visibility: false, labels: [''] });
     const [currentAct, setCurrent] = useState(0);
     const [suggestions, setSuggestions] = useState({ maxWords: '', badWords: [''], wordMostUsed: [''], intWords: [''] });
     const [modalState, setModal] = useState(false);
 
+    // EDITOR
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
     const navigate = useNavigate();
+
     let sessionUser;
     try {
         sessionUser = HandleSession(sessionStorage.getItem('user') || '');
@@ -43,11 +39,32 @@ export default function Edit({ }) {
         navigate('/404');
     }
 
-    useEffect(() => { handleSug(act[currentAct].content); }, [currentAct, act[currentAct].content])
+    useEffect(() => {
+        handleSug(act[currentAct].content);
+    }, [currentAct, act[currentAct].content])
+
+    useEffect(() => {
+        if (!act[currentAct].content) {
+            setEditorState(EditorState.createEmpty());
+        } else {
+            try {
+                const content = convertFromRaw(JSON.parse(act[currentAct].content));
+                setEditorState(EditorState.createWithContent(content));
+            } catch (e) {
+                setEditorState(EditorState.createEmpty());
+            }
+        }
+    }, [currentAct]);
+    
+    useEffect(() => {
+        const rawContent = convertToRaw(editorState.getCurrentContent());
+        setAct(prev =>
+            prev.map((a, i) => i === currentAct ? { ...a, content: JSON.stringify(rawContent) } : a)
+        );
+    }, [editorState]);
 
     const handleChanges = (e: any) => {
         const { name, value } = e.target;
-
         setAct(prev => prev.map((current, index) =>
             index === currentAct ? { ...current, [name]: value } : current
         ));
@@ -67,10 +84,8 @@ export default function Edit({ }) {
 
     const handleSubmit = async () => {
         const sub = await SubmitStory(title, sessionUser.id, act, storyDetails.labels, storyDetails.visibility);
-        console.log(sub);
         sub ? navigate('/') : console.error('something is wrong');
     }
-
 
     const handlePublish = () => {
         setModal(true);
@@ -80,6 +95,10 @@ export default function Edit({ }) {
         const sugg = HandleSuggestions(text);
         setSuggestions(sugg);
     }
+
+    const handleSave = (rawContent) => {
+        console.log("Contenido guardado:", rawContent);
+    };
 
     return (
         <div className="overflow-hidden">
@@ -93,13 +112,6 @@ export default function Edit({ }) {
                         <div className="flex justify-between">
                             {currentAct === 0 ? (
                                 <h4 className="mb-4 text-(--yellow-500)">Sinposis</h4>
-                                // <input
-                                //     name="title"
-                                //     value={act[currentAct].title}
-                                //     placeholder="Titulo para tu acto"
-                                //     onChange={(e) => { handleChanges(e) }}
-                                //     disabled
-                                //     className="text-(--yellow-500) w-fit mb-2" />
                             ) : (
                                 <input
                                     name="title"
@@ -108,20 +120,13 @@ export default function Edit({ }) {
                                     onChange={(e) => { handleChanges(e) }}
                                     className=" text-(--yellow-500) w-fit mb-2" />
                             )}
-                            <div className="flex my-auto">
-                                <ImFontSize className="mr-2" />
-                                <FaBold className="mr-2" />
-                                <FaItalic className="mr-2" />
-                                <FaUnderline />
-                            </div>
                         </div>
-                        {/* <RichTextEditor initialContent={editorContent[currentAct]} onSave={onSave} /> */}
-                        <textarea
-                            name="content"
-                            value={act[currentAct].content}
-                            placeholder="Write your act"
-                            onChange={(e) => { handleChanges(e) }}
-                            className="w-full" />
+
+                        <RichTextEditor
+                            editorState={editorState}
+                            setEditorState={setEditorState}
+                            onSave={handleSave}
+                        />
                     </section>
                 </div>
 
@@ -132,7 +137,11 @@ export default function Edit({ }) {
                             {act.map((current, index) => (
                                 <li key={index} className="flex items-center">
                                     <span className={`truncate max-w-[250px] overflow-hidden whitespace-nowrap ${index === currentAct ? 'text-(--yellow-600)' : ''} cursor-pointer`}
-                                        onClick={() => { setCurrent(index); handleSug(act[currentAct].content); }}>{current.title}</span>
+                                        onClick={() => {
+
+                                            setCurrent(index);
+                                            handleSug(act[currentAct].content);
+                                        }}>{current.title}</span>
                                     {index > 0 ? (
                                         <div className="ml-auto cursor-pointer opacity-20 hover:opacity-100 duration-200 ease-in-out"
                                             onClick={() => { deleteAct(act, setAct, index, currentAct, setCurrent); }} >

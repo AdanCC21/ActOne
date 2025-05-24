@@ -7,17 +7,18 @@ import { TbLogout2 } from "react-icons/tb";
 
 import './css/side-bar.css'
 import { useNavigate } from "react-router-dom";
+import { HandleSession } from "../Hooks/HandleSession";
 
 export default function SideBar() {
   const navigator = useNavigate();
-  const user = sessionStorage.getItem('user');
+  const user = HandleSession(sessionStorage.getItem('user') || 'invitado');
   return (
     <nav className="side-bar">
       <ul>
         <li onClick={() => { navigator('/') }}><FaHome /> <span className="ml-2">Home</span></li>
-        <li onClick={()=>{navigator('/profile/pub')}}><FaRegUser /> <span className="ml-2">Following</span></li>
-        <li onClick={()=>{navigator('/profile/mark')}}><CiBookmark /> <span className="ml-2">Saved</span></li>
-        <li onClick={()=>{navigator('/profile/pub')}}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
+        <li onClick={() => { user ? navigator('/profile/pub') : navigator('/login') }}><FaRegUser /> <span className="ml-2">Following</span></li>
+        <li onClick={() => { user ? navigator('/profile/mark') : navigator('/login') }}><CiBookmark /> <span className="ml-2">Saved</span></li>
+        <li onClick={() => { user ? navigator('/profile/pub') : navigator('/login') }}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
       </ul>
       <div className="flex items-center mt-auto mb-1 cursor-pointer">
         {user != null || user != undefined ? (
