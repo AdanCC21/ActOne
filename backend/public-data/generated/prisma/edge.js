@@ -143,7 +143,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\PC\\Documents\\Chamba\\Proyectos\\ActOne\\backend\\public-data\\generated\\prisma",
+      "value": "C:\\Users\\adang\\Documents\\Chamba\\ActOne\\backend\\public-data\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -157,7 +157,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\PC\\Documents\\Chamba\\Proyectos\\ActOne\\backend\\public-data\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\adang\\Documents\\Chamba\\ActOne\\backend\\public-data\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -175,7 +175,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DB_CONECTION",
-        "value": "postgresql://postgres:adangc18@localhost:5432/ActOne?schema=public-data"
+        "value": "postgresql://postgres:adangc18@localhost:5432/mydb?schema=public-data"
       }
     }
   },

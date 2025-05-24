@@ -25,12 +25,17 @@ export default function Story() {
   const { id } = useParams();
   const navigator = useNavigate();
 
-  const sessionUpd = HandleSession(sessionStorage.getItem('user') || '');
+  let sessionUpd;
+  try {
+    sessionUpd = HandleSession(sessionStorage.getItem('user') || 'invitado');
+  } catch (e) {
+    console.error(e);
+  }
 
   const [currentUser, setCurrent] = useState(new E_UPD());
   const [currentAct, setAct] = useState(0);
   const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()], upd: new E_UPD() });
-  const [comments, setComments] = useState(Array<E_Comment>);
+  const [comments, setComments] = useState(Array<any>);
   const [inputVal, setInput] = useState('')
 
   useEffect(() => {
@@ -42,12 +47,13 @@ export default function Story() {
       }
       // Commentario
       const commetsFetch = await GetComments(storyFetch.story.id);
+      setComments(commetsFetch);
+
       // Current user
       const updCU = await GetUPD(sessionUpd?.id || 0);
       setCurrent(updCU)
 
-      setComments(commetsFetch.data);
-      console.log(storyFetch);
+
       const acts = storyFetch.acts.filter(current => current.title != 'Sinopsis');
       storyFetch.acts = acts.sort((a, b) => a.act_number - b.act_number);
       setStory(storyFetch)
@@ -62,9 +68,11 @@ export default function Story() {
 
   const handleSubmit = async (e: any) => {
     if (e.key === 'Enter') {
-      const fetchData = await SubmitComment(Number(sessionUpd?.id || 0), story.story.id, inputVal);
-      if (!fetchData) return
-      console.log(fetchData);
+      const fetchData = await SubmitComment(sessionUpd.id, story.story.id, inputVal);
+
+      if (!fetchData) return;
+      const newCom = { comment: fetchData.data, upd: sessionUpd };
+      setComments(prev => [newCom, ...prev]);
       setInput('');
     }
   }
@@ -122,9 +130,9 @@ export default function Story() {
                 onKeyDown={(e) => { handleSubmit(e) }}
               />
               <div className='flex flex-col'>
-                {comments.length > 0 ? (comments.map((current, index) => (
+                {comments.length > 0 ? (comments.map((current: any, index) => (
                   <div key={index}>
-                    <CommentCard user_id={current.id} content={current.content} />
+                    <CommentCard userUpd={current.upd} content={current.comment.content} />
                   </div>
                 ))) : (<span className='text-(--gray)'>No Comments</span>)}
               </div>
@@ -189,7 +197,7 @@ export default function Story() {
           <div className='my-2 overflow-auto pr-[4%] h-[80%] story-content'>
             <Editor editorState={displayState} readOnly={true} onChange={function (editorState: EditorState): void {
               throw new Error('Function not implemented.')
-            } } />
+            }} />
           </div>
 
         </section>
