@@ -5,19 +5,63 @@ import { E_Act } from '../../entities/Act.entity';
 import { GetStory } from '../../Hooks/HandleStory';
 import { TbLogout2 } from "react-icons/tb";
 
+import { Editor, EditorState, convertFromRaw } from 'draft-js';
+
 export default function Focus() {
     const { id } = useParams();
     const navigator = useNavigate();
 
     const [currentAct, setAct] = useState(0);
-    const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()] });
-    const [parrafos, setParrafos] = useState('');
+    const [currentBlock, setBlock] = useState(0);
 
-    const separarPorParrafos = (texto: string) => {
-        return texto
-            .split(/\n\s*\n/) // Divide por saltos de línea dobles (pueden tener espacios)
-            .map(parrafo => parrafo.trim()) // Elimina espacios extra al inicio y al final
-            .filter(parrafo => parrafo.length > 0); // Elimina párrafos vacíos
+    const [story, setStory] = useState({ story: new E_Story(), acts: [new E_Act()] });
+    const [editorState, setEditor] = useState(() => EditorState.createEmpty());
+
+
+    const handleActs = (goRight) => {
+        goRight ? setAct(prev => prev + 1) : setAct(prev => prev - 1)
+    }
+
+    const handleBlocks = (move:number) => {
+        const raw = JSON.parse(story.acts[currentAct].content);
+        // Si hay otro bloque
+        if (currentBlock + move < raw.blocks.length && currentBlock + move >= 0) {
+            // Si ese bloque tiene contenido
+            if (raw.blocks[currentBlock + move].text) {
+                console.log('punto 1');
+                console.log(currentBlock, move)
+                const firstBlock = [raw.blocks[currentBlock + move]];
+                raw.blocks = firstBlock;
+
+                const content = convertFromRaw(raw);
+
+                setEditor(EditorState.createWithContent(content));
+                setBlock(currentBlock + move)
+            } else {
+                console.log('punto 2');
+                console.log(currentBlock, move)
+                setBlock(currentBlock + move)
+                handleBlocks(move * 2)
+            }
+        } else {
+            // Si hay otro acto
+            if (story.acts[currentAct + move]) {
+                console.log('sigueinte acto')
+
+                const raw = JSON.parse(story.acts[currentAct + move].content);
+                setAct(prev => prev + move);
+                setBlock(0);
+
+                const firstBlock = [raw.blocks[0]];
+                raw.blocks = firstBlock;
+
+                const content = convertFromRaw(raw);
+                setEditor(EditorState.createWithContent(content));
+            }
+            else {
+                console.log('Final')
+            }
+        }
     }
 
     useEffect(() => {
@@ -31,6 +75,17 @@ export default function Focus() {
 
             const acts = result.acts.filter(current => current.title != 'Sinopsis');
             result.acts = acts.sort((a, b) => a.act_number - b.act_number);
+
+            try {
+                const raw = JSON.parse(result.acts[currentAct].content);
+                raw.blocks = [raw.blocks[0]];
+                const content = convertFromRaw(raw);
+                setEditor(EditorState.createWithContent(content));
+            } catch (err) {
+                console.error('Error parsing content:', err);
+                setEditor(EditorState.createEmpty());
+            }
+
             setStory(result)
         }
         loadStory();
@@ -40,7 +95,7 @@ export default function Focus() {
         <div className='flex flex-col h-screen w-screen'>
             <nav className='flex w-screen '>
                 {story.acts[currentAct - 1] ? (
-                    <button className='btn void ml-2' onClick={() => { setAct(prev => prev - 1) }}>
+                    <button className='btn void ml-2' onClick={() => { handleActs(false) }}>
                         <span>
                             {`< ${story.acts[currentAct - 1].title} `}
                         </span>
@@ -48,7 +103,7 @@ export default function Focus() {
                 ) : (<></>)}
 
                 {story.acts[currentAct + 1] ? (
-                    <button className='btn void ml-auto mr-2' onClick={() => { setAct(prev => prev + 1) }}>
+                    <button className='btn void ml-auto mr-2' onClick={() => { handleActs(true) }}>
                         <span>
                             {`${story.acts[currentAct + 1].title} >`}
                         </span>
@@ -56,8 +111,11 @@ export default function Focus() {
                 ) : (<></>)}
             </nav>
             <main className='m-auto'>
-                {story.acts[currentAct - 1] ? (
-                    <button className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270' style={{ fontSize: '2em' }}>{`>`}</button>
+                {true ? (
+                    <button
+                        className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
+                        style={{ fontSize: '2em' }}
+                        onClick={() => { handleBlocks(-1) }}>{`>`}</button>
                 ) : (<></>)}
 
                 <div className='flex flex-col justify-center my-5 min-h-[40vh]'>
@@ -65,11 +123,16 @@ export default function Focus() {
                         <h1>{story.story.title}</h1>
                     ) : (<></>)}
                     <h5 className='text-(--yellow-800)'>{story.acts[currentAct].title}</h5>
-                    <p>{story.acts[currentAct].content}</p>
+                    <div className='max-w-[80vw]'>
+                        <Editor editorState={editorState} readOnly={true} onChange={() => { }}></Editor>
+                    </div>
+                    {/* <p>{story.acts[currentAct].content}</p> */}
                 </div>
 
-                {story.acts[currentAct + 1] ? (
-                    <button className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-90 ' style={{ fontSize: '2em' }}>{`>`}</button>
+                {true ? (
+                    <button className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-90 '
+                        style={{ fontSize: '2em' }}
+                        onClick={() => { handleBlocks(1) }}>{`>`}</button>
                 ) : (<></>)}
             </main>
             <button className='btn interaction my-2 ml-1 absolute flex items-center bottom-0 left-0 text-(--gray)'
