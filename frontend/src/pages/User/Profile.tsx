@@ -48,6 +48,9 @@ export default function Profile() {
     }
 
     const hanldeSubmitUpdate = async () => {
+        sessionUser.user_name = dataToUpdate.user_name;
+        sessionUser.profile_image_url = dataToUpdate.profile_image_url;
+        sessionUser.description = dataToUpdate.description
         UpdateUPD(sessionUser);
     }
 
