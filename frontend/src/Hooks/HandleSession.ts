@@ -7,7 +7,7 @@ import { E_UPD } from "../entities/UPD.entity";
 export function HandleSession(sessionStorage: string) {
     try {
         if(sessionStorage === 'invitado'){
-            return null;
+            return new E_UPD();
         }
         if(!sessionStorage) throw new Error("session invalid");
         const userJson = JSON.parse(sessionStorage);
@@ -15,7 +15,7 @@ export function HandleSession(sessionStorage: string) {
         return userUPD;
     } catch (e) {
         console.error(e);
-        return null;
+        return new E_UPD();
     }
 }
 

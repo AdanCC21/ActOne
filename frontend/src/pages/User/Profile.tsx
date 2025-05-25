@@ -11,9 +11,9 @@ import VoidMark from '../../assets/mark.png';
 import Comments from '../../assets/comments.svg'
 import { FaRegUser } from "react-icons/fa";
 import { RiUserFollowLine } from "react-icons/ri";
-import tempUser from '../../assets/tempUser.png'
 import { useNavigate, useParams } from 'react-router-dom';
-import { HandleSession } from '../../Hooks/HandleSession';
+import { HandleSession, UpdateSession } from '../../Hooks/HandleSession';
+import Modal2 from '../../components/Modal2';
 
 
 export default function Profile() {
@@ -33,7 +33,38 @@ export default function Profile() {
     const [markedList, setMarked] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
     const [likedList, setLikedPub] = useState([{ story: new E_Story() }]);
 
-    // 0 Historias Publicadas, 1 Historias Guardadas
+    const [dataToUpdate, setUpdate] = useState({ user_name: "", profile_image_url: "", description: "" });
+    const handleUpdateData = (e: any) => {
+        const { name, value } = e.target;
+        setUpdate(prev => { return { ...prev, [name]: value } });
+    }
+
+    const hanldeSubmitUpdate = async () => {
+        try {
+            const fetchData = await fetch('http://localhost:3000/api/upd/update', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: sessionUser.id, data: dataToUpdate })
+            })
+            if (!fetchData.ok) throw new Error('Fetch not ok. State: ' + fetchData.status);
+            const data = await fetchData.json();
+            if (!data.data) throw new Error(data.message);
+            // Update UPD
+            sessionUser.user_name = data.data.user_name;
+            sessionUser.profile_image_url = data.data.profile_image_url;
+            sessionUser.description = data.data.description
+            UpdateSession(sessionUser);
+            window.location.reload();
+
+            return data.data;
+        } catch (e) {
+            console.error(e);
+            return
+        }
+    }
+
     const [tab, setTab] = useState(0);
 
 
@@ -45,7 +76,6 @@ export default function Profile() {
             const upd = await GetUPD(Number(sessionUser.id));
             if (!upd) return;
             setUser(upd);
-
 
             if (upd.published_stories.length > 0) {
                 const pubStories = await Promise.all(upd.published_stories.map(async (current, index) => {
@@ -72,6 +102,7 @@ export default function Profile() {
             }));
             markStories.length > 0 ? setMarked(markStories) : setMarked([]);
 
+            setUpdate({ user_name: sessionUser.user_name, profile_image_url: sessionUser.profile_image_url, description: sessionUser.description })
         }
         fetchData();
     }, [])
@@ -120,18 +151,53 @@ export default function Profile() {
         }
     }
 
+    const [modalState, showModal] = useState(false);
+
     return (
         <>
             <Header />
+            <Modal2 isOpen={modalState} extraClass='bg-(--dark-300) w-[50vw]' onClose={() => (showModal(!modalState))} >
+                <form className='flex flex-col h-full' onSubmit={(e) => { e.preventDefault() }}>
+                    <h3 className='font-semibold text-center mb-5'>Editar Perfil</h3>
+                    <div className='flex justify-between my-4'>
+                        <fieldset className='flex flex-col ml-5 justify-around'>
+                            <div>
+                                <label>Name</label>
+                                <input placeholder='Your new name' name='user_name' value={dataToUpdate.user_name} onChange={(e) => { handleUpdateData(e) }} />
+                            </div>
+                            <div>
+                                <label>Image Url</label>
+                                <input className='text-(--gray)' placeholder='Your new url' name='profile_image_url' value={dataToUpdate.profile_image_url} onChange={(e) => { handleUpdateData(e) }} />
+                            </div>
+                            <div>
+                                <label>Description</label>
+                                <input className='text-(--gray)' placeholder='Your new description' name='description' value={dataToUpdate.description} onChange={(e) => { handleUpdateData(e) }} />
+                            </div>
+                        </fieldset>
+
+                        <section className='flex flex-col mr-5'>
+                            <img src={dataToUpdate.profile_image_url || sessionUser.profile_image_url} className='w-[200px] h-fit aspect-square object-cover mx-auto my-2 rounded-full' />
+                            <h3>{dataToUpdate.user_name || currentUser.user_name}</h3>
+                            <span className='text-(--gray)'>{dataToUpdate.description || currentUser.description}</span>
+                        </section>
+                    </div>
+                    <div className='flex ml-auto mt-5'>
+                        <button className='btn void' onClick={() => { showModal(!modalState) }}>Cancel</button>
+                        <button className='btn red' onClick={() => { hanldeSubmitUpdate() }}>Update</button>
+                    </div>
+                </form>
+            </Modal2>
+
             <div className='flex h-(--page-h)'>
                 <main className='flex m-auto w-[95%] h-[95%] bg-(--dark-200) p-5 rounded-2xl'>
                     <section className='flex flex-col h-full w-[20%] '>
                         <article className='flex flex-col h-[60%] my-auto items-center'>
-                            <img className='w-[50%] h-fit my-4 aspect-square object-cover  rounded-full mx-auto' src={tempUser} />
+                            <button className='btn red' onClick={() => { showModal(!modalState) }}>Editar</button>
+                            <img className='w-[50%] h-fit my-4 aspect-square object-cover rounded-full mx-auto' src={sessionUser.profile_image_url} />
                             <h4 className='font-bold'>@{currentUser.user_name}</h4>
                             <p className='text-(--gray)'>{currentUser.description !== '' ? (<>{currentUser.description}</>) : (<>No hay descripcion</>)}</p>
                         </article>
-                        <ul className='flex mb-3 mx-auto text-[#9a9999]'>
+                        <ul className='flex mb-3 mx-auto flex-wrap text-[#9a9999]'>
                             {/* Me hace falta un fetch para obtener los likes y comentarios  del usuario*/}
                             <li className='flex items-center mx-5'> <img src={Like} className='h-[15px] mr-2' /> 0 </li>
                             <li className='flex items-center mx-5'> <img src={Comments} className='h-[15px] mr-2' /> 0 </li>

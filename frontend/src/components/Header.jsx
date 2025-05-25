@@ -1,6 +1,4 @@
-import appIocon from '../assets/appIcon.svg'
-import update from '../assets/update.svg'
-import notification from '../assets/notification.svg'
+
 import searcher from '../assets/buscador.png'
 import tempUser from '../assets/tempUser.png'
 import './css/header.css'
@@ -8,9 +6,11 @@ import Modal2 from './Modal2'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { SearchStory } from '../Hooks/GetStory'
+import { HandleSession } from '../Hooks/HandleSession'
 
 export default function Header({ }) {
-    const userId = sessionStorage.getItem('user');
+    let sessionUser;
+    sessionUser = HandleSession(sessionStorage.getItem('user') || 'invitado');
 
     const [modalState, setModal] = useState(false);
     const [title, setTitle] = useState("");
@@ -96,7 +96,6 @@ export default function Header({ }) {
             </Modal2>
 
             <div onClick={() => { navigate('/') }} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
-                {/* <img className='h-[50%] my-auto mr-3' src={appIocon} alt='actOneIcon' /> */}
                 <h3 className='my-auto font-semibold text-(--yellow-500)'>ActOne</h3>
             </div>
 
@@ -121,11 +120,11 @@ export default function Header({ }) {
 
                 <div className='h-nav-items'>
                     <div className='h-nav-add' onClick={() => {
-                        !userId ? navigate('/login') : setModal(true)
+                        !sessionUser.id ? navigate('/login') : setModal(true)
                     }} >
                         <span className='mr-2'>+</span>Add
                     </div>
-                    <img className='user-icon' src={tempUser} alt='user' onClick={() => { !userId ? navigate('/login') : navigate('/profile/pub') }} />
+                    <img className='user-icon rounded-full h-fit object-cover aspect-square' src={sessionUser.profile_image_url || tempUser} alt='user' onClick={() => { !sessionUser.id ? navigate('/login') : navigate('/profile/pub') }} />
                 </div>
             </div>
         </header>

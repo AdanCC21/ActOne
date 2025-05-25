@@ -5,6 +5,7 @@ type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
+    extraClass?: string
 }
 
 const backdrop = {
@@ -18,7 +19,7 @@ const modal = {
     exit: { opacity: 0, y: -30, scale: 0.95 }
 };
 
-export default function Modal2({ isOpen, onClose, children }: ModalProps) {
+export default function Modal2({ isOpen, onClose, children, extraClass }: ModalProps) {
     return (
         <AnimatePresence>
             {isOpen && (
@@ -31,7 +32,7 @@ export default function Modal2({ isOpen, onClose, children }: ModalProps) {
                     onClick={onClose}
                 >
                     <motion.div
-                        className="bg-(--dark-600) rounded-lg shadow-lg p-6 w-[90%] max-w-md"
+                        className={`bg-(--dark-600) rounded-lg shadow-lg p-6 max-w-[70vw] ${extraClass}`}
                         variants={modal}
                         initial="hidden"
                         animate="visible"

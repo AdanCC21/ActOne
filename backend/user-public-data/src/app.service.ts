@@ -106,12 +106,15 @@ export class AppService {
   async UpdateUPD(id: number, user: UpdateUserDTO) {
     const userExist = await this.prismaSer.userPublicData.findUnique({ where: { id: id } });
     if (!userExist) return { message: "user not found", data: null };
+    if (user.user_name) if (user.user_name != userExist.user_name && await this.NameAlreadyUse(user.user_name)) return { message: "Name already in use", data: null };
 
+    // Remove the id
     const { id: _, ...userDataWithoutId } = user;
-    console.log("UPD ACTUALIZAR INFOR");
-    console.log(user);
+
     const result = await this.prismaSer.userPublicData.update({ where: { id: userExist.id }, data: userDataWithoutId })
+    console.log(result);
     if (result) return { message: "ok", data: result };
+
     return { message: "Something is wrong", data: null };
   }
 

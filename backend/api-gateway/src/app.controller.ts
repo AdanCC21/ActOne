@@ -79,6 +79,17 @@ export class AppController {
     return this.updClient.send({ cmd: "follow" }, data);
   }
 
+
+  /**
+   * 
+   * @param data UPD comlpete with the id and the data to update
+   * @returns {message:'', data:null or result};
+   */
+  @Post('upd/update')
+  async UpateUPD(@Body() data) {
+    return this.updClient.send({ cmd: 'update' }, { id: data.id, data: data.data });
+  }
+
   // -------------- Story -------------- //
 
   @Get("story/:id")

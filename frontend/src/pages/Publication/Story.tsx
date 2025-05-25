@@ -5,7 +5,6 @@ import CommentCard from '../../components/CommentCard'
 import { E_Story } from '../../entities/Story.entity'
 import { E_Act } from '../../entities/Act.entity'
 import { E_UPD } from '../../entities/UPD.entity'
-import { E_Comment } from '../../entities/PD.entity'
 
 import '../../css/story.css'
 
@@ -14,8 +13,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { GetComments, SubmitComment } from '../../Hooks/Comments'
 import { PostLike, Report } from '../../Hooks/HandlePD'
 import { MarkStory } from '../../Hooks/Marked'
-import tempUser from '../../assets/tempUser.png'
-import { GetUPD } from '../../Hooks/GetUPD'
 import { Follow } from '../../Hooks/Follow'
 import { HandleSession, UpdateSession } from '../../Hooks/HandleSession'
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
@@ -93,7 +90,6 @@ export default function Story() {
     // Si falla al parsear, se mantiene vacío
   }
 
-
   return (
     <div className='flex flex-col'>
       <Header />
@@ -102,10 +98,8 @@ export default function Story() {
         <section className='flex flex-col bg-(--dark-400) h-full w-[20%] rounded-xl'>
           {/* Profile */}
           <article className='flex flex-col h-[50%] w-[80%] mx-auto my-2'>
-            <img src={tempUser}
-              className='w-[200px] rounded-full m-auto ' />
-            {/* <img src={story.upd.profile_image_url ? (story.upd.profile_image_url) : ('')}
-              className='w-[200px] rounded-full m-auto ' /> */}
+            <img src={story.upd.profile_image_url}
+              className='w-[200px] rounded-full m-auto aspect-square h-fit object-cover' />
             <h3 className='text-center font-semibold'>@{story.upd.user_name}</h3>
             <span className='text-(--gray) text-center '>{story.upd.description}</span>
             {sessionUpd.id != story.upd.id ? (<>
@@ -151,7 +145,7 @@ export default function Story() {
                       UpdateSession(fetchDa.upd.data);
                       let amount
                       if (userPdState.like.state) { amount = userPdState.like.amount - 1 } else { amount = userPdState.like.amount + 1 }
-                      setPD(prev => { return { ...prev, like: { amount:amount, state: !prev.like.state } } });
+                      setPD(prev => { return { ...prev, like: { amount: amount, state: !prev.like.state } } });
                     }
                   }
                 }}
@@ -165,7 +159,7 @@ export default function Story() {
                     const fetchData = await MarkStory(story.story.id, sessionUpd.id)
                     if (fetchData) {
                       UpdateSession(fetchData);
-                      let amount:number;
+                      let amount: number;
                       if (userPdState.marked.state) { amount = userPdState.marked.amount - 1 } else { amount = userPdState.marked.amount + 1 }
                       setPD(prev => { return { ...prev, marked: { amount: amount, state: !prev.marked.state } } });
                     }

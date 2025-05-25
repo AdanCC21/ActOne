@@ -16,7 +16,6 @@ export default function Home({ }) {
         console.error(stories.message);
         return;
       }
-      console.log(stories);
       setStories(stories.data);
     };
 

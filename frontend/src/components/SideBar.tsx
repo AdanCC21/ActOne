@@ -16,12 +16,12 @@ export default function SideBar() {
     <nav className="side-bar">
       <ul>
         <li onClick={() => { navigator('/') }}><FaHome /> <span className="ml-2">Home</span></li>
-        <li onClick={() => { user ? navigator('/profile/pub') : navigator('/login') }}><FaRegUser /> <span className="ml-2">Following</span></li>
-        <li onClick={() => { user ? navigator('/profile/mark') : navigator('/login') }}><CiBookmark /> <span className="ml-2">Saved</span></li>
-        <li onClick={() => { user ? navigator('/profile/pub') : navigator('/login') }}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
+        <li onClick={() => { user.id ? navigator('/profile/pub') : navigator('/login') }}><FaRegUser /> <span className="ml-2">Following</span></li>
+        <li onClick={() => { user.id ? navigator('/profile/mark') : navigator('/login') }}><CiBookmark /> <span className="ml-2">Saved</span></li>
+        <li onClick={() => { user.id ? navigator('/profile/pub') : navigator('/login') }}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
       </ul>
       <div className="flex items-center mt-auto mb-1 cursor-pointer">
-        {user != null || user != undefined ? (
+        {user.id ? (
           <>
             <TbLogout2 />
             <span className="ml-2" onClick={() => { sessionStorage.clear(); navigator('/login'); }}>Log out</span>

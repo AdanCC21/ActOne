@@ -1,6 +1,5 @@
 import './css/feed-card.css'
 import React, { useEffect, useState } from 'react';
-import userProfile from '../assets/tempUser.png';
 
 import { useNavigate } from 'react-router-dom';
 import { E_Story } from '../entities/Story.entity';
@@ -9,9 +8,9 @@ import { GetUPD } from '../Hooks/GetUPD';
 import { PostLike, Report } from '../Hooks/HandlePD'
 import { MarkStory } from '../Hooks/Marked';
 import { HandleSession, UpdateSession } from '../Hooks/HandleSession';
-import { E_UPD } from '../entities/UPD.entity';
 
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
+import { E_UPD } from '../entities/UPD.entity';
 
 type Props = {
     story: E_Story
@@ -19,18 +18,17 @@ type Props = {
 }
 
 export default function FeedCard({ story, authorName }: Props) {
-    if(story.id === 0){
+    if (story.id === 0) {
         return (<></>)
     }
     const navigator = useNavigate();
-    const [author, setAuthor] = useState(authorName);
+    const [authorUpd, setAuthor] = useState(new E_UPD());
 
     let sessionUpd: any;
     sessionUpd = HandleSession(sessionStorage.getItem('user') || 'invitado');
     if (!sessionUpd) console.error('Invalid session');
 
-    const [isLiked, setLiked] = useState(false);
-    const [likeCount, setLikesCount] = useState(story.likes_count || 0);
+    const [userPdState, setPD] = useState({ like: { amount: story.likes_count, state: false }, marked: { amount: story.marked_count, state: false } })
 
     // Crear estado para mostrar la sinopsis con Draft.js
     let synopsisState = EditorState.createEmpty();
@@ -46,14 +44,13 @@ export default function FeedCard({ story, authorName }: Props) {
         const fetchData = async () => {
             try {
                 const updData = await GetUPD(story.author_id)
-                // console.log(updData);
-                setAuthor(updData.user_name);
-                if (sessionUpd) {
-                    if (sessionUpd.stories_liked.includes(story.id)) setLiked(true);
-                }
+                setAuthor(updData);
+                
+                const liked = sessionUpd.stories_liked.includes(story.id);
+                const marked = sessionUpd.marked_stories.includes(story.id);
+                setPD(prev => { return { ...prev, like: { amount: story.likes_count, state: liked }, marked: { amount: story.marked_count, state: marked } } });
             } catch (e) {
                 console.error(e.message);
-                setAuthor('undefined');
             }
         }
         if (!authorName) fetchData();
@@ -67,42 +64,51 @@ export default function FeedCard({ story, authorName }: Props) {
                 <header className='flex justify-between h-fit'>
                     <h4 className='font-semibold text-(--yellow-500)'>{story.title}</h4>
                     <div className='flex h-full my-auto'>
-                        <span className='my-auto mr-2'>{author}</span>
-                        <img src={userProfile} />
+                        <span className='my-auto mr-2'>{authorUpd.user_name}</span>
+                        <img src={authorUpd.profile_image_url} className='rounded-full aspect-square object-cover' />
                     </div>
                 </header>
 
                 <div className='synopsis my-3'>
                     <Editor editorState={synopsisState} readOnly={true} onChange={function (editorState: EditorState): void {
                         throw new Error('Function not implemented.');
-                    } } />
+                    }} />
                 </div>
             </div>
 
             <section className='interactions ' style={{ zIndex: 2 }}>
                 <Like
                     extraClass='mr-2 my-auto'
-                    state={isLiked}
+                    state={userPdState.like.state}
                     func={async () => {
                         if (sessionUpd) {
                             const fetchDa = await PostLike(sessionUpd?.id, story.id, 'story', sessionUpd)
                             if (fetchDa) {
                                 UpdateSession(fetchDa.upd.data);
-                                setLiked(prev => {
-                                    prev ? setLikesCount(prev => prev - 1) : setLikesCount(prev => prev + 1)
-                                    return !prev;
-                                });
+                                let amount
+                                if (userPdState.like.state) { amount = userPdState.like.amount - 1 } else { amount = userPdState.like.amount + 1 }
+                                setPD(prev => { return { ...prev, like: { amount: amount, state: !prev.like.state } } });
                             }
                         }
                     }}
-                    amount={likeCount}
+                    amount={userPdState.like.amount}
                 />
                 <Comments extraClass='mx-2 my-auto' func={() => { }} amount={story.comments_count} />
                 <Mark
                     extraClass='mx-2 my-auto'
-                    state={false}
-                    func={() => { MarkStory(story.id, sessionUpd.id) }}
-                    amount={story.marked_count}
+                    state={userPdState.marked.state}
+                    func={async () => {
+                        if (sessionUpd) {
+                            const fetchData = await MarkStory(story.id, sessionUpd.id)
+                            if (fetchData) {
+                                UpdateSession(fetchData);
+                                let amount: number;
+                                if (userPdState.marked.state) { amount = userPdState.marked.amount - 1 } else { amount = userPdState.marked.amount + 1 }
+                                setPD(prev => { return { ...prev, marked: { amount: amount, state: !prev.marked.state } } });
+                            }
+                        }
+                    }}
+                    amount={userPdState.marked.amount}
                 />
                 <Reports
                     extraClass='mx-2 my-auto'

@@ -41,7 +41,6 @@ export default function LogIn({ }) {
             const loginfetch = await logIn(email, authType, pass);
             const upd = await GetUPD(loginfetch.user_profile_id);
             if(upd) sessionStorage.setItem('user', JSON.stringify(upd));
-            console.log("login upd ", upd);
             navigate('/')
         } catch (e) {
             setAlert(e.message);
