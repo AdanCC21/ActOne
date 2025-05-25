@@ -8,7 +8,6 @@ import Story from "./pages/Publication/Story";
 import NotFound from "./pages/Error/NotFound";
 import Focus from "./pages/Publication/Focus";
 import Profile from "./pages/User/Profile";
-import TestEditor from "./pages/Editor/TestEditor";
 import GenericError from "./pages/Error/GenericError";
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
       <Route path="/story/:id/focus" element={<Focus />} />
 
       <Route path="/edit/:title" element={<Edit />} />
-      <Route path="/test" element={<TestEditor />} />
 
       <Route path="/404" element={<NotFound />} />
       <Route path="/error" element={<GenericError />} />

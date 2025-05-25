@@ -10,6 +10,7 @@ export class AppController {
     @Inject('STORY_SERVICE') private storyClient: ClientProxy,
     @Inject('AUTH_SERVICE') private authClient: ClientProxy,
     @Inject('PD_SERVICE') private pdClient: ClientProxy,
+    @Inject('EDIT_SERVICE') private editClient: ClientProxy,
     private appSer: AppService
   ) { }
 
@@ -34,6 +35,17 @@ export class AppController {
   @Get("email/used/:email")
   async EmailInUse(@Param('email') email: string) {
     return await firstValueFrom(this.authClient.send({ cmd: "email/used" }, email))
+  }
+
+  // -------------- EDIT -------------- //
+  /**
+   * 
+   * @param data {text:string}
+   * @returns { maxWords: '', badWords: [''], wordMostUsed: [''], intWords: [''] }
+   */
+  @Post('edit/suggestions')
+  async HandleSug(@Body() data) {
+    return this.editClient.send({ cmd: "get/suggestions" }, data.text);
   }
 
 

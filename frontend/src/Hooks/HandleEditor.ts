@@ -37,7 +37,7 @@ export async function SubmitStory(title, userId, act, labels, visibility) {
         }
         const result = await res.json();
         if (!result.data) throw new Error(result.message);
-        
+
         console.log(result);
         return result.data
     } catch (e) {
@@ -69,150 +69,167 @@ export function addAct(setAct: any, setCurrent) {
 }
 
 // --------------------------- SUGERENCIAS ---------------------------
-
-const BadWordsList: string[] = [
-    "idiota",
-    "imbécil",
-    "estúpido",
-    "pendejo",
-    "cabron",
-    "mierda",
-    "puta",
-    "puto",
-    "gilipollas",
-    "coño",
-    "joder",
-    "maldito",
-    "perra",
-    "zorra",
-    "culero",
-    "chingada",
-    "chingar",
-    "mierd@",
-    "mierda",
-    "hdp",
-    "hijo de puta",
-    "maricon",
-    "joto",
-    "haro",
-];
-
-const StopWords: string[] = [
-    "a", "y", "acá", "ahí", "al", "algo", "algunas", "algunos", "allá", "allí",
-    "antes", "así", "aun", "aunque", "bien", "cada", "casi", "como", "con",
-    "contra", "cual", "cuales", "cuando", "de", "del", "desde", "donde",
-    "dos", "el", "él", "ella", "ellas", "ellos", "en", "entre", "era", "erais",
-    "eran", "eras", "eres", "es", "esa", "esas", "ese", "eso", "esos", "esta",
-    "estaba", "estaban", "estado", "estáis", "estamos", "están", "estar",
-    "estas", "este", "esto", "estos", "estoy", "fue", "fueron", "fui", "fuimos",
-    "ha", "había", "habían", "hace", "hacen", "hacer", "hacia", "hasta",
-    "hay", "la", "las", "le", "les", "lo", "los", "más", "me", "mi", "mis",
-    "mucho", "muy", "nada", "ni", "no", "nos", "nosotros", "nuestra",
-    "nuestras", "nuestro", "nuestros", "o", "os", "otra", "otras", "otro",
-    "otros", "para", "pero", "poco", "por", "porque", "que", "quien",
-    "quienes", "se", "sea", "sean", "ser", "si", "sí", "sido", "sin", "sobre",
-    "sois", "solamente", "solo", "somos", "son", "soy", "su", "sus", "también",
-    "tampoco", "tan", "te", "tenéis", "tenemos", "tener", "tengo", "ti", "tiene",
-    "tienen", "todo", "todos", "tu", "tus", "un", "una", "unas", "uno", "unos",
-    "vosotras", "vosotros", "vuestra", "vuestras", "vuestro", "vuestros", "ya", "yo", "the", "of", "then", "they", "be", "will"
-];
-
-const interestingWords: string[] = [
-    "infiel", "engaño", "traición", "pelea", "golpes", "gritos", "discusión",
-    "chisme", "secreto", "engaños", "rumor", "problema", "crimen", "violencia",
-    "accidente", "desastre", "escándalo", "llanto", "tristeza", "ira", "odio",
-    "amor", "pasión", "celos", "envidia", "venganza", "rechazo", "vergüenza",
-    "desprecio", "fracaso", "engañoso", "drama", "conflicto", "robo", "detención",
-    "trauma", "abandono", "infidelidad", "ruptura", "misterio", "sorpresa",
-    "impacto", "dolor", "locura", "obsesión", "culpa", "mentira", "adicción",
-    "escándalos", "abusos", "pérdida", "tentación", "descontrol", "engañó",
-    "fama", "revelación", "pánico", "traidor", "traiciono", "traicion", "abuso", "ilegal",
-    "pecado", "pecar", "falso"
-];
-
-
-export function HandleSuggestions(text: string) {
-    const ansewer = { maxWords: '', badWords: [''], wordMostUsed: [''], intWords: [''] };
-
-    const maxWords = MaxWords(text, 200);
-    if (maxWords.exceeds) ansewer.maxWords = "Maximo de palabras exedido. Cantidad :" + maxWords.wordsList.length;
-
-    const badWords = HaveBadWords(text);
-    badWords.length > 0 ? ansewer.badWords = badWords : ansewer.badWords = [''];
-
-    if (maxWords.wordsList.length > 30) {
-        const wordMostUsed = WordMostUsed(maxWords.wordsList);
-        if (wordMostUsed != null) ansewer.wordMostUsed = ["La palabra mas usada es", wordMostUsed.palabra, ". Considera remarcarla si es algo importante."]
+export async function HandleSuggestions(text: string) {
+    try {
+        const fetchData = await fetch('http://localhost:3000/api/edit/suggestions', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ text: text })
+        })
+        if (!fetchData.ok) throw new Error("Error in the fetch");
+        const data = await fetchData.json();
+        return data.data;
+    } catch (e) {
+        console.error(e);
+        return { maxWords: '', badWords: [''], wordMostUsed: [''], intWords: [''] };
     }
-
-    const intWords = HaveInterestingWords(maxWords.wordsList);
-    intWords.length > 0 ? ansewer.intWords = intWords : ansewer.intWords = [''];
-
-    return ansewer;
 }
 
-function HaveBadWords(text: string) {
-    const BadWordsSet = new Set(BadWordsList);
-    const words = text
-        .toLowerCase()
-        .replace(/[^\w\s]/g, "")
-        .split(/\s+/);
+// const BadWordsList: string[] = [
+//     "idiota",
+//     "imbécil",
+//     "estúpido",
+//     "pendejo",
+//     "cabron",
+//     "mierda",
+//     "puta",
+//     "puto",
+//     "gilipollas",
+//     "coño",
+//     "joder",
+//     "maldito",
+//     "perra",
+//     "zorra",
+//     "culero",
+//     "chingada",
+//     "chingar",
+//     "mierd@",
+//     "mierda",
+//     "hdp",
+//     "hijo de puta",
+//     "maricon",
+//     "joto",
+//     "haro",
+// ];
 
-    const found: string[] = [];
-    for (const word of words) {
-        if (BadWordsSet.has(word)) {
-            if (!found.includes(word)) {
-                found.push(word);
-            }
-        }
-    }
+// const StopWords: string[] = [
+//     "a", "y", "acá", "ahí", "al", "algo", "algunas", "algunos", "allá", "allí",
+//     "antes", "así", "aun", "aunque", "bien", "cada", "casi", "como", "con",
+//     "contra", "cual", "cuales", "cuando", "de", "del", "desde", "donde",
+//     "dos", "el", "él", "ella", "ellas", "ellos", "en", "entre", "era", "erais",
+//     "eran", "eras", "eres", "es", "esa", "esas", "ese", "eso", "esos", "esta",
+//     "estaba", "estaban", "estado", "estáis", "estamos", "están", "estar",
+//     "estas", "este", "esto", "estos", "estoy", "fue", "fueron", "fui", "fuimos",
+//     "ha", "había", "habían", "hace", "hacen", "hacer", "hacia", "hasta",
+//     "hay", "la", "las", "le", "les", "lo", "los", "más", "me", "mi", "mis",
+//     "mucho", "muy", "nada", "ni", "no", "nos", "nosotros", "nuestra",
+//     "nuestras", "nuestro", "nuestros", "o", "os", "otra", "otras", "otro",
+//     "otros", "para", "pero", "poco", "por", "porque", "que", "quien",
+//     "quienes", "se", "sea", "sean", "ser", "si", "sí", "sido", "sin", "sobre",
+//     "sois", "solamente", "solo", "somos", "son", "soy", "su", "sus", "también",
+//     "tampoco", "tan", "te", "tenéis", "tenemos", "tener", "tengo", "ti", "tiene",
+//     "tienen", "todo", "todos", "tu", "tus", "un", "una", "unas", "uno", "unos",
+//     "vosotras", "vosotros", "vuestra", "vuestras", "vuestro", "vuestros", "ya", "yo", "the", "of", "then", "they", "be", "will"
+// ];
 
-    return found;
-}
+// const interestingWords: string[] = [
+//     "infiel", "engaño", "traición", "pelea", "golpes", "gritos", "discusión",
+//     "chisme", "secreto", "engaños", "rumor", "problema", "crimen", "violencia",
+//     "accidente", "desastre", "escándalo", "llanto", "tristeza", "ira", "odio",
+//     "amor", "pasión", "celos", "envidia", "venganza", "rechazo", "vergüenza",
+//     "desprecio", "fracaso", "engañoso", "drama", "conflicto", "robo", "detención",
+//     "trauma", "abandono", "infidelidad", "ruptura", "misterio", "sorpresa",
+//     "impacto", "dolor", "locura", "obsesión", "culpa", "mentira", "adicción",
+//     "escándalos", "abusos", "pérdida", "tentación", "descontrol", "engañó",
+//     "fama", "revelación", "pánico", "traidor", "traiciono", "traicion", "abuso", "ilegal",
+//     "pecado", "pecar", "falso"
+// ];
 
-function MaxWords(text: string, max: number) {
-    const words = text
-        .toLowerCase()
-        .replace(/[^\w\s]/g, "")
-        .split(/\s+/);
 
-    if (words.length > max) {
-        return { exceeds: true, wordsList: words };
-    }
-    return { exceeds: false, wordsList: words };
-}
+// export function HandleSuggestions(text: string) {
+//     const ansewer = { maxWords: '', badWords: [''], wordMostUsed: [''], intWords: [''] };
 
-function WordMostUsed(words: string[]): { palabra: string; cantidad: number } | null {
-    const stopWordsSet = new Set(StopWords);
-    const count: Record<string, number> = {};
+//     const maxWords = MaxWords(text, 200);
+//     if (maxWords.exceeds) ansewer.maxWords = "Maximo de palabras exedido. Cantidad :" + maxWords.wordsList.length;
 
-    for (const word of words) {
-        if (word === "" || stopWordsSet.has(word)) continue;
-        count[word] = (count[word] || 0) + 1;
-    }
+//     const badWords = HaveBadWords(text);
+//     badWords.length > 0 ? ansewer.badWords = badWords : ansewer.badWords = [''];
 
-    let maxPalabra = "";
-    let maxCantidad = 0;
+//     if (maxWords.wordsList.length > 30) {
+//         const wordMostUsed = WordMostUsed(maxWords.wordsList);
+//         if (wordMostUsed != null) ansewer.wordMostUsed = ["La palabra mas usada es", wordMostUsed.palabra, ". Considera remarcarla si es algo importante."]
+//     }
 
-    for (const [palabra, cantidad] of Object.entries(count)) {
-        if (cantidad > maxCantidad) {
-            maxPalabra = palabra;
-            maxCantidad = cantidad;
-        }
-    }
+//     const intWords = HaveInterestingWords(maxWords.wordsList);
+//     intWords.length > 0 ? ansewer.intWords = intWords : ansewer.intWords = [''];
 
-    return maxPalabra ? { palabra: maxPalabra, cantidad: maxCantidad } : null;
-}
+//     return ansewer;
+// }
 
-function HaveInterestingWords(words: string[]) {
-    const intWordSet = new Set(interestingWords);
-    let wordsList: string[] = [];
-    for (const word of words) {
-        if (intWordSet.has(word)) {
-            if (!wordsList.includes(word)) {
-                wordsList.push(word);
-            }
-        }
-    }
-    return wordsList;
-}
+// function HaveBadWords(text: string) {
+//     const BadWordsSet = new Set(BadWordsList);
+//     const words = text
+//         .toLowerCase()
+//         .replace(/[^\w\s]/g, "")
+//         .split(/\s+/);
+
+//     const found: string[] = [];
+//     for (const word of words) {
+//         if (BadWordsSet.has(word)) {
+//             if (!found.includes(word)) {
+//                 found.push(word);
+//             }
+//         }
+//     }
+
+//     return found;
+// }
+
+// function MaxWords(text: string, max: number) {
+//     const words = text
+//         .toLowerCase()
+//         .replace(/[^\w\s]/g, "")
+//         .split(/\s+/);
+
+//     if (words.length > max) {
+//         return { exceeds: true, wordsList: words };
+//     }
+//     return { exceeds: false, wordsList: words };
+// }
+
+// function WordMostUsed(words: string[]): { palabra: string; cantidad: number } | null {
+//     const stopWordsSet = new Set(StopWords);
+//     const count: Record<string, number> = {};
+
+//     for (const word of words) {
+//         if (word === "" || stopWordsSet.has(word)) continue;
+//         count[word] = (count[word] || 0) + 1;
+//     }
+
+//     let maxPalabra = "";
+//     let maxCantidad = 0;
+
+//     for (const [palabra, cantidad] of Object.entries(count)) {
+//         if (cantidad > maxCantidad) {
+//             maxPalabra = palabra;
+//             maxCantidad = cantidad;
+//         }
+//     }
+
+//     return maxPalabra ? { palabra: maxPalabra, cantidad: maxCantidad } : null;
+// }
+
+// function HaveInterestingWords(words: string[]) {
+//     const intWordSet = new Set(interestingWords);
+//     let wordsList: string[] = [];
+//     for (const word of words) {
+//         if (intWordSet.has(word)) {
+//             if (!wordsList.includes(word)) {
+//                 wordsList.push(word);
+//             }
+//         }
+//     }
+//     return wordsList;
+// }

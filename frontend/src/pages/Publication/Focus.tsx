@@ -140,7 +140,7 @@ export default function Focus() {
                 ) : (<></>)}
 
                 {story.acts[currentAct + 1] ? (
-                    <button className='btn void ml-auto mr-2' onClick={() => { handleActs(true); setFinal(false)`` }}>
+                    <button className='btn void ml-auto mr-2' onClick={() => { handleActs(true); setFinal(false); }}>
                         <span>
                             {`${story.acts[currentAct + 1].title} >`}
                         </span>

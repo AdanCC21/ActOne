@@ -76,7 +76,6 @@ export default function Edit({ }) {
             const labelsList = value.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/);
             setDetails(prev => { return { ...prev, labels: labelsList } })
         }
-        console.log(storyDetails);
     }
 
     const handleSubmit = async () => {
@@ -90,9 +89,8 @@ export default function Edit({ }) {
         setModal(true);
     }
 
-    const handleSug = (text: string) => {
-        console.log(text);
-        const sugg = HandleSuggestions(text);
+    const handleSug = async(text: string) => {
+        const sugg = await HandleSuggestions(text);
         setSuggestions(sugg);
     }
 

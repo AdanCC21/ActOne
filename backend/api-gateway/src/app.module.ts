@@ -10,6 +10,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       { name: 'AUTH_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3002 } },
       { name: 'STORY_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3003 } },
       { name: 'PD_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3004 } },
+      { name: 'EDIT_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3005 } },
     ]),
   ],
   controllers: [AppController],

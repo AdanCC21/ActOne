@@ -123,11 +123,14 @@ export default function Profile() {
             case 1:
                 return (
                     markedList.map((current, index) => {
-                        return (
-                            <div key={index} >
-                                <FeedCard story={current.story} />
-                            </div>
-                        )
+                        if(current){
+                            return (
+                                <div key={index} >
+                                    <FeedCard story={current.story} />
+                                </div>
+                            )
+                        }
+                        return(<></>)
                     }))
             case 2:
                 return (
