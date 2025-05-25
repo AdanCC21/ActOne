@@ -10,7 +10,6 @@ export async function SubmitStory(title, userId, act, labels, visibility) {
             duration = "Medium";
         }
 
-        console.log(visibility)
         const story = {
             title: title,
             author_id: Number(userId),
@@ -20,8 +19,6 @@ export async function SubmitStory(title, userId, act, labels, visibility) {
             visibility: visibility,
         }
         const acts = act.map((current) => { return { title: current.title, content: current.content, act_number: current.act_number } })
-        console.log("actos a enviar")
-        console.log(acts)
         const data = {
             story: story,
             acts: acts
@@ -149,7 +146,6 @@ export function HandleSuggestions(text: string) {
     const intWords = HaveInterestingWords(maxWords.wordsList);
     intWords.length > 0 ? ansewer.intWords = intWords : ansewer.intWords = [''];
 
-    console.log(ansewer);
     return ansewer;
 }
 

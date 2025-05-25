@@ -40,10 +40,6 @@ export default function Edit({ }) {
     }
 
     useEffect(() => {
-        handleSug(act[currentAct].content);
-    }, [currentAct, act[currentAct].content])
-
-    useEffect(() => {
         if (!act[currentAct].content) {
             setEditorState(EditorState.createEmpty());
         } else {
@@ -58,9 +54,11 @@ export default function Edit({ }) {
     
     useEffect(() => {
         const rawContent = convertToRaw(editorState.getCurrentContent());
+        const temp = rawContent.blocks[0].text;
         setAct(prev =>
             prev.map((a, i) => i === currentAct ? { ...a, content: JSON.stringify(rawContent) } : a)
         );
+        handleSug(temp);
     }, [editorState]);
 
     const handleChanges = (e: any) => {
@@ -68,7 +66,6 @@ export default function Edit({ }) {
         setAct(prev => prev.map((current, index) =>
             index === currentAct ? { ...current, [name]: value } : current
         ));
-        handleSug(act[currentAct].content);
     }
 
     const handleDetails = (e: any) => {
@@ -92,6 +89,7 @@ export default function Edit({ }) {
     }
 
     const handleSug = (text: string) => {
+        console.log(text);
         const sugg = HandleSuggestions(text);
         setSuggestions(sugg);
     }
@@ -138,9 +136,7 @@ export default function Edit({ }) {
                                 <li key={index} className="flex items-center">
                                     <span className={`truncate max-w-[250px] overflow-hidden whitespace-nowrap ${index === currentAct ? 'text-(--yellow-600)' : ''} cursor-pointer`}
                                         onClick={() => {
-
                                             setCurrent(index);
-                                            handleSug(act[currentAct].content);
                                         }}>{current.title}</span>
                                     {index > 0 ? (
                                         <div className="ml-auto cursor-pointer opacity-20 hover:opacity-100 duration-200 ease-in-out"
