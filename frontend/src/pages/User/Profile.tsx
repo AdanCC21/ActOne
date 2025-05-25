@@ -1,7 +1,7 @@
 import React, { use, useEffect, useState } from 'react'
 import Header from '../../components/Header';
-import { GetUPD } from '../../Hooks/GetUPD';
-import { GetStory } from '../../Hooks/GetStory';
+import { GetMultiplesUpd, GetUPD, UpdateUPD } from '../../Hooks/GetUPD';
+import { DeleteStory, GetStory } from '../../Hooks/HandleStory';
 import { E_UPD } from '../../entities/UPD.entity';
 import { E_Story } from '../../entities/Story.entity';
 import FeedCard from '../../components/FeedCard'
@@ -9,7 +9,7 @@ import FeedCard from '../../components/FeedCard'
 import Like from '../../assets/void_like.png';
 import VoidMark from '../../assets/mark.png';
 import Comments from '../../assets/comments.svg'
-import { FaRegUser } from "react-icons/fa";
+import { FaRegTrashAlt, FaRegUser } from "react-icons/fa";
 import { RiUserFollowLine } from "react-icons/ri";
 import { useNavigate, useParams } from 'react-router-dom';
 import { HandleSession, UpdateSession } from '../../Hooks/HandleSession';
@@ -28,6 +28,14 @@ export default function Profile() {
     }
 
     const { mark } = useParams();
+    const [modalState, showModal] = useState(false);
+
+    const [following, showFollowing] = useState(false);
+    const [followingList, setFollowing] = useState<Array<any>>([]);
+
+    const [followers, showfollowers] = useState(false);
+    const [followersList, setFollowers] = useState<Array<any>>([]);
+
     const [currentUser, setUser] = useState(new E_UPD());
     const [pubList, setPub] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
     const [markedList, setMarked] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
@@ -40,33 +48,10 @@ export default function Profile() {
     }
 
     const hanldeSubmitUpdate = async () => {
-        try {
-            const fetchData = await fetch('http://localhost:3000/api/upd/update', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id: sessionUser.id, data: dataToUpdate })
-            })
-            if (!fetchData.ok) throw new Error('Fetch not ok. State: ' + fetchData.status);
-            const data = await fetchData.json();
-            if (!data.data) throw new Error(data.message);
-            // Update UPD
-            sessionUser.user_name = data.data.user_name;
-            sessionUser.profile_image_url = data.data.profile_image_url;
-            sessionUser.description = data.data.description
-            UpdateSession(sessionUser);
-            window.location.reload();
-
-            return data.data;
-        } catch (e) {
-            console.error(e);
-            return
-        }
+        UpdateUPD(sessionUser);
     }
 
     const [tab, setTab] = useState(0);
-
 
     useEffect(() => {
         if (mark === "mark") {
@@ -102,6 +87,14 @@ export default function Profile() {
             }));
             markStories.length > 0 ? setMarked(markStories) : setMarked([]);
 
+            const followingFetch = await GetMultiplesUpd(sessionUser.following);
+            setFollowing(followingFetch);
+
+            const followersFetch = await GetMultiplesUpd(sessionUser.followers);
+            setFollowers(followersFetch);
+
+            console.log(sessionUser);
+
             setUpdate({ user_name: sessionUser.user_name, profile_image_url: sessionUser.profile_image_url, description: sessionUser.description })
         }
         fetchData();
@@ -114,8 +107,13 @@ export default function Profile() {
                 return (
                     <>
                         {pubList.map((current, index) => (
-                            <div key={index} >
-                                <FeedCard story={current.story} />
+                            <div key={index}>
+                                <button className='absolute cursor-pointer btn red' onClick={()=>{DeleteStory(current.story.id, sessionUser)}}>
+                                    <FaRegTrashAlt />
+                                </button>
+                                <section className='ml-3 h-full'>
+                                    <FeedCard story={current.story} />
+                                </section>
                             </div>))}
                     </>
                 )
@@ -151,11 +149,10 @@ export default function Profile() {
         }
     }
 
-    const [modalState, showModal] = useState(false);
-
     return (
         <>
             <Header />
+            {/* Modal de edicion */}
             <Modal2 isOpen={modalState} extraClass='bg-(--dark-300) w-[50vw]' onClose={() => (showModal(!modalState))} >
                 <form className='flex flex-col h-full' onSubmit={(e) => { e.preventDefault() }}>
                     <h3 className='font-semibold text-center mb-5'>Editar Perfil</h3>
@@ -188,22 +185,54 @@ export default function Profile() {
                 </form>
             </Modal2>
 
+            <Modal2 isOpen={following} onClose={() => (showFollowing(!following))}>
+                <div>
+                    <h2>Following</h2>
+                    <ul>
+                        {followingList.map((current: any) => (
+                            <div className='px-2 py-2 bg-(--dark-200) my-2 flex'>
+                                <img src={current.profile_image_url} className='h-[50px] rounded-full object-cover aspect-square' />
+                                <p>{current.user_name}</p>
+                            </div>
+                        ))}
+                    </ul>
+                </div>
+            </Modal2>
+
+            <Modal2 isOpen={followers} onClose={() => (showfollowers(!followers))}>
+                <div>
+                    <h2>Followers</h2>
+                    <ul>
+                        {followersList.map((current: any) => (
+                            <div className='px-2 py-2 bg-(--dark-200) my-2 flex'>
+                                <img src={current.profile_image_url} className='h-[50px] rounded-full object-cover aspect-square' />
+                                <p>{current.user_name}</p>
+                            </div>
+                        ))}
+                    </ul>
+                </div>
+            </Modal2>
+
             <div className='flex h-(--page-h)'>
                 <main className='flex m-auto w-[95%] h-[95%] bg-(--dark-200) p-5 rounded-2xl'>
                     <section className='flex flex-col h-full w-[20%] '>
                         <article className='flex flex-col h-[60%] my-auto items-center'>
-                            <button className='btn red' onClick={() => { showModal(!modalState) }}>Editar</button>
+
                             <img className='w-[50%] h-fit my-4 aspect-square object-cover rounded-full mx-auto' src={sessionUser.profile_image_url} />
                             <h4 className='font-bold'>@{currentUser.user_name}</h4>
                             <p className='text-(--gray)'>{currentUser.description !== '' ? (<>{currentUser.description}</>) : (<>No hay descripcion</>)}</p>
+                            <button className='btn void my-2' onClick={() => { showModal(!modalState) }}>Editar perfil</button>
                         </article>
                         <ul className='flex mb-3 mx-auto flex-wrap text-[#9a9999]'>
-                            {/* Me hace falta un fetch para obtener los likes y comentarios  del usuario*/}
-                            <li className='flex items-center mx-5'> <img src={Like} className='h-[15px] mr-2' /> 0 </li>
-                            <li className='flex items-center mx-5'> <img src={Comments} className='h-[15px] mr-2' /> 0 </li>
-                            <li className='flex items-center mx-5'> <img src={VoidMark} className='h-[15px] mr-2' /> 0 </li>
-                            <li className='flex items-center mx-5'> <FaRegUser className='h-[15px] mr-2' /> {currentUser.followers.length} </li>
-                            <li className='flex items-center mx-5'> <RiUserFollowLine className='h-[15px] mr-2' /> {currentUser.following.length} </li>
+                            <div className='flex mx-auto'>
+                                <li className='flex items-center mx-5'> <img src={Like} className='h-[15px] mr-2' /> 0 </li>
+                                <li className='flex items-center mx-5'> <img src={Comments} className='h-[15px] mr-2' /> 0 </li>
+                                <li className='flex items-center mx-5'> <img src={VoidMark} className='h-[15px] mr-2' /> 0 </li>
+                            </div>
+                            <div className='flex mx-auto'>
+                                <li className='flex items-center mx-5 cursor-pointer' onClick={() => { showfollowers(!followers) }}> <FaRegUser className='h-[15px] mr-2' /> {currentUser.followers.length} </li>
+                                <li className='flex items-center mx-5 cursor-pointer' onClick={() => { showFollowing(!following) }}> <RiUserFollowLine className='h-[15px] mr-2' /> {currentUser.following.length} </li>
+                            </div>
                         </ul>
                     </section>
 

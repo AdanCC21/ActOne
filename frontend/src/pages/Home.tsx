@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import Header from "../components/Header"
 import FeedCard from "../components/FeedCard"
 import SideBar from "../components/SideBar"
-import { GetStories } from "../Hooks/GetStory"
+import { GetStories } from "../Hooks/HandleStory"
 
 
 export default function Home({ }) {

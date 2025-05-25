@@ -61,6 +61,11 @@ export class AppController {
     return await this.appService.PublishStory(data.story, data.acts)
   }
 
+  @MessagePattern({ cmd: "delete" })
+  async DeleteStory(@Payload() storyId) {
+    return await this.appService.DeleteStory(storyId)
+  }
+
   /**
    * Suma o Resta la cantidad que enviemos a su pd
    * @param data {id:storyId, pd:{likes_count || comments_count || reports_count || marked_count}}

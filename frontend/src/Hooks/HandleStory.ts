@@ -1,3 +1,6 @@
+import { UpdateUPD } from "./GetUPD";
+import { UpdateSession } from "./HandleSession";
+
 export async function GetStory(id: number) {
     try {
         const res = await fetch(`http://localhost:3000/api/story/${id}`)
@@ -45,6 +48,26 @@ export async function SearchStory(value: string, filtro: string) {
             if (!fetchData.ok) throw new Error("Error with the featch: " + fetchData.status);
             return await fetchData.json();
         }
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+export async function DeleteStory(storyId: number, session: any) {
+    try {
+        const fetchData = await fetch(`http://localhost:3000/api/story/delete/${storyId}`);
+        if (!fetchData.ok) throw new Error("Error in the request");
+        const data = await fetchData.json();
+        if (!data.data) throw new Error(data.message);
+        
+        // Update Session
+        session.published_stories = session.published_stories.filter(current => current != storyId);
+        console.log(session);
+        UpdateSession(session);
+        UpdateUPD(session);
+        
+        return data.data;
     } catch (e) {
         console.error(e);
         return null;

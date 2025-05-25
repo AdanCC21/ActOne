@@ -102,6 +102,11 @@ export class AppController {
     return await firstValueFrom(this.storyClient.send({ cmd: 'publish' }, data));
   }
 
+  @Get("story/delete/:id")
+  async DeleteStory(@Param('id', ParseIntPipe) storyId: number) {
+    return this.storyClient.send({ cmd: 'delete' }, storyId);
+  }
+
   @Get("list/stories")
   async GetStories() {
     return this.storyClient.send({ cmd: "get/list" }, {});

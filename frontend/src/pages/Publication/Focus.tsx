@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { E_Story } from '../../entities/Story.entity';
 import { E_Act } from '../../entities/Act.entity';
-import { GetStory } from '../../Hooks/GetStory';
+import { GetStory } from '../../Hooks/HandleStory';
 import { TbLogout2 } from "react-icons/tb";
 
 export default function Focus() {

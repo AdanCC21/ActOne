@@ -5,7 +5,7 @@ import './css/header.css'
 import Modal2 from './Modal2'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { SearchStory } from '../Hooks/GetStory'
+import { SearchStory } from '../Hooks/HandleStory'
 import { HandleSession } from '../Hooks/HandleSession'
 
 export default function Header({ }) {

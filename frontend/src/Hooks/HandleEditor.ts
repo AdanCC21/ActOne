@@ -36,11 +36,13 @@ export async function SubmitStory(title, userId, act, labels, visibility) {
             throw new Error('Something is wrong with the backend');
         }
         const result = await res.json();
-        if (result.data !== undefined) return true;
-
+        if (!result.data) throw new Error(result.message);
+        
+        console.log(result);
+        return result.data
     } catch (e) {
-        console.error(e.message);
-        return false;
+        console.error(e);
+        return null;
     }
 }
 

@@ -199,6 +199,16 @@ export class AppService {
         }
     }
 
+    async DeleteStory(storyId: number) {
+        if (!storyId) return { message: "Id not valid", data: null }
+        const storyExist = this.prismaSer.storieData.findUnique({ where: { id: storyId } })
+        if (!storyExist) return { message: "Story not found", data: null };
+
+        const result = await this.prismaSer.storieData.delete({ where: { id: storyId } });
+        if (!result) return { message: 'error deleting the story', data: result };
+        return { message: "ok", data: result };
+    }
+
     /**
      * 
      * @param storyId 

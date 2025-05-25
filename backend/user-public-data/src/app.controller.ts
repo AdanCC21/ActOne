@@ -79,6 +79,7 @@ export class AppController {
     return await this.appService.UpdateMarked(data.userId, data.storyId);
   }
 
+
   /**
    * 
    * @param userId 

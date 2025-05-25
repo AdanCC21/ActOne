@@ -15,7 +15,7 @@ import RichTextEditor from '../../components/RichEditor';
 import '../../css/edit.css'
 import '../../css/inputs.css'
 import Modal2 from "../../components/Modal2";
-import { HandleSession } from "../../Hooks/HandleSession";
+import { HandleSession, UpdateSession } from "../../Hooks/HandleSession";
 
 export default function Edit({ }) {
     const { title } = useParams();
@@ -81,6 +81,8 @@ export default function Edit({ }) {
 
     const handleSubmit = async () => {
         const sub = await SubmitStory(title, sessionUser.id, act, storyDetails.labels, storyDetails.visibility);
+        sessionUser.published_stories.push(sub[0].id)
+        UpdateSession(sessionUser);
         sub ? navigate('/') : console.error('something is wrong');
     }
 

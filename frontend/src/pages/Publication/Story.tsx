@@ -8,7 +8,7 @@ import { E_UPD } from '../../entities/UPD.entity'
 
 import '../../css/story.css'
 
-import { GetStory } from '../../Hooks/GetStory'
+import { GetStory } from '../../Hooks/HandleStory'
 import { useNavigate, useParams } from 'react-router-dom'
 import { GetComments, SubmitComment } from '../../Hooks/Comments'
 import { PostLike, Report } from '../../Hooks/HandlePD'
@@ -77,7 +77,9 @@ export default function Story() {
 
   const handleFollow = async (action: boolean) => {
     const follow = await Follow(sessionUpd.id, story.upd.id, action);
-    console.log(follow);
+    sessionUpd = follow.data[0];
+    UpdateSession(sessionUpd);
+    window.location.reload();
   }
 
   let displayState = EditorState.createEmpty();
