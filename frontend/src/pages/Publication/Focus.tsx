@@ -50,23 +50,33 @@ export default function Focus() {
 
                 setEditor(EditorState.createWithContent(content));
                 setBlock(currentBlock + move)
+                setFinal(false)
             } else {
                 setBlock(currentBlock + move)
                 handleBlocks(move * 2)
+                setFinal(false)
             }
         } else {
             // Si hay otro acto
             if (story.acts[currentAct + move]) {
-
                 const raw = JSON.parse(story.acts[currentAct + move].content);
                 setAct(prev => prev + move);
-                setBlock(0);
+                
 
-                const firstBlock = [raw.blocks[0]];
+                let firstBlock;
+                if (move > 0) {
+                    firstBlock = [raw.blocks[0]]
+                    setBlock(0);
+                } else {
+                    firstBlock = [raw.blocks[raw.blocks.length - 1]]
+                    setBlock(raw.blocks.length-1);
+                }
                 raw.blocks = firstBlock;
+                
 
                 const content = convertFromRaw(raw);
                 setEditor(EditorState.createWithContent(content));
+                setFinal(false)
             }
             else {
                 setFinal(true);
@@ -99,14 +109,30 @@ export default function Focus() {
             const authorUpd = await GetUPD(result.story.author_id);
             setUpd(authorUpd);
         }
-        loadStory();
-    }, [])
+        if (!story.story.id) {
+            loadStory();
+        }
+
+        const handleTeclta = (e) => {
+            if (e.key === 'ArrowRight') {
+                handleBlocks(1);
+            }
+            if (e.key === 'ArrowLeft') {
+                handleBlocks(-1);
+            }
+        }
+
+        window.addEventListener('keydown', handleTeclta);
+        return () => {
+            window.removeEventListener('keydown', handleTeclta);
+        };
+    }, [handleBlocks])
 
     return (
         <div className='flex flex-col h-screen w-screen'>
             <nav className='flex w-screen '>
                 {story.acts[currentAct - 1] ? (
-                    <button className='btn void ml-2' onClick={() => { handleActs(false);setFinal(false) }}>
+                    <button className='btn void ml-2' onClick={() => { handleActs(false); setFinal(false) }}>
                         <span>
                             {`< ${story.acts[currentAct - 1].title} `}
                         </span>
@@ -114,7 +140,7 @@ export default function Focus() {
                 ) : (<></>)}
 
                 {story.acts[currentAct + 1] ? (
-                    <button className='btn void ml-auto mr-2' onClick={() => { handleActs(true);setFinal(false)`` }}>
+                    <button className='btn void ml-auto mr-2' onClick={() => { handleActs(true); setFinal(false)`` }}>
                         <span>
                             {`${story.acts[currentAct + 1].title} >`}
                         </span>
@@ -122,25 +148,37 @@ export default function Focus() {
                 ) : (<></>)}
             </nav>
             <main className='m-auto'>
-                {currentAct > 0 ? (
+                {!final ? (
                     <>
-                        {true ? (
-                            <button
-                                className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
-                                style={{ fontSize: '2em' }}
-                                onClick={() => { handleBlocks(-1); setFinal(false) }}>{`>`}</button>
-                        ) : (<></>)}
+                        {currentAct > 0 ? (
+                            <>
+                                {true ? (
+                                    <button
+                                        className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
+                                        style={{ fontSize: '2em' }}
+                                        onClick={() => { handleBlocks(-1); }}>{`>`}</button>
+                                ) : (<></>)}
+                            </>
+                        ) : (
+                            <>
+                                {currentBlock > 0 ? (
+                                    <button
+                                        className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
+                                        style={{ fontSize: '2em' }}
+                                        onClick={() => { handleBlocks(-1); }}>{`>`}</button>
+                                ) : (<></>)}
+                            </>
+                        )}
                     </>
                 ) : (
                     <>
-                        {currentBlock > 0 ? (
-                            <button
-                                className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
-                                style={{ fontSize: '2em' }}
-                                onClick={() => { handleBlocks(-1); setFinal(false) }}>{`>`}</button>
-                        ) : (<></>)}
+                        <button
+                            className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
+                            style={{ fontSize: '2em' }}
+                            onClick={() => { setFinal(false) }}>{`>`}</button>
                     </>
                 )}
+
                 {!final ? (
                     <div className='flex flex-col justify-center my-5 min-h-[40vh]'>
                         {currentAct === 0 ? (
