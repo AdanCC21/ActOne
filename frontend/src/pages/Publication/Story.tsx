@@ -106,9 +106,9 @@ export default function Story() {
             <span className='text-(--gray) text-center '>{story.upd.description}</span>
             {sessionUpd.id != story.upd.id ? (<>
               {sessionUpd.following.includes(story.upd.id) ? (
-                <button className='btn red w-fit mx-auto my-2' onClick={() => { handleFollow(false) }}>Unfollow</button>
+                <button className='btn yellow w-fit mx-auto my-2' onClick={() => { handleFollow(false) }}>Unfollow</button>
               ) : (
-                <button className='btn red w-fit mx-auto my-2' onClick={() => { handleFollow(true) }}>Follow</button>
+                <button className='btn yellow w-fit mx-auto my-2' onClick={() => { handleFollow(true) }}>Follow</button>
               )
               } </>
             ) : (<></>)}

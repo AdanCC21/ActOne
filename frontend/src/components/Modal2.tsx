@@ -32,7 +32,7 @@ export default function Modal2({ isOpen, onClose, children, extraClass }: ModalP
                     onClick={onClose}
                 >
                     <motion.div
-                        className={`bg-(--dark-600) rounded-lg shadow-lg p-6 max-w-[70vw] ${extraClass}`}
+                        className={`bg-(--dark-600) rounded-lg shadow-lg p-6 max-w-[80vw] sm:w-[80vw] md:w-[40vw] ${extraClass}`}
                         variants={modal}
                         initial="hidden"
                         animate="visible"

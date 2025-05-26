@@ -35,7 +35,7 @@ export default function RichTextEditor({ editorState, setEditorState, onSave }) 
     };
 
     return (
-        <div className='rounded-2xl bg-(--dark-800) p-5 h-[70vh] overflow-y-auto'>
+        <div className='rounded-2xl bg-(--dark-800) p-5 h-[100%] overflow-y-auto'>
             <div className='flex'>
                 <button className='btn interaction' onClick={() => toggleInlineStyle('BOLD')}>
                     <b>B</b>
@@ -46,7 +46,6 @@ export default function RichTextEditor({ editorState, setEditorState, onSave }) 
                 <button className='btn interaction' onClick={() => toggleInlineStyle('ITALIC')}>
                     <i>I</i>
                 </button>
-                {/* <button className='btn interaction' onClick={saveContent}>Save</button> */}
             </div>
             <hr className='my-5' />
             <Editor className="overflow-y-auto"

@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  background-color: var(--dark-700);
+  background-color: var(--dark-600);
   color: white;
   box-sizing: border-box;
   overflow-x: hidden;
@@ -31,6 +31,10 @@ body {
   --dark-600: #0D0D11;
   --dark-700: #0B0B0E;
   --dark-800: #060608;
+
+  --dark-primary:#1B1B1F;
+  --light-primary:#ffffff;
+  --bg:#161618;
 
 
   --yellow-50:  #fefce8;
@@ -132,14 +136,6 @@ a {
 a:hover {
   text-decoration: underline;
   color: var(--yellow-400);
-}
-
-input {
-  background-color: var(--dark-700);
-  padding: 5px;
-  border-radius: 6px;
-  outline: solid rgb(0, 0, 0, 0);
-  transition: all ease-in-out 0.3s;
 }
 
 input:focus {

@@ -56,67 +56,12 @@
     outline-color: rgba(255, 255, 255, 1);
 }
 
-.btn.red {
-    background-color: var(--yellow-700);
+.btn.yellow {
+    background-color: var(--yellow-400);
+    color: black;
+    font-weight: 600;
 }
 
-.btn.red:hover {
+.btn.yellow:hover {
     background-color: var(--yellow-900);
 }
-
-/* -------- COLORES -------- */
-
-
-/* 
-.void-button {
-    display: flex;
-
-    padding: 0px 16px;
-    height: calc(1rem + 22px);
-    align-items: center;
-    transition: all ease-in-out 0.2s;
-}
-
-.void-button img {
-    height: 80%;
-    margin: auto;
-}
-
-.dark-button {
-    display: flex;
-    background-color: var(--dark-200);
-
-    padding: 0px 16px;
-    height: calc(1rem + 22px);
-    align-items: center;
-
-    border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all ease-in-out 0.2s;
-}
-
-.dark-button:hover {
-    background-color: var(--dark-900);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.dark-button img {
-    height: 80%;
-    margin: auto;
-}
-
-.red-button {
-    background-color: var(--dark-100);
-    width: fit-content;
-    border-radius: 8px;
-    padding: 3px 12px;
-
-    font-weight: 400;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all ease-in-out 0.2s;
-}
-
-.red-button:hover {
-    background-color: var(--yellow-800);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-} */

@@ -1,28 +1,36 @@
-.inp-void{
-    background-color: transparent;
-    padding: 5px;
+.inp {
+    background-color: black;
     border-radius: 6px;
-    outline:  none;
+    padding: 5px;
+    outline: solid rgb(0, 0, 0, 0);
     transition: all ease-in-out 0.3s;
 }
 
-.inp-void:focus{
+.inp-void {
+    background-color: transparent;
+    padding: 5px;
+    border-radius: 6px;
+    outline: none;
+    transition: all ease-in-out 0.3s;
+}
+
+.inp-void:focus {
     outline: none;
 }
 
 
-.inp-noline{
+.inp-noline {
     outline: none;
 }
 
-.inp-noline:focus{
+.inp-noline:focus {
     outline: none;
 }
 
-.inp-contraste{
+.inp-contraste {
     background-color: var(--dark-500);
     padding-top: 10px;
     padding-bottom: 10px;
-    margin-top: 5px ;
-    margin-bottom: 15px ;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }

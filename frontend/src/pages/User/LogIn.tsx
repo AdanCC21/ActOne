@@ -72,13 +72,13 @@ export default function LogIn({ }) {
                         <span className="text-(--yellow-600) text-center">{alert}</span>)}</>)}
                     <div>
                         <label htmlFor="emailLog" >Email</label>
-                        <input id="emailLog" name="email" value={inputs.email} onChange={(e) => { handleChanges(e) }}
+                        <input className="inp" id="emailLog" name="email" value={inputs.email} onChange={(e) => { handleChanges(e) }}
                             type="email" placeholder="user@gmail.com"></input>
                     </div>
 
                     <div>
                         <label htmlFor="passwordLog">Password</label>
-                        <input id="passwordLog" name="password" value={inputs.password} onChange={(e) => { handleChanges(e) }}
+                        <input className="inp" id="passwordLog" name="password" value={inputs.password} onChange={(e) => { handleChanges(e) }}
                             type="password" placeholder="example_$37"></input>
                     </div>
                 </fieldset>
@@ -90,7 +90,7 @@ export default function LogIn({ }) {
                     }} onError={() => { setAlert('Error, try again') }} />
                     <a className="m-4" href="/register">I don't have account</a>
                 </div>
-                <button className="btn red ml-auto" type="submit" >Continue</button>
+                <button className="btn yellow ml-auto" type="submit" >Continue</button>
             </form>
         </div>
     )

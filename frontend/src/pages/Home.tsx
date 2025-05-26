@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import Header from "../components/Header"
 import FeedCard from "../components/FeedCard"
 import SideBar from "../components/SideBar"
 import { GetStories } from "../Hooks/HandleStory"
+import { ThemeContext } from "../context/AppContext"
 
 
 export default function Home({ }) {
   const [storiesList, setStories] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async () => {

@@ -108,49 +108,63 @@ export default function Profile() {
         switch (tab) {
             case 0:
                 return (
-                    <>
-                        {pubList.map((current, index) => (
-                            <div key={index}>
-                                <button className='absolute cursor-pointer btn red' onClick={()=>{DeleteStory(current.story.id, sessionUser)}}>
-                                    <FaRegTrashAlt />
-                                </button>
-                                <section className='ml-3 h-full'>
-                                    <FeedCard story={current.story} />
-                                </section>
-                            </div>))}
-                    </>
+                    pubList.map((current, index) => {
+                        if (current) {
+                            return (
+                                <div key={index}>
+                                    <button className='absolute cursor-pointer btn yellow' onClick={() => { DeleteStory(current.story.id, sessionUser) }}>
+                                        <FaRegTrashAlt />
+                                    </button>
+                                    <section className='ml-3 h-full'>
+                                        <FeedCard story={current.story} />
+                                    </section>
+                                </div>
+                            )
+                        }
+                        return (<></>)
+                    })
                 )
             case 1:
                 return (
                     markedList.map((current, index) => {
-                        if(current){
+                        if (current) {
                             return (
                                 <div key={index} >
                                     <FeedCard story={current.story} />
                                 </div>
                             )
                         }
-                        return(<></>)
+                        return (<></>)
                     }))
             case 2:
                 return (
                     likedList.map((current, index) => {
-                        return (
-                            <div key={index} >
-                                <FeedCard story={current.story} />
-                            </div>
-                        )
+                        if (current) {
+                            return (
+                                <div key={index} >
+                                    <FeedCard story={current.story} />
+                                </div>
+                            )
+                        }
+                        return (<></>)
                     }))
             default:
                 return (
-                    <>
-                        {pubList.map((current, index) => (
-                            <div key={index} >
-                                {current.story.id != 0 ?
-                                    (<FeedCard story={current.story} authorName={currentUser.user_name || sessionUser?.user_name} />) :
-                                    (<span>You don't have stories</span>)}
-                            </div>))}
-                    </>
+                    pubList.map((current, index) => {
+                        if (current) {
+                            return (
+                                <div key={index}>
+                                    <button className='absolute cursor-pointer btn yellow' onClick={() => { DeleteStory(current.story.id, sessionUser) }}>
+                                        <FaRegTrashAlt />
+                                    </button>
+                                    <section className='ml-3 h-full'>
+                                        <FeedCard story={current.story} />
+                                    </section>
+                                </div>
+                            )
+                        }
+                        return (<></>)
+                    })
                 )
         }
     }
@@ -186,7 +200,7 @@ export default function Profile() {
                     </div>
                     <div className='flex ml-auto mt-5'>
                         <button className='btn void' onClick={() => { showModal(!modalState) }}>Cancel</button>
-                        <button className='btn red' onClick={() => { hanldeSubmitUpdate() }}>Update</button>
+                        <button className='btn yellow' onClick={() => { hanldeSubmitUpdate() }}>Update</button>
                     </div>
                 </form>
             </Modal2>

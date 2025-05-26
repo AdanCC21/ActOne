@@ -51,14 +51,16 @@ export default function Edit({ }) {
             }
         }
     }, [currentAct]);
-    
+
     useEffect(() => {
         const rawContent = convertToRaw(editorState.getCurrentContent());
-        const temp = rawContent.blocks[0].text;
+            const fullText = rawContent.blocks.map(block => block.text).join(' ');
+
         setAct(prev =>
             prev.map((a, i) => i === currentAct ? { ...a, content: JSON.stringify(rawContent) } : a)
         );
-        handleSug(temp);
+        console.log(fullText)
+        handleSug(fullText);
     }, [editorState]);
 
     const handleChanges = (e: any) => {
@@ -89,7 +91,7 @@ export default function Edit({ }) {
         setModal(true);
     }
 
-    const handleSug = async(text: string) => {
+    const handleSug = async (text: string) => {
         const sugg = await HandleSuggestions(text);
         setSuggestions(sugg);
     }
@@ -109,17 +111,16 @@ export default function Edit({ }) {
                     <section className="e-editor-st-area">
                         <div className="flex justify-between">
                             {currentAct === 0 ? (
-                                <h4 className="mb-4 text-(--yellow-500)">Sinposis</h4>
+                                <h5 className="mb-4 text-(--yellow-500)">Sinposis</h5>
                             ) : (
                                 <input
                                     name="title"
                                     value={act[currentAct].title}
                                     placeholder="Titulo para tu acto"
                                     onChange={(e) => { handleChanges(e) }}
-                                    className=" text-(--yellow-500) w-fit mb-2" />
+                                    className="inp text-(--yellow-500) w-fit mb-2" />
                             )}
                         </div>
-
                         <RichTextEditor
                             editorState={editorState}
                             setEditorState={setEditorState}
@@ -186,7 +187,7 @@ export default function Edit({ }) {
                         )}
 
                     </div>
-                    <button className="btn red w-fit mt-2" onClick={() => { handlePublish(); }}>Publish</button>
+                    <button className="btn yellow w-fit mt-2" onClick={() => { handlePublish(); }}>Publish</button>
                 </div>
             </main >
             <Modal2 isOpen={modalState} onClose={() => { setModal(false) }}>
@@ -203,12 +204,14 @@ export default function Edit({ }) {
                     <hr />
                     <fieldset className="mb-5 flex flex-col">
                         <h5 className="mt-5 text-(--yellow-500)">Labels</h5>
-                        <input placeholder="Lables" type="text" onChange={(e) => { handleDetails(e) }}></input>
+                        <input className="inp" placeholder="Lables" type="text" onChange={(e) => { handleDetails(e) }} onKeyDown={(e) => {
+                            if (e.key === 'Enter') { handleDetails(e); handleSubmit() }
+                        }}></input>
                     </fieldset>
 
                     <div className="flex mt-5">
                         <button className="ml-auto mr-2 w-fit btn void" onClick={() => { setModal(false) }}>Cancel</button>
-                        <button className="w-fit btn red" onClick={() => { handleSubmit() }}>Submit</button>
+                        <button className="w-fit btn yellow" onClick={() => { handleSubmit() }}>Submit</button>
                     </div>
                 </form>
             </Modal2>

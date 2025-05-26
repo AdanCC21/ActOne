@@ -9,7 +9,7 @@
     max-width: 100vw;
 
     height: var(--header-h);
-    background-color: var(--dark-300);
+    background-color: var(--dark-primary);
 }
 
 .h-nav {

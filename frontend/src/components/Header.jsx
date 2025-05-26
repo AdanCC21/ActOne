@@ -1,16 +1,22 @@
-
-import searcher from '../assets/buscador.png'
-import tempUser from '../assets/tempUser.png'
-import './css/header.css'
-import Modal2 from './Modal2'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { SearchStory } from '../Hooks/HandleStory'
 import { HandleSession } from '../Hooks/HandleSession'
+import { ThemeContext } from '../context/AppContext'
+
+import Modal2 from './Modal2'
+
+import searcher from '../assets/buscador.png'
+import tempUser from '../assets/tempUser.png'
+import sun from '../assets/icons/sun.svg'
+import './css/header.css'
+
 
 export default function Header({ }) {
     let sessionUser;
     sessionUser = HandleSession(sessionStorage.getItem('user') || 'invitado');
+
+    const { lightMode, setTheme } = useContext(ThemeContext);
 
     const [modalState, setModal] = useState(false);
     const [title, setTitle] = useState("");
@@ -75,28 +81,28 @@ export default function Header({ }) {
 
 
     return (
-        <header className='header'>
-            <Modal2 isOpen={modalState} onClose={() => { setModal(false) }} >
+        <header className={`header ${lightMode? 'bg-(--light-primary)':'bg-(--dark-primary)'}`}>
+            <Modal2 isOpen={modalState} onClose={() => { setModal(false) }} extraClass='w-[20vw]'>
                 <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
                     <label htmlFor='title'><h3 className='text-(--yellow-500) font-semibold my-2'>Titulo</h3></label>
                     <div className='flex flex-col my-2'>
-                        <input id='title' placeholder='Titulo' className='my-auto'
+                        <input id='title' placeholder='Titulo' className='inp'
                             name='title' value={title} onChange={(e) => { handleTitle(e) }} onKeyDown={(e) => { handleKey(e) }} />
                         {alert === '' ? (
-                            <span className='none text-(--yellow-600) '>{alert}</span>
+                            <></>
                         ) : (
-                            <span className='text-(--yellow-600) '>{alert}</span>
+                            <span className='text-red-600 my-2 ml-2'>{alert}</span>
                         )}
                     </div>
-                    <div className='flex w-full ml-auto mt-auto'>
+                    <div className='flex w-full ml-auto mt-5'>
                         <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setModal(false); setAlert('') }}>Cancelar</button>
-                        <button type='submit' className='btn red w-fit ml-3'>Subir</button>
+                        <button type='submit' className='btn yellow w-fit ml-3'>Subir</button>
                     </div>
                 </form>
             </Modal2>
 
-            <div onClick={() => { navigate('/') }} className='flex flex-row items-center h-full ml-3 cursor-pointer'>
-                <h3 className='my-auto font-semibold text-(--yellow-500)'>ActOne</h3>
+            <div className='flex flex-row items-center h-full ml-3 cursor-pointer'>
+                <h3 className='my-auto font-semibold text-(--yellow-500)' onClick={() => { navigate('/') }}>ActOne</h3>
             </div>
 
             <div className='h-nav'>

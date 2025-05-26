@@ -117,9 +117,9 @@ export default function FeedCard({ story, authorName }: Props) {
                     amount={story.reports_count}
                 />
                 <p className='text-(--gray) mx-2'>{story.duration}</p>
-                <ul className='mx-2 text-(--gray) max-w-[100px] overflow-x-auto'>
+                <ul className='flex mx-2 text-(--gray) overflow-x-auto'>
                     {story.labels && story.labels[0] ? story.labels.map((current, index) => (
-                        <li key={index}>#{current}</li>
+                        <li className='mr-2' key={index}>#{current}</li>
                     )) : null}
                 </ul>
             </section>

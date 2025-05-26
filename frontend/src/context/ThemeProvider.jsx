@@ -3,10 +3,10 @@ import { ThemeContext } from "./AppContext";
 import { BackendRoute } from "./AppContext";
 
 export default function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState("dark");
+    const [lightMode, setTheme] = useState(false);
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme, BackendRoute }} >
+        <ThemeContext.Provider value={{ lightMode, setTheme }} >
             {children}
         </ThemeContext.Provider >
 

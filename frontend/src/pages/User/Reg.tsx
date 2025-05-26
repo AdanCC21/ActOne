@@ -95,20 +95,20 @@ export default function Reg({ }) {
         return (<form className="flex flex-col h-[70vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
             <fieldset className="flex flex-col justify-around h-[40%] mt-[10%]">
                 <span className="text-center mx-auto">Register</span>
-                <span className='text-(--yellow-800) text-center'>{alert}</span>
+                <span className='text-red-600 text-center'>{alert}</span>
                 <div>
                     <label htmlFor="emailLog" >Email</label>
-                    <input name="email" value={inputs.userData.email} onChange={(e) => { handleChanges(e) }} id="emailReg" type="email" placeholder="user@gmail.com"></input>
+                    <input className="inp" name="email" value={inputs.userData.email} onChange={(e) => { handleChanges(e) }} id="emailReg" type="email" placeholder="user@gmail.com"></input>
                 </div>
 
                 <div>
                     <label htmlFor="passwordReg">Password</label>
-                    <input name="authentication" value={inputs.userData.authentication} onChange={(e) => { handleChanges(e) }} id="passwordReg" type="password" placeholder="example_$37"></input>
+                    <input className="inp" name="authentication" value={inputs.userData.authentication} onChange={(e) => { handleChanges(e) }} id="passwordReg" type="password" placeholder="example_$37"></input>
                 </div>
 
                 <div>
                     <label htmlFor="confirmPass">Confirm Password</label>
-                    <input name="confirmPass" value={confirmPass} onChange={(e) => { handleChanges(e) }} id="confirmPass" type="password" placeholder="example_$37"></input>
+                    <input className="inp" name="confirmPass" value={confirmPass} onChange={(e) => { handleChanges(e) }} id="confirmPass" type="password" placeholder="example_$37"></input>
                 </div>
             </fieldset>
 
@@ -134,7 +134,7 @@ export default function Reg({ }) {
                 />
                 <a className="m-4" href="/login">I have account</a>
             </div>
-            <button className="btn ml-auto" type="submit" onClick={async () => {
+            <button className="btn yellow ml-auto" type="submit" onClick={async () => {
                 const emialInUse = await EmailInUse(inputs.userData.email);
                 if (emialInUse) { setAlert('Email in use'); return }
 
@@ -151,21 +151,21 @@ export default function Reg({ }) {
                 <legend className="text-center mt-5 text-(--yellow-100)">
                     <span>Hi, what is your name?</span>
                 </legend>
-                <span className='text-center text-(--yellow-800)'>{alert}</span>
+                <span className='text-center text-red-600'>{alert}</span>
                 <fieldset className="flex flex-col  h-[70%] max-h-[80%] mt-[10%]">
                     <div className='mb-5'>
                         <label htmlFor="text" >Name</label>
-                        <input name="user_name" value={inputs.user_name} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
+                        <input className="inp" name="user_name" value={inputs.user_name} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
                     </div>
 
                     <div className='max-h-[60%] h-fit'>
                         <label htmlFor="text" >Description</label>
-                        <textarea name="description" value={inputs.description} onChange={(e) => { handleChanges(e) }} onKeyDown={(e) => { HandleKey(e, HandleSubmit) }} id="nameReg" placeholder="adan_gcm"></textarea>
+                        <textarea className="inp" name="description" value={inputs.description} onChange={(e) => { handleChanges(e) }} onKeyDown={(e) => { HandleKey(e, HandleSubmit) }} id="nameReg" placeholder="adan_gcm"></textarea>
                     </div>
                 </fieldset>
 
 
-                <button className="btn w-fit ml-auto" type="submit" onClick={() => { HandleSubmit(); }} >Next</button>
+                <button className="btn yellow w-fit ml-auto" type="submit" onClick={() => { HandleSubmit(); }} >Next</button>
             </form>)
     }
 
