@@ -1,16 +1,16 @@
 .feed-card{
-    background-color: var(--dark-300);
+    background-color: var(--dark-200);
     border-radius: 8px;
     cursor: pointer;
     
     display: flex;
     flex-direction: column;
     
-    max-width: calc(50vw -1em);
-    height: fit-content;
+    /* max-width: calc(50vw -1em);
+    width: 60vw; */
+    /* height: fit-content;
+    max-height: 25vh; */
     
-    height: fit-content;
-    max-height: 25vh;
     padding: 1em 1.5em;
     margin: 20px 0;
     box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.11);

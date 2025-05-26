@@ -25,17 +25,16 @@ export default function Home({ }) {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen min-w-screen">
+    <div className="flex flex-col min-h-screen min-w-screen overflow-hidden">
       <Header />
       <div className="flex flex-row">
         <SideBar />
-        <section className="flex flex-col w-[50vw] mx-auto my-10">
+        <section className="flex flex-col w-full h-(--page-h) items-center overflow-y-auto">
           {storiesList.length > 0 ? (
-
             storiesList.map((current: any, index) => {
               if (current.visibility) {
                 return (<div key={index}>
-                  <FeedCard story={current}></FeedCard>
+                  <FeedCard story={current} extraClass="w-[60vw]"></FeedCard>
                 </div>)
               }
             })

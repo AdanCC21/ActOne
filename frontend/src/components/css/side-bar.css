@@ -1,9 +1,10 @@
 .side-bar{
+    top: var(--header-h);
     display: flex;
     flex-direction: column;
     width: 15vw;
     padding-left: 1em;
-    background-color: var(--dark-300);
+    background-color: var(--dark-primary);
     height: calc(100vh - var(--header-h));
     
 }

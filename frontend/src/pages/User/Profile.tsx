@@ -111,13 +111,11 @@ export default function Profile() {
                     pubList.map((current, index) => {
                         if (current) {
                             return (
-                                <div key={index}>
-                                    <button className='absolute cursor-pointer btn yellow' onClick={() => { DeleteStory(current.story.id, sessionUser) }}>
+                                <div key={index} className=' w-full ml-4'>
+                                    <button className='cursor-pointer rounded-xl bg-(--dark-primary) hover:bg-(--yellow-600) hover:text-black p-2' onClick={() => { DeleteStory(current.story.id, sessionUser) }}>
                                         <FaRegTrashAlt />
                                     </button>
-                                    <section className='ml-3 h-full'>
-                                        <FeedCard story={current.story} />
-                                    </section>
+                                    <FeedCard extraClass='w-full' story={current.story} />
                                 </div>
                             )
                         }
@@ -148,24 +146,6 @@ export default function Profile() {
                         }
                         return (<></>)
                     }))
-            default:
-                return (
-                    pubList.map((current, index) => {
-                        if (current) {
-                            return (
-                                <div key={index}>
-                                    <button className='absolute cursor-pointer btn yellow' onClick={() => { DeleteStory(current.story.id, sessionUser) }}>
-                                        <FaRegTrashAlt />
-                                    </button>
-                                    <section className='ml-3 h-full'>
-                                        <FeedCard story={current.story} />
-                                    </section>
-                                </div>
-                            )
-                        }
-                        return (<></>)
-                    })
-                )
         }
     }
 
@@ -265,7 +245,7 @@ export default function Profile() {
                             <div className={`px-4 py-2 ${tab === 2 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
                                 onClick={() => { setTab(2) }}><p>Me Gusta</p></div>
                         </nav>
-                        <article className='grid grid-cols-2 gap-5 p-2 bg-(--dark-400) w-full h-[90%]'>
+                        <article className='grid grid-cols-2 gap-x-5 p-2 bg-(--dark-400) w-full h-[90%] overflow-y-auto overflow-x-hidden'>
                             {handleTabs()}
                         </article>
                     </section>

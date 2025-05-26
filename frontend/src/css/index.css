@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  background-color: var(--dark-600);
+  background-color: var(--dark-500);
   color: white;
   box-sizing: border-box;
   overflow-x: hidden;

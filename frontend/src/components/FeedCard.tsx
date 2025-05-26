@@ -15,9 +15,10 @@ import { E_UPD } from '../entities/UPD.entity';
 type Props = {
     story: E_Story
     authorName?: string
+    extraClass?:string
 }
 
-export default function FeedCard({ story, authorName }: Props) {
+export default function FeedCard({ story, authorName, extraClass }: Props) {
     if (story.id === 0) {
         return (<></>)
     }
@@ -57,7 +58,7 @@ export default function FeedCard({ story, authorName }: Props) {
     }, [])
 
     return (
-        <article className="feed-card">
+        <article className={`feed-card ${extraClass}`}>
             <div onClick={() => {
                 navigator(`/story/${story.id}`);
             }} >

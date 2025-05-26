@@ -1,21 +1,24 @@
 import React, { act, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Editor, EditorState, convertFromRaw } from 'draft-js';
+
 import Header from '../../components/Header'
 import { Comments, Like, Mark, Reports } from '../../components/Interactions'
 import CommentCard from '../../components/CommentCard'
+
 import { E_Story } from '../../entities/Story.entity'
 import { E_Act } from '../../entities/Act.entity'
 import { E_UPD } from '../../entities/UPD.entity'
 
+import FocusMode from '../../assets/icons/fullScreen.svg'
 import '../../css/story.css'
 
 import { GetStory } from '../../Hooks/HandleStory'
-import { useNavigate, useParams } from 'react-router-dom'
 import { GetComments, SubmitComment } from '../../Hooks/Comments'
 import { PostLike, Report } from '../../Hooks/HandlePD'
 import { MarkStory } from '../../Hooks/Marked'
 import { Follow } from '../../Hooks/Follow'
 import { HandleSession, UpdateSession } from '../../Hooks/HandleSession'
-import { Editor, EditorState, convertFromRaw } from 'draft-js';
 
 
 export default function Story() {
@@ -89,7 +92,7 @@ export default function Story() {
     const content = convertFromRaw(raw);
     displayState = EditorState.createWithContent(content);
   } catch (e) {
-    // Si falla al parsear, se mantiene vacío
+    console.error(e);
   }
 
   return (
@@ -178,17 +181,25 @@ export default function Story() {
         {/* Informacion del acto */}
         <section className='bg-(--dark-400) ml-5 rounded-xl w-[80%] px-10 py-5'>
           <div className='flex h-[15%]'>
-            <div>
-              <div className='flex'>
+            <div className='flex flex-col w-full'>
+              <div className='flex w-auto'>
                 <h1>{story.story.title}</h1>
-                <button className='btn void self-center ml-2' onClick={() => { navigator(`/story/${id}/focus`) }}>
-                  <img src='https://openclipart.org/image/2000px/247319' />
+                <button className='btn void self-center ml-auto' onClick={() => { navigator(`/story/${id}/focus`) }}>
+                  <img src={FocusMode}  />
                 </button>
               </div>
               <h5 className='font-semibold  text-(--yellow-800)'>{story.acts[currentAct].title}</h5>
             </div>
+          </div>
 
-            <div className='ml-auto flex mt-2'>
+          <div className='flex flex-col my-2 h-[80%] story-content'>
+            <div className='pr-[4%] overflow-auto '>
+              <Editor editorState={displayState} readOnly={true} onChange={function (editorState: EditorState): void {
+                throw new Error('Function not implemented.')
+              }} />
+            </div>
+
+            <div className='ml-auto flex mt-auto'>
               {story.acts[currentAct - 1] ? (
                 <button className='btn void mr-5'
                   onClick={() => { setAct(prev => (prev - 1)) }}>
@@ -208,12 +219,6 @@ export default function Story() {
                 </button>)
               }
             </div>
-          </div>
-
-          <div className='my-2 overflow-auto pr-[4%] h-[80%] story-content'>
-            <Editor editorState={displayState} readOnly={true} onChange={function (editorState: EditorState): void {
-              throw new Error('Function not implemented.')
-            }} />
           </div>
 
         </section>
