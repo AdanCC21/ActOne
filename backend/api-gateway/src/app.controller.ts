@@ -14,6 +14,11 @@ export class AppController {
     private appSer: AppService
   ) { }
 
+  @Get('test')
+  getHello() {
+    return { message: "hola" };
+  }
+
   // -------------- AUTH -------------- //
 
   @Post("reg")

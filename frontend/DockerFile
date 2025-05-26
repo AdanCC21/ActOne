@@ -1,34 +1,44 @@
-# Etapa de construcción
+# Etapa 1: Construcción del frontend con Vite
 FROM node:18-alpine AS builder
 
-WORKDIR /frontend
+WORKDIR /app
 
-# Copiar package.json y package-lock.json para instalar dependencias primero
+# Copiar package.json y package-lock.json
 COPY frontend/package.json frontend/package-lock.json ./
-
-# Instalar dependencias
 RUN npm install --frozen-lockfile
 
-# Copiar el código fuente
-COPY frontend ./  
+# Copiar el resto del frontend
+COPY frontend ./
 
-# Construir la aplicación
-RUN ls
+# Build del frontend
 RUN npm run build
-RUN ls
 
-
-# Etapa de producción (Nginx para servir el contenido estático)
+# Etapa 2: Servir con Nginx
 FROM nginx:alpine
 
-# Copiar los archivos generados por Vite a la carpeta de Nginx
-COPY --from=builder /frontend/dist /usr/share/nginx/html
-
-# Correct path for nginx.conf
+# Copiar configuración de Nginx
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Exponer el puerto por donde servirá Nginx
-EXPOSE 80
+# Copiar los archivos generados del build al contenedor final
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Comando por defecto para ejecutar Nginx
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
+
+
+
+
+# # Etapa de producción (Nginx para servir el contenido estático)
+# FROM nginx:alpine
+
+# # Copiar los archivos generados por Vite a la carpeta de Nginx
+# COPY --from=builder /frontend/dist /usr/share/nginx/html
+
+# # Correct path for nginx.conf
+# COPY nginx/nginx.conf /etc/nginx/nginx.conf
+
+# # Exponer el puerto por donde servirá Nginx
+# EXPOSE 80
+
+# # Comando por defecto para ejecutar Nginx
+# CMD ["nginx", "-g", "daemon off;"]
