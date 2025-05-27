@@ -30,7 +30,8 @@ export class AppService {
     return await this.prismaSer.userPublicData.create({
       data: {
         user_name: user.user_name,
-        description: user.description
+        description: user.description,
+        profile_image_url:user.profile_image_url
       }
     })
   }

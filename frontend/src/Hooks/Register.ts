@@ -1,4 +1,4 @@
-export async function RegNewUser(inputs: any, typeAuth: string, email?: string, name?: string) {
+export async function RegNewUser(inputs: any, typeAuth: string, email?: string, name?: string, image?:string) {
     try {
         const data = {
             ...inputs,

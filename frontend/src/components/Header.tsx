@@ -16,7 +16,7 @@ export default function Header({ }) {
     let sessionUser;
     sessionUser = HandleSession(sessionStorage.getItem('user') || 'invitado');
 
-    const { lightMode, setTheme } = useContext(ThemeContext);
+    const context = useContext(ThemeContext);
 
     const [modalState, setModal] = useState(false);
     const [title, setTitle] = useState("");
@@ -32,7 +32,7 @@ export default function Header({ }) {
 
     const handleKey = (e) => {
         if (e.key === "Enter") {
-            handleStorie();
+            handleStorie(e);
         }
     }
 
@@ -81,7 +81,7 @@ export default function Header({ }) {
 
 
     return (
-        <header className={`header ${lightMode? 'bg-(--light-primary)':'bg-(--dark-primary)'}`}>
+        <header className={`header ${context?.isLightMode ? 'bg-[#e0e0e0] text-black' : 'bg-(--dark-primary) text-white'}`}>
             <Modal2 isOpen={modalState} onClose={() => { setModal(false) }} extraClass='w-[20vw]'>
                 <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
                     <label htmlFor='title'><h3 className='text-(--yellow-500) font-semibold my-2'>Titulo</h3></label>
@@ -103,6 +103,9 @@ export default function Header({ }) {
 
             <div className='flex flex-row items-center h-full ml-3 cursor-pointer'>
                 <h3 className='my-auto font-semibold text-(--yellow-500)' onClick={() => { navigate('/') }}>ActOne</h3>
+                {/* <button className='btn void ml-2' onClick={() => { context?.setIsLightMode(!context.isLightMode) }}>
+                    <img src={sun} alt='Change Theme' />
+                </button> */}
             </div>
 
             <div className='h-nav'>
@@ -112,7 +115,7 @@ export default function Header({ }) {
                             type='text' value={inputSearch} onChange={(e) => { handleSearch(e) }} />
                         {searchRes[0] && inputSearch ? (<section className='h-nav-input-box'>
                             <ul>
-                                {searchRes.map((current, index) => (
+                                {searchRes.map((current: any, index) => (
                                     <li className='mb-2 hover:outline-1' onClick={() => { navigate(`/story/${current.id}`) }}>{current.title}</li>
                                 ))}
                             </ul>
