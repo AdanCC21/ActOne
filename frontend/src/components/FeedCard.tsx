@@ -58,6 +58,7 @@ export default function FeedCard({ story, authorName, extraClass, isTheAuthor, s
         const fetchData = async () => {
             try {
                 const updData = await GetUPD(story.author_id)
+                console.log(updData);
                 setAuthor(updData);
 
                 const liked = sessionUpd.stories_liked.includes(story.id);

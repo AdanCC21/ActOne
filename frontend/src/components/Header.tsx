@@ -10,6 +10,8 @@ import searcher from '../assets/icons/searchBlack.svg'
 import tempUser from '../assets/tempUser.png'
 import sun from '../assets/icons/sun.svg'
 import './css/header.css'
+import FeedCard from './FeedCard';
+import MiniCard from './MiniCard';
 
 
 export default function Header({ }) {
@@ -118,10 +120,12 @@ export default function Header({ }) {
                         <input autoComplete='off' className='inp w-full h-full' id='searcher' placeholder='Search Here'
                             type='text' value={inputSearch} onChange={(e) => { handleSearch(e) }} />
 
-                        <section className={`${searchRes[0] && inputSearch ? 'fadeIn' : 'fadeOut'} h-nav-input-box px-[10px] py-2 `}>
+                        <section className={`${searchRes[0] && inputSearch ? 'fadeIn' : 'fadeOut'} h-nav-input-box px-[10px]  z-10 `}>
                             <ul>
                                 {searchRes.map((current: any, index) => (
-                                    <li className='mb-1 py-1 px-2 rounded-xl hover:bg-(--dark-800)' onClick={() => { navigate(`/story/${current.id}`) }}>{current.title}</li>
+                                    <li className='mb-1  rounded-xl ' onClick={() => { navigate(`/story/${current.id}`) }}>
+                                        <MiniCard story={current}/>
+                                    </li>
                                 ))}
                             </ul>
                         </section>
