@@ -10,8 +10,8 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @MessagePattern({ cmd: "reg/user" })
-  async registerUser(data: { userData: CreateAuthDTO, user_name: string, description: string }) {
-    const createdUser = await this.appService.createNewUser(data.userData, data.user_name, data.description);
+  async registerUser(data: { userData: CreateAuthDTO, user_name: string, description: string, profile_image_url:string }) {
+    const createdUser = await this.appService.createNewUser(data.userData, data.user_name, data.description,  data.profile_image_url);
     if (createdUser != null) {
       return { message: "ok", data: createdUser };
     }

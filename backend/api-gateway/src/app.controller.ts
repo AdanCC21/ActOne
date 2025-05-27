@@ -23,8 +23,8 @@ export class AppController {
 
   @Post("reg")
   async registerUser(@Body() data: any) {
-    const { userData, user_name, description } = data;
-    return firstValueFrom(this.authClient.send({ cmd: "reg/user" }, { userData, user_name, description }));
+    const { userData, user_name, description, profile_image_url } = data;
+    return firstValueFrom(this.authClient.send({ cmd: "reg/user" }, { userData, user_name, description, profile_image_url }));
   }
 
   @Post("logIn")
@@ -122,6 +122,17 @@ export class AppController {
   @Get("story/delete/:id")
   async DeleteStory(@Param('id', ParseIntPipe) storyId: number) {
     return this.storyClient.send({ cmd: 'delete' }, storyId);
+  }
+
+  /**
+   * 
+   * @param storyId 
+   * @param visibility {campo:valor}
+   * @returns 
+   */
+  @Post("story/update/:id")
+  async UpdateStory(@Param('id', ParseIntPipe) storyId: number, @Body() data) {
+    return this.storyClient.send({ cmd: 'update' }, { id: storyId, data: data })
   }
 
   @Get("list/stories")

@@ -56,7 +56,7 @@ export async function Report(userId: number, pubId: number) {
 
         const data = await sendData.json();
         console.log(data);
-        return data;
+        return data.data;
     } catch (e) {
         console.error(e.message);
         return null;

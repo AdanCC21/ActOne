@@ -54,7 +54,7 @@ export default function Edit({ }) {
 
     useEffect(() => {
         const rawContent = convertToRaw(editorState.getCurrentContent());
-            const fullText = rawContent.blocks.map(block => block.text).join(' ');
+        const fullText = rawContent.blocks.map(block => block.text).join(' ');
 
         setAct(prev =>
             prev.map((a, i) => i === currentAct ? { ...a, content: JSON.stringify(rawContent) } : a)
@@ -121,16 +121,29 @@ export default function Edit({ }) {
                                     className="inp text-(--yellow-500) w-fit mb-2" />
                             )}
                         </div>
-                        <RichTextEditor
-                            editorState={editorState}
-                            setEditorState={setEditorState}
-                            onSave={handleSave}
-                        />
+                        {currentAct === 0 ? (
+                            <RichTextEditor
+                                editorState={editorState}
+                                setEditorState={setEditorState}
+                                onSave={handleSave}
+                                extraClass={"h-[20vh]"}
+                                synopsis={true}
+                            />
+                        ) : (
+                            <RichTextEditor
+                                editorState={editorState}
+                                setEditorState={setEditorState}
+                                onSave={handleSave}
+                                extraClass={"h-full overflow-y-auto"}
+                                synopsis={false}
+                            />
+                        )}
+
                     </section>
                 </div>
 
                 <div className="flex max-w-[15vw] w-[15vw] flex-col mr-[1em]">
-                    <div className="e-acts max-h-[40%]">
+                    <div className="e-acts max-h-2/6">
                         <h4 className="text-(--yellow-500)">Actos</h4>
                         <ul>
                             {act.map((current, index) => (
@@ -152,7 +165,7 @@ export default function Edit({ }) {
                             onClick={() => { addAct(setAct, setCurrent) }}>+</button>
                     </div>
 
-                    <div className="e-sug max-h-[60%]">
+                    <div className="e-sug h-4/6">
                         <h4 className="text-(--yellow-500)">Suggestions</h4>
                         {suggestions.intWords[0] ? (
                             <>
@@ -187,7 +200,10 @@ export default function Edit({ }) {
                         )}
 
                     </div>
-                    <button className="btn yellow w-fit mt-2" onClick={() => { handlePublish(); }}>Publish</button>
+                    <div className="flex w-full mt-4 justify-end">
+                        <button className="btn w-fit mx-3" onClick={() => { handlePublish(); }}>Cancel</button>
+                        <button className="btn yellow w-fit" onClick={() => { handlePublish(); }}>Publish</button>
+                    </div>
                 </div>
             </main >
             <Modal2 isOpen={modalState} onClose={() => { setModal(false) }}>
@@ -196,7 +212,7 @@ export default function Edit({ }) {
 
                     <fieldset className="mb-5 flex flex-col">
                         <h5 className="text-(--yellow-500)">Visibility</h5>
-                        <select className="bg-(--dark-700) px-3 py-2" name="visibility" onChange={(e) => { handleDetails(e) }}>
+                        <select className="bg-black px-3 py-2" name="visibility" onChange={(e) => { handleDetails(e) }}>
                             <option value={'false'}>Private</option>
                             <option value={'true'}>Public</option>
                         </select>

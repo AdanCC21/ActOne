@@ -11,6 +11,7 @@ import { E_Act } from '../../entities/Act.entity'
 import { E_UPD } from '../../entities/UPD.entity'
 
 import FocusMode from '../../assets/icons/fullScreen.svg'
+import tempUser from '../../assets/tempUser.png'
 import '../../css/story.css'
 
 import { GetStory } from '../../Hooks/HandleStory'
@@ -100,12 +101,12 @@ export default function Story() {
       <Header />
       <div className='flex flex-nowrap w-screen px-5 py-3 h-(--page-h)'>
         {/* Author Info */}
-        <section className='flex flex-col bg-(--dark-400) h-full w-[20%] rounded-xl'>
+        <section className='flex flex-col bg-(--dark-200) h-full w-[20%] rounded-xl'>
           {/* Profile */}
           <article className='flex flex-col h-[50%] w-[80%] mx-auto my-2'>
-            <img src={story.upd.profile_image_url}
+            <img src={story.upd.profile_image_url || tempUser}
               className='w-[200px] rounded-full m-auto aspect-square h-fit object-cover' />
-            <h3 className='text-center font-semibold'>@{story.upd.user_name}</h3>
+            <h3 className='text-center font-semibold cursor-pointer hover:underline' onClick={() => { navigator(`/user/${story.upd.id}`) }}>@{story.upd.user_name}</h3>
             <span className='text-(--gray) text-center '>{story.upd.description}</span>
             {sessionUpd.id != story.upd.id ? (<>
               {sessionUpd.following.includes(story.upd.id) ? (
@@ -115,8 +116,6 @@ export default function Story() {
               )
               } </>
             ) : (<></>)}
-
-
           </article>
 
 
@@ -179,13 +178,14 @@ export default function Story() {
         </section>
 
         {/* Informacion del acto */}
-        <section className='bg-(--dark-400) ml-5 rounded-xl w-[80%] px-10 py-5'>
+        <section className='bg-(--dark-200) ml-5 rounded-xl w-[80%] px-10 py-5'>
           <div className='flex h-[15%]'>
             <div className='flex flex-col w-full'>
               <div className='flex w-auto'>
                 <h1>{story.story.title}</h1>
                 <button className='btn void self-center ml-auto' onClick={() => { navigator(`/story/${id}/focus`) }}>
-                  <img src={FocusMode}  />
+                  <span className='mr-2'>Focus mode</span>
+                  <img src={FocusMode} />
                 </button>
               </div>
               <h5 className='font-semibold  text-(--yellow-800)'>{story.acts[currentAct].title}</h5>
@@ -201,19 +201,19 @@ export default function Story() {
 
             <div className='ml-auto flex mt-auto'>
               {story.acts[currentAct - 1] ? (
-                <button className='btn void mr-5'
+                <button className='btn yellow mr-5'
                   onClick={() => { setAct(prev => (prev - 1)) }}>
                   {`< ${story.acts[currentAct - 1].title}`}
                 </button>
               ) : (<></>)}
 
               {story.acts[currentAct + 1] ? (
-                <button className='btn void mr-5'
+                <button className='btn yellow mr-5'
                   onClick={() => { setAct(prev => (prev + 1)) }}>
                   {`${story.acts[currentAct + 1].title} >`}
                 </button>
               ) : (
-                <button className='btn void mr-5'
+                <button className='btn yellow mr-5'
                   onClick={() => { setAct(0) }}>
                   {`Volver al inicio`}
                 </button>)

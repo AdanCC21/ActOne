@@ -130,7 +130,7 @@ export default function Focus() {
 
     return (
         <div className='flex flex-col h-screen w-screen'>
-            <nav className='flex w-screen '>
+            <nav className='flex w-screen mt-2'>
                 {story.acts[currentAct - 1] ? (
                     <button className='btn void ml-2' onClick={() => { handleActs(false); setFinal(false) }}>
                         <span>

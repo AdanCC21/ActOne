@@ -34,7 +34,9 @@ body {
 
   --dark-primary:#1B1B1F;
   --light-primary:#ffffff;
+  
   --bg:#161618;
+  --border:rgb(66, 66, 66);
 
 
   --yellow-50:  #fefce8;
@@ -79,6 +81,8 @@ body {
   --header-h: 8vh;
   --page-h: calc(100vh - var(--header-h));
 }
+
+
 
 *::-webkit-scrollbar{
   background-color: transparent;
@@ -162,4 +166,3 @@ fieldset div {
   display: flex;
   flex-direction: column;
 }
-

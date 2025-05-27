@@ -18,6 +18,41 @@ export class AppController {
   }
 
 
+  @MessagePattern({ cmd: 'get/list' })
+  async ListStories() {
+    return await this.appService.ListStories();
+  }
+
+  /**
+   * 
+   * @param data : {story:CreateStory, acts:CreateAct}
+   * @returns {message :"", data: result || null}
+   */
+  @MessagePattern({ cmd: 'publish' })
+  async PublishStory(data: any) {
+    return await this.appService.PublishStory(data.story, data.acts)
+  }
+
+  @MessagePattern({ cmd: "delete" })
+  async DeleteStory(@Payload() storyId) {
+    return await this.appService.DeleteStory(storyId)
+  }
+
+  @MessagePattern({ cmd: "update" })
+  async UpdateStory(@Payload() data) {
+    return await this.appService.UpdateStory(data.id, data.data);
+  }
+
+  /**
+   * Suma o Resta la cantidad que enviemos a su pd
+   * @param data {id:storyId, pd:{likes_count || comments_count || reports_count || marked_count}}
+   * @returns True || false
+   */
+  @Post('set/pd')
+  async UpdatePd(@Body() data) {
+    return await this.appService.updatePD(data.id, data.pd);
+  }
+
   // --------------------------- SEARCH ---------------------------
 
   @MessagePattern({ cmd: 'search/title' })
@@ -43,37 +78,6 @@ export class AppController {
   @MessagePattern({ cmd: 'search/labels' })
   async SearchByLabels(@Payload() labels: any) {
     return await this.appService.SearchByLabels(labels.labels);
-  }
-
-
-  @MessagePattern({ cmd: 'get/list' })
-  async ListStories() {
-    return await this.appService.ListStories();
-  }
-
-  /**
-   * 
-   * @param data : {story:CreateStory, acts:CreateAct}
-   * @returns {message :"", data: result || null}
-   */
-  @MessagePattern({ cmd: 'publish' })
-  async PublishStory(data: any) {
-    return await this.appService.PublishStory(data.story, data.acts)
-  }
-
-  @MessagePattern({ cmd: "delete" })
-  async DeleteStory(@Payload() storyId) {
-    return await this.appService.DeleteStory(storyId)
-  }
-
-  /**
-   * Suma o Resta la cantidad que enviemos a su pd
-   * @param data {id:storyId, pd:{likes_count || comments_count || reports_count || marked_count}}
-   * @returns True || false
-   */
-  @Post('set/pd')
-  async UpdatePd(@Body() data) {
-    return await this.appService.updatePD(data.id, data.pd);
   }
 
 }

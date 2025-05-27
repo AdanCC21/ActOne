@@ -15,11 +15,17 @@ export default function SideBar() {
   return (
     <nav className="side-bar">
       <ul>
-        <li onClick={() => { navigator('/') }}><FaHome /> <span className="ml-2">Home</span></li>
-        <li onClick={() => { user.id ? navigator('/profile/pub') : navigator('/login') }}><FaRegUser /> <span className="ml-2">Following</span></li>
-        <li onClick={() => { user.id ? navigator('/profile/mark') : navigator('/login') }}><CiBookmark /> <span className="ml-2">Saved</span></li>
-        <li onClick={() => { user.id ? navigator('/profile/pub') : navigator('/login') }}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
+        <li onClick={() => { navigator('/') }} className="text-(--yellow-500) font-semibold hover:text-(--yellow-700) duration-300"><FaHome /> <span className="ml-2">Home</span></li>
+        <li className="hover:text-(--yellow-700) duration-300" onClick={() => { user.id ? navigator('/profile/mark') : navigator('/login') }}><CiBookmark /> <span className="ml-2">Saved</span></li>
+        <li className="hover:text-(--yellow-700) duration-300" onClick={() => { user.id ? navigator('/profile/pub') : navigator('/login') }}><FaRegUserCircle /> <span className="ml-2">Profile</span></li>
       </ul>
+
+      {/* <ul className="mt-5">
+        <p className="text-(--yellow-500) font-bold">Popular Tags</p>
+        <li className="text-(--gray)" style={{fontSize:".8em"}}>#chisme</li>
+        <li className="text-(--gray)" style={{fontSize:".8em"}}>#infiel</li>
+        <li className="text-(--gray)" style={{fontSize:".8em"}}>#uabc</li>
+      </ul> */}
       <div className="flex items-center mt-auto mb-1 cursor-pointer">
         {user.id ? (
           <>

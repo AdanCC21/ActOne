@@ -3,86 +3,31 @@ import { PrismaService } from './prisma/prisma.service';
 import { CreateStoryDto } from './DTO/CreateStory.dto';
 import { CreateActDto } from './DTO/CreateAct.dto';
 import { UpdatePdDTO } from './DTO/UpdatePd.dto';
+import { UpdateStoryDto } from './DTO/UpdateStory.dto';
 
 @Injectable()
 export class AppService {
     constructor(private readonly prismaSer: PrismaService) { }
 
-    async SearchByTitle(title: string) {
+    /**
+     * 
+     * @param id 
+     * @param data 
+     * @returns 
+     */
+    async UpdateStory(id: number, data: any) {
         try {
-            const results = await this.prismaSer.storieData.findMany({
-                where: {
-                    title: {
-                        contains: title,
-                        mode: 'insensitive'
-                    }
-                }
-            })
-            return { message: 'ok', data: results };
+            console.log(data);
+            const storyExist = await this.prismaSer.storieData.findUnique({ where: { id: id } });
+            if (!storyExist) throw new Error('Story not found');
+
+            const { id: _ignoredId, ...restData } = data as any;
+            const result = await this.prismaSer.storieData.update({ where: { id: storyExist.id }, data: data.data })
+            if (!result) throw new Error("error updating the story");
+            return { mesasge: "ok", data: result };
         } catch (e) {
             console.error(e);
-            return { message: 'not found', data: null };
-        }
-    }
-
-    async SearchByDuration(duration: string) {
-        try {
-            const results = await this.prismaSer.storieData.findMany({
-                where: {
-                    duration: duration
-                }
-            })
-            return { message: 'ok', data: results };
-        } catch (e) {
-            console.error(e);
-            return { message: 'not found', data: null };
-        }
-    }
-
-    async SearchByAuthor(author: number) {
-        try {
-            const results = await this.prismaSer.storieData.findMany({
-                where: {
-                    author_id: author
-                }
-            })
-            return { message: 'ok', data: results };
-        } catch (e) {
-            console.error(e);
-            return { message: 'not found', data: null };
-        }
-    }
-
-    async SearchByActs(actsNumber: number) {
-        try {
-            console.log('entro en actos' + actsNumber)
-            const allStories = await this.prismaSer.storieData.findMany();
-
-            const filtered = allStories.filter(story => story.acts.length === actsNumber);
-
-            return { message: 'ok', data: filtered };
-        } catch (e) {
-            console.error(e);
-            return { message: 'not found', data: null };
-        }
-    }
-
-
-    async SearchByLabels(labels: string[]) {
-        try {
-            console.log("labels");
-            console.log(labels);
-            const results = await this.prismaSer.storieData.findMany({
-                where: {
-                    labels: {
-                        hasSome: labels
-                    }
-                }
-            })
-            return { message: 'ok', data: results };
-        } catch (e) {
-            console.error(e);
-            return false;
+            return { message: e.message, data: null };
         }
     }
 
@@ -117,6 +62,8 @@ export class AppService {
             throw new Error(e.message)
         }
     }
+
+    // -------------- Extra --------------------- //
 
     async GetUPD(id: number) {
         try {
@@ -237,5 +184,85 @@ export class AppService {
             return { message: e.message, data: false };
         }
 
+    }
+
+
+    // -------------- SEARCH --------------------- //
+
+    async SearchByTitle(title: string) {
+        try {
+            const results = await this.prismaSer.storieData.findMany({
+                where: {
+                    title: {
+                        contains: title,
+                        mode: 'insensitive'
+                    }
+                }
+            })
+            return { message: 'ok', data: results };
+        } catch (e) {
+            console.error(e);
+            return { message: 'not found', data: null };
+        }
+    }
+
+    async SearchByDuration(duration: string) {
+        try {
+            const results = await this.prismaSer.storieData.findMany({
+                where: {
+                    duration: duration
+                }
+            })
+            return { message: 'ok', data: results };
+        } catch (e) {
+            console.error(e);
+            return { message: 'not found', data: null };
+        }
+    }
+
+    async SearchByAuthor(author: number) {
+        try {
+            const results = await this.prismaSer.storieData.findMany({
+                where: {
+                    author_id: author
+                }
+            })
+            return { message: 'ok', data: results };
+        } catch (e) {
+            console.error(e);
+            return { message: 'not found', data: null };
+        }
+    }
+
+    async SearchByActs(actsNumber: number) {
+        try {
+            console.log('entro en actos' + actsNumber)
+            const allStories = await this.prismaSer.storieData.findMany();
+
+            const filtered = allStories.filter(story => story.acts.length === actsNumber);
+
+            return { message: 'ok', data: filtered };
+        } catch (e) {
+            console.error(e);
+            return { message: 'not found', data: null };
+        }
+    }
+
+    async SearchByLabels(labels: string[]) {
+        try {
+            console.log("labels");
+            console.log(labels);
+            const results = await this.prismaSer.storieData.findMany({
+                where: {
+                    labels: {
+                        hasSome: labels
+                    }
+                }
+            })
+            return { message: 'ok', data: results };
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
     }
 }
