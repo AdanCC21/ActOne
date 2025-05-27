@@ -10,6 +10,8 @@ import { RegNewUser } from '../../Hooks/Register';
 import { HandleKey } from '../../Hooks/Handles';
 import { GetUPD } from '../../Hooks/GetUPD';
 
+import tempUser from '../../assets/tempUser.png'
+
 type RegData = {
     userData: {
         email: string,
@@ -189,7 +191,7 @@ export default function Reg({ }) {
                     
                     <div className='mb-2'>
                         <label htmlFor="text" >Image URL</label>
-                        <input className="inp" name="profile_image_url" value={inputs.profile_image_url} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="URL"></input>
+                        <input className="inp" name="profile_image_url" value={inputs.profile_image_url || tempUser} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="URL"></input>
                         <small className='ml-auto text-(--gray) mt-2'>Important, only the URL of a public image</small>
                     </div>
 

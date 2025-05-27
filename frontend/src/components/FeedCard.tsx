@@ -9,16 +9,25 @@ import { PostLike, Report } from '../Hooks/HandlePD'
 import { MarkStory } from '../Hooks/Marked';
 import { HandleSession, UpdateSession } from '../Hooks/HandleSession';
 
+import tempUser from '../assets/tempUser.png'
+import { FaRegTrashAlt } from "react-icons/fa";
+import edit from '../assets/icons/pencil.svg'
+import warning from '../assets/icons/warning.svg'
+
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { E_UPD } from '../entities/UPD.entity';
+import { DeleteStory, UpdateStory } from '../Hooks/HandleStory';
+import Modal2 from './Modal2';
 
 type Props = {
     story: E_Story
     authorName?: string
-    extraClass?:string
+    extraClass?: string
+    isTheAuthor?: boolean
+    session?: any
 }
 
-export default function FeedCard({ story, authorName, extraClass }: Props) {
+export default function FeedCard({ story, authorName, extraClass, isTheAuthor, session }: Props) {
     if (story.id === 0) {
         return (<></>)
     }
@@ -29,7 +38,11 @@ export default function FeedCard({ story, authorName, extraClass }: Props) {
     sessionUpd = HandleSession(sessionStorage.getItem('user') || 'invitado');
     if (!sessionUpd) console.error('Invalid session');
 
-    const [userPdState, setPD] = useState({ like: { amount: story.likes_count, state: false }, marked: { amount: story.marked_count, state: false } })
+    const [userPdState, setPD] = useState({
+        like: { amount: story.likes_count, state: false },
+        marked: { amount: story.marked_count, state: false },
+        reported: { amount: story.reports_count, state: false }
+    })
 
     // Crear estado para mostrar la sinopsis con Draft.js
     let synopsisState = EditorState.createEmpty();
@@ -46,10 +59,15 @@ export default function FeedCard({ story, authorName, extraClass }: Props) {
             try {
                 const updData = await GetUPD(story.author_id)
                 setAuthor(updData);
-                
+
                 const liked = sessionUpd.stories_liked.includes(story.id);
                 const marked = sessionUpd.marked_stories.includes(story.id);
-                setPD(prev => { return { ...prev, like: { amount: story.likes_count, state: liked }, marked: { amount: story.marked_count, state: marked } } });
+                setPD(prev => ({
+                    ...prev,
+                    like: { amount: story.likes_count, state: liked },
+                    marked: { amount: story.marked_count, state: marked },
+                    reported: { amount: story.reports_count, state: false }
+                }));
             } catch (e) {
                 console.error(e.message);
             }
@@ -57,8 +75,55 @@ export default function FeedCard({ story, authorName, extraClass }: Props) {
         if (!authorName) fetchData();
     }, [])
 
+    const [modalVis, setVisModal] = useState(false);
+    const [deleteModal, setDelete] = useState(false);
+    const [vis, setVis] = useState(false);
+
+    const handleDetails = (e: any) => {
+        const { value } = e.target;
+        value === 'true' ? setVis(true) : setVis(false)
+    }
+
+    const updateVisibility = async (storyId: number, newVisibility: boolean) => {
+        const hook = await UpdateStory(storyId, { visibility: newVisibility });
+    }
+
     return (
-        <article className={`feed-card ${extraClass}`}>
+        <section className={`feed-card ${extraClass}`}>
+            <Modal2 isOpen={modalVis} onClose={() => { setVisModal(!modalVis) }}>
+                <form className='flex flex-col' onSubmit={(e) => { e.preventDefault() }}>
+                    <h2>Change Visibility</h2>
+
+                    <FeedCard story={story} extraClass='w-full' />
+
+                    <fieldset className="mb-5 flex flex-col">
+                        <h5 className="text-(--yellow-500)">Visibility</h5>
+                        <select className="bg-black px-3 py-2" name="visibility" onChange={(e) => { handleDetails(e) }}>
+                            <option value={'false'}>Private</option>
+                            <option value={'true'}>Public</option>
+                        </select>
+                    </fieldset>
+
+                    <div className='flex w-full'>
+                        <button className='btn ml-auto mr-2' onClick={() => { setVisModal(!modalVis) }}>Cancelar</button>
+                        <button className='btn yellow' onClick={() => { updateVisibility(story.id, vis); setVisModal(!modalVis) }}>Continuar</button>
+                    </div>
+                </form>
+            </Modal2>
+
+            <Modal2 isOpen={deleteModal} onClose={() => { setDelete(!deleteModal) }}>
+                <form className='flex flex-col items-center justify-center w-full h-full' onSubmit={(e) => { e.preventDefault() }}>
+                    <h2 className='font-semibold text-center'>Estas seguro de eliminar la historia?</h2>
+                    <FeedCard story={story} extraClass='w-full' />
+
+                    <div className='flex mt-5 ml-auto items-center '>
+                        <button className='mr-5 btn' onClick={() => { setDelete(!deleteModal) }}>Cancelar</button>
+                        <button className='btn yellow' onClick={() => { DeleteStory(story.id, session) }}>
+                            Continuar <img src={warning} alt='delete' />
+                        </button>
+                    </div>
+                </form>
+            </Modal2>
             <div onClick={() => {
                 navigator(`/story/${story.id}`);
             }} >
@@ -66,15 +131,15 @@ export default function FeedCard({ story, authorName, extraClass }: Props) {
                     <h4 className='font-semibold text-(--yellow-500)'>{story.title}</h4>
                     <div className='flex h-full my-auto'>
                         <span className='my-auto mr-2'>{authorUpd.user_name}</span>
-                        <img src={authorUpd.profile_image_url} className='rounded-full aspect-square object-cover' />
+                        <img src={authorUpd.profile_image_url || tempUser} className='rounded-full aspect-square object-cover' />
                     </div>
                 </header>
 
-                <div className='synopsis my-3'>
+                <data className='synopsis my-3'>
                     <Editor editorState={synopsisState} readOnly={true} onChange={function (editorState: EditorState): void {
                         throw new Error('Function not implemented.');
                     }} />
-                </div>
+                </data>
             </div>
 
             <section className='interactions ' style={{ zIndex: 2 }}>
@@ -113,10 +178,23 @@ export default function FeedCard({ story, authorName, extraClass }: Props) {
                 />
                 <Reports
                     extraClass='mx-2 my-auto'
-                    state={false}
-                    func={() => { Report(story.author_id, story.id) }}
-                    amount={story.reports_count}
+                    func={async () => {
+                        if (sessionUpd && !userPdState.reported.state) {
+                            const fetchData = await Report(story.author_id, story.id);
+                            if (fetchData) {
+                                setPD(prev => ({
+                                    ...prev,
+                                    reported: {
+                                        amount: prev.reported.amount + 1,
+                                        state: !prev.reported.state
+                                    }
+                                }));
+                            }
+                        }
+                    }}
+                    amount={userPdState.reported.amount}
                 />
+
                 <p className='text-(--gray) mx-2'>{story.duration}</p>
                 <ul className='flex mx-2 text-(--gray) overflow-x-auto'>
                     {story.labels && story.labels[0] ? story.labels.map((current, index) => (
@@ -124,6 +202,18 @@ export default function FeedCard({ story, authorName, extraClass }: Props) {
                     )) : null}
                 </ul>
             </section>
-        </article>
+            {isTheAuthor ? (
+                <div className='flex w-full'>
+                    <button className='ml-auto btn' onClick={() => { setVisModal(!modalVis) }}>
+                        <img className='w-[20px]' src={edit} alt='Edit' />
+                    </button>
+                    <button className='ml-2 btn yellow' onClick={() => { setDelete(!deleteModal) }}>
+                        <FaRegTrashAlt />
+                    </button>
+
+                </div>
+            ) : (<></>)}
+        </section>
+
     )
 }

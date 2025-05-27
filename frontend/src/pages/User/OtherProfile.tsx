@@ -1,7 +1,7 @@
 import React, { use, useEffect, useState } from 'react'
 import Header from '../../components/Header';
 import { GetMultiplesUpd, GetUPD, UpdateUPD } from '../../Hooks/GetUPD';
-import { DeleteStory, GetStory, UpdateStory } from '../../Hooks/HandleStory';
+import { DeleteStory, GetStory } from '../../Hooks/HandleStory';
 import { E_UPD } from '../../entities/UPD.entity';
 import { E_Story } from '../../entities/Story.entity';
 import FeedCard from '../../components/FeedCard'
@@ -9,10 +9,9 @@ import FeedCard from '../../components/FeedCard'
 import Like from '../../assets/void_like.png';
 import VoidMark from '../../assets/mark.png';
 import Comments from '../../assets/comments.svg'
-import pencil from '../../assets/icons/pencil.svg'
 import tempUser from '../../assets/tempUser.png'
 
-import { FaRegTrashAlt, FaRegUser } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { RiUserFollowLine } from "react-icons/ri";
 import { useNavigate, useParams } from 'react-router-dom';
 import { HandleSession, UpdateSession } from '../../Hooks/HandleSession';
@@ -21,8 +20,9 @@ import { Follow } from '../../Hooks/Follow';
 import FollowList from '../../components/FollowList';
 
 
-export default function Profile() {
+export default function OtherProfile() {
     const navigate = useNavigate();
+    const { id } = useParams();
     let sessionUser;
     try {
         sessionUser = HandleSession(sessionStorage.getItem('user') || 'invitado');
@@ -46,23 +46,18 @@ export default function Profile() {
     const [markedList, setMarked] = useState([{ story: new E_Story(), upd: new E_UPD() }]);
     const [likedList, setLikedPub] = useState([{ story: new E_Story() }]);
 
-    const [dataToUpdate, setUpdate] = useState({ user_name: "", profile_image_url: "", description: "" });
-    const handleUpdateData = (e: any) => {
-        const { name, value } = e.target;
-        setUpdate(prev => { return { ...prev, [name]: value } });
-    }
-
-    const hanldeSubmitUpdate = async () => {
-        sessionUser.user_name = dataToUpdate.user_name;
-        sessionUser.profile_image_url = dataToUpdate.profile_image_url;
-        sessionUser.description = dataToUpdate.description
-        UpdateUPD(sessionUser);
-    }
 
     const handleFollow = async (userId: number, action: boolean) => {
-        const follow = await Follow(sessionUser.id, userId, action);
-        sessionUser = follow.data[0];
-        UpdateSession(sessionUser);
+        console.log(sessionUser, currentUser);
+        const follow = await Follow(sessionUser.id, currentUser.id, action);
+        if (follow.data) {
+            console.log(follow.data);
+            sessionUser = follow.data[0];
+            UpdateSession(sessionUser);
+            window.location.reload()
+        } else {
+            console.error(follow);
+        }
     }
 
     const [tab, setTab] = useState(0);
@@ -72,7 +67,7 @@ export default function Profile() {
             setTab(1)
         }
         const fetchData = async () => {
-            const upd = await GetUPD(Number(sessionUser.id));
+            const upd = await GetUPD(Number(id));
             if (!upd) return;
             setUser(upd);
 
@@ -101,15 +96,11 @@ export default function Profile() {
             }));
             markStories.length > 0 ? setMarked(markStories) : setMarked([]);
 
-            const followingFetch = await GetMultiplesUpd(sessionUser.following);
+            const followingFetch = await GetMultiplesUpd(upd.following);
             setFollowing(followingFetch);
 
-            const followersFetch = await GetMultiplesUpd(sessionUser.followers);
+            const followersFetch = await GetMultiplesUpd(upd.followers);
             setFollowers(followersFetch);
-
-            console.log(sessionUser);
-
-            setUpdate({ user_name: sessionUser.user_name, profile_image_url: sessionUser.profile_image_url, description: sessionUser.description })
         }
         fetchData();
     }, [])
@@ -123,75 +114,19 @@ export default function Profile() {
                         if (current) {
                             return (
                                 <div key={index} className=' w-full ml-4'>
-                                    <FeedCard extraClass='w-full' story={current.story} isTheAuthor={true} session={sessionUser} />
+                                    <FeedCard extraClass='w-full' story={current.story} />
                                 </div>
                             )
                         }
                         return (<></>)
                     })
                 )
-            case 1:
-                return (
-                    markedList.map((current, index) => {
-                        if (current) {
-                            return (
-                                <div key={index} >
-                                    <FeedCard story={current.story} />
-                                </div>
-                            )
-                        }
-                        return (<></>)
-                    }))
-            case 2:
-                return (
-                    likedList.map((current, index) => {
-                        if (current) {
-                            return (
-                                <div key={index} >
-                                    <FeedCard story={current.story} />
-                                </div>
-                            )
-                        }
-                        return (<></>)
-                    }))
         }
     }
 
     return (
         <>
             <Header />
-            {/* Modal de edicion */}
-            <Modal2 isOpen={modalState} extraClass='bg-(--dark-300) w-[50vw]' onClose={() => (showModal(!modalState))} >
-                <form className='flex flex-col h-full' onSubmit={(e) => { e.preventDefault() }}>
-                    <h3 className='font-semibold text-center mb-5'>Editar Perfil</h3>
-                    <div className='flex justify-between my-4'>
-                        <fieldset className='flex flex-col w-2/4 ml-5 justify-around'>
-                            <div className='w-full'>
-                                <label>Name</label>
-                                <input className='inp w-full ' placeholder='Your new name' name='user_name' value={dataToUpdate.user_name} onChange={(e) => { handleUpdateData(e) }} />
-                            </div>
-                            <div>
-                                <label>Image Url</label>
-                                <input className='inp w-full  text-(--gray)' placeholder='Your new url' name='profile_image_url' value={dataToUpdate.profile_image_url} onChange={(e) => { handleUpdateData(e) }} />
-                            </div>
-                            <div>
-                                <label>Description</label>
-                                <input className='inp w-full  text-(--gray)' placeholder='Your new description' name='description' value={dataToUpdate.description} onChange={(e) => { handleUpdateData(e) }} />
-                            </div>
-                        </fieldset>
-
-                        <section className='flex flex-col mr-5'>
-                            <img src={dataToUpdate.profile_image_url || sessionUser.profile_image_url} className='w-[200px] h-fit aspect-square object-cover mx-auto my-2 rounded-full' />
-                            <h3>{dataToUpdate.user_name || currentUser.user_name}</h3>
-                            <span className='text-(--gray)'>{dataToUpdate.description || currentUser.description}</span>
-                        </section>
-                    </div>
-                    <div className='flex ml-auto mt-5'>
-                        <button className='btn void mr-3' onClick={() => { showModal(!modalState) }}>Cancel</button>
-                        <button className='btn yellow' onClick={() => { hanldeSubmitUpdate() }}>Update</button>
-                    </div>
-                </form>
-            </Modal2>
 
             <Modal2 isOpen={following} onClose={() => (showFollowing(!following))}>
                 <FollowList dataList={followingList} sessionUser={sessionUser} handleFollow={handleFollow} title='Following' />
@@ -205,13 +140,25 @@ export default function Profile() {
                 <main className='flex m-auto w-[95%] h-[95%] bg-(--dark-200) p-5 rounded-2xl'>
                     <section className='flex flex-col h-full w-[20%] '>
                         <article className='flex flex-col h-[60%] my-auto items-center'>
-                            <img className='w-[50%] h-fit my-4 aspect-square object-cover rounded-full mx-auto' src={sessionUser.profile_image_url || tempUser} />
-                            <div className='flex'>
-                                <h4 className='font-bold mr-2'>@{currentUser.user_name} </h4>
-                                <img className='w-[1em] h-[1em] cursor-pointer duration-200 ease-in-out' src={pencil} alt='edit profile' onClick={() => { showModal(!modalState) }} />
-                            </div>
+                            <img className='w-[50%] h-fit my-4 aspect-square object-cover rounded-full mx-auto' src={currentUser.profile_image_url|| tempUser} />
+                            <h4 className='font-bold'>@{currentUser.user_name}</h4>
                             <p className='text-(--gray)'>{currentUser.description !== '' ? (<>{currentUser.description}</>) : (<>No hay descripcion</>)}</p>
-                            {/* <button className='btn yellow my-2' >Editar perfil</button> */}
+                            {sessionUser.id !== currentUser.id ? (
+                                <>
+                                    {sessionUser.following.includes(currentUser.id) ? (
+                                        <button className='btn yellow mx-auto my-3' onClick={() => {
+                                            handleFollow(currentUser.id, false)
+                                        }}>Unfollow</button>
+                                    ) : (
+                                        <button className='btn yellow mx-auto my-3' onClick={() => {
+                                            handleFollow(currentUser.id, true)
+                                        }}>Follow</button>
+                                    )
+                                    }
+                                </>
+                            ) : (
+                                <></>
+                            )}
                         </article>
                         <ul className='flex mb-3 mx-auto flex-wrap text-[#9a9999]'>
                             <div className='flex mx-auto'>
@@ -225,10 +172,6 @@ export default function Profile() {
                         <nav className='flex h-[6%]'>
                             <div className={`px-4 py-2 ${tab === 0 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-800) text-(--gray)'} cursor-pointer  rounded-t-md transition-all ease-in-out duration-150`}
                                 onClick={() => { setTab(0) }}><p>Historias Publicadas</p></div>
-                            <div className={`px-4 py-2 ${tab === 1 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
-                                onClick={() => { setTab(1) }}><p>Historias Guardadas</p></div>
-                            <div className={`px-4 py-2 ${tab === 2 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
-                                onClick={() => { setTab(2) }}><p>Me Gusta</p></div>
                         </nav>
                         <article className='grid grid-cols-2 gap-x-5 p-2 bg-(--dark-400) w-full h-[90%] overflow-y-auto overflow-x-hidden'>
                             {handleTabs()}

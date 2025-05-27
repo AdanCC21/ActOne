@@ -6,7 +6,7 @@ import { ThemeContext } from '../context/AppContext'
 
 import Modal2 from './Modal2'
 
-import searcher from '../assets/buscador.png'
+import searcher from '../assets/icons/searchBlack.svg'
 import tempUser from '../assets/tempUser.png'
 import sun from '../assets/icons/sun.svg'
 import './css/header.css'
@@ -82,18 +82,22 @@ export default function Header({ }) {
 
     return (
         <header className={`header ${context?.isLightMode ? 'bg-[#e0e0e0] text-black' : 'bg-(--dark-primary) text-white'}`}>
-            <Modal2 isOpen={modalState} onClose={() => { setModal(false) }} extraClass='w-[20vw]'>
+            <Modal2 isOpen={modalState} onClose={() => { setModal(false) }} extraClass='max-w-[25vw]'>
                 <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
+
                     <label htmlFor='title'><h3 className='text-(--yellow-500) font-semibold my-2'>Titulo</h3></label>
+                    {alert ? (
+                        <span className='text-red-600'>{alert}</span>
+                    ) : (
+                        <span className='text-(--gray)'>Use a short title for your story</span>
+                    )}
                     <div className='flex flex-col my-2'>
-                        <input id='title' placeholder='Titulo' className='inp'
+                        <input id='title' placeholder='Titulo' maxLength={25} className='inp'
                             name='title' value={title} onChange={(e) => { handleTitle(e) }} onKeyDown={(e) => { handleKey(e) }} />
-                        {alert === '' ? (
-                            <></>
-                        ) : (
-                            <span className='text-red-600 my-2 ml-2'>{alert}</span>
-                        )}
+                        <small className='ml-auto mt-2 mr-2 text-(--gray)'>{title.length} / 25</small>
+
                     </div>
+
                     <div className='flex w-full ml-auto mt-5'>
                         <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setModal(false); setAlert('') }}>Cancelar</button>
                         <button type='submit' className='btn yellow w-fit ml-3'>Subir</button>
@@ -110,19 +114,20 @@ export default function Header({ }) {
 
             <div className='h-nav'>
                 <form className='h-nav-search' onSubmit={(e) => { e.preventDefault(); }}>
-                    <fieldset className='h-nav-input '>
-                        <input className='h-nav-input-search-box' id='searcher'
+                    <fieldset className='w-[40vw] items-center justify-center'>
+                        <input autoComplete='off' className='inp w-full h-full' id='searcher' placeholder='Search Here'
                             type='text' value={inputSearch} onChange={(e) => { handleSearch(e) }} />
-                        {searchRes[0] && inputSearch ? (<section className='h-nav-input-box'>
+
+                        <section className={`${searchRes[0] && inputSearch ? 'fadeIn' : 'fadeOut'} h-nav-input-box px-[10px] py-2 `}>
                             <ul>
                                 {searchRes.map((current: any, index) => (
-                                    <li className='mb-2 hover:outline-1' onClick={() => { navigate(`/story/${current.id}`) }}>{current.title}</li>
+                                    <li className='mb-1 py-1 px-2 rounded-xl hover:bg-(--dark-800)' onClick={() => { navigate(`/story/${current.id}`) }}>{current.title}</li>
                                 ))}
                             </ul>
-                        </section>) : (<></>)}
+                        </section>
 
                     </fieldset>
-                    <button className="btn  my-auto h-nav-search-btn" type="button" aria-label="search something">
+                    <button className="btn yellow" type="button" aria-label="search something">
                         <img src={searcher} alt='searcher' />
                     </button>
                 </form>

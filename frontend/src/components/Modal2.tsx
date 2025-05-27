@@ -32,19 +32,13 @@ export default function Modal2({ isOpen, onClose, children, extraClass }: ModalP
                     onClick={onClose}
                 >
                     <motion.div
-                        className={`bg-(--dark-600) rounded-lg shadow-lg p-6 max-w-[80vw] sm:w-[80vw] md:w-[40vw] ${extraClass}`}
+                        className={`bg-(--dark-600) rounded-lg shadow-lg p-6 sm:w-[80vw] md:w-[40vw] ${extraClass}`}
                         variants={modal}
                         initial="hidden"
                         animate="visible"
                         exit="exit"
                         onClick={(e) => e.stopPropagation()} // prevent backdrop click from closing modal
                     >
-                        <button
-                            onClick={onClose}
-                            className="absolute top-3 right-3 text-gray-500 hover:text-black"
-                        >
-                            ✖
-                        </button>
                         {children}
                     </motion.div>
                 </motion.div>

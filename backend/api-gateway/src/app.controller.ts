@@ -124,6 +124,17 @@ export class AppController {
     return this.storyClient.send({ cmd: 'delete' }, storyId);
   }
 
+  /**
+   * 
+   * @param storyId 
+   * @param visibility {campo:valor}
+   * @returns 
+   */
+  @Post("story/update/:id")
+  async UpdateStory(@Param('id', ParseIntPipe) storyId: number, @Body() data) {
+    return this.storyClient.send({ cmd: 'update' }, { id: storyId, data: data })
+  }
+
   @Get("list/stories")
   async GetStories() {
     return this.storyClient.send({ cmd: "get/list" }, {});

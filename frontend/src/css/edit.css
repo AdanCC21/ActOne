@@ -10,13 +10,21 @@
     
 }
 
+.separador{
+  opacity: 100;
+}
+
+.separador::after{
+  content: '';
+}
+
 .e-acts{
     padding: 10px 20px;
     border-radius: 16px;
     
     height: fit-content;
     
-    background-color: var(--dark-400);
+    background-color: var(--dark-200);
     margin-bottom: 1em;
     overflow-y: auto;
 }
@@ -26,7 +34,7 @@
     border-radius: 16px;
     flex-grow: 1;
     text-overflow: ellipsis;
-    background-color: var(--dark-400);
+    background-color: var(--dark-200);
     overflow-y: auto;
 }
 
@@ -39,7 +47,7 @@
     padding: 10px 20px;
     border-radius: 16px;
     
-    background-color: var(--dark-400);
+    background-color: var(--dark-200);
 }
 
 .e-editor-header{

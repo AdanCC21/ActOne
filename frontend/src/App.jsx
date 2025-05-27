@@ -11,6 +11,7 @@ import Profile from "./pages/User/Profile";
 import GenericError from "./pages/Error/GenericError";
 import { useContext } from "react";
 import { ThemeContext } from "./context/AppContext";
+import OtherProfile from "./pages/User/OtherProfile";
 
 function App() {
   const {lightMode, setTheme} = useContext(ThemeContext)
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<Reg />} />
         <Route path="/profile/:mark" element={<Profile />} />
+        <Route path="/user/:id" element={<OtherProfile />} />
         <Route path="/welcome/:name" element={<WelcomeBack />} />
 
         <Route path="/story/:id" element={<Story />} />

@@ -23,7 +23,7 @@ type Props = {
 export function Like({ amount, state, func, extraClass }: Props) {
     const amountFormat = handleAmount(amount);
     return (
-        <button className={`btn interaction ${extraClass}`} onClick={() => { func();  ; }}>
+        <button className={`btn interaction ${extraClass}`} onClick={() => { func();; }}>
             {state ? (
                 <img src={like} />
             ) : (<img src={voidLike} />)}
@@ -40,7 +40,7 @@ export function Mark({ amount, state, func, extraClass }: Props) {
     const amountFormat = handleAmount(amount);
 
     return (
-        <button className={`btn interaction ${extraClass}`} onClick={() => { func();  ; }}>
+        <button className={`btn interaction ${extraClass}`} onClick={() => { func();; }}>
             {state ? (
                 <img src={marked} />
             ) : (<img src={mark} />)}
@@ -56,7 +56,7 @@ export function Comments({ amount, func, extraClass }: Props) {
     const amountFormat = handleAmount(amount);
 
     return (
-        <button className={`btn interaction ${extraClass}`} onClick={() => { func();  ; }}>
+        <button className={`btn interaction ${extraClass}`} onClick={() => { func();; }}>
             <img src={commentIcon} />
             <span className='ml-2'>
                 {amountFormat}
@@ -64,13 +64,14 @@ export function Comments({ amount, func, extraClass }: Props) {
         </button>
     )
 }
-import reportIcon from '../assets/report.png'
+import report from '../assets/void_report.png'
+import reported from '../assets/report.png'
 export function Reports({ amount, func, extraClass }: Props) {
     const amountFormat = handleAmount(amount);
 
     return (
-        <button className={`btn interaction ${extraClass}`} onClick={() => { func();  ; }}>
-            <img src={reportIcon} />
+        <button className={`btn interaction ${extraClass}`} onClick={() => { func();; }}>
+            <img src={report} />
             <span className='ml-2'>
                 {amountFormat}
             </span>

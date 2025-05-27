@@ -25,7 +25,7 @@ export default function Home({ }) {
   }, []);
 
   return (
-    <div className={`${context?.isLightMode ? 'bg-[#FFFFFF] text-dark':'bg-(--dark-600) text-white'} flex flex-col min-h-screen min-w-screen overflow-hidden`}>
+    <div className={`${context?.isLightMode ? 'bg-[#FFFFFF] text-dark' : 'bg-(--dark-600) text-white'} flex flex-col min-h-screen min-w-screen overflow-hidden`}>
       <Header />
       <div className="flex flex-row">
         <SideBar />

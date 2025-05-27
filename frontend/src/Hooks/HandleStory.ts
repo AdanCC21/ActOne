@@ -60,14 +60,33 @@ export async function DeleteStory(storyId: number, session: any) {
         if (!fetchData.ok) throw new Error("Error in the request");
         const data = await fetchData.json();
         if (!data.data) throw new Error(data.message);
-        
+
         // Update Session
         session.published_stories = session.published_stories.filter(current => current != storyId);
         console.log(session);
         UpdateSession(session);
         UpdateUPD(session);
-        
+
         return data.data;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+export async function UpdateStory(storyId, data) {
+    try {
+        const fetchData = await fetch(`http://localhost:3000/api/story/update/${storyId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: storyId, data: data })
+        })
+        if (!fetchData.ok) throw new Error("Something is wrong in the fetch " + fetchData.status);
+        const fData = await fetchData.json();
+        if (!fData.data) throw new Error(fData.message);
+        return fData.data;
     } catch (e) {
         console.error(e);
         return null;

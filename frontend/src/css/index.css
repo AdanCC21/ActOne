@@ -34,7 +34,9 @@ body {
 
   --dark-primary:#1B1B1F;
   --light-primary:#ffffff;
+  
   --bg:#161618;
+  --border:rgb(66, 66, 66);
 
 
   --yellow-50:  #fefce8;
@@ -164,4 +166,3 @@ fieldset div {
   display: flex;
   flex-direction: column;
 }
-

@@ -1,20 +1,7 @@
-// import React, { useState } from 'react';
-// import {
-//     Editor,
-//     EditorState,
-//     RichUtils,
-//     convertToRaw,
-//     convertFromRaw
-// } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import Bold from '../assets/editorIcons/bold.svg'
-import UnderLine from '../assets/editorIcons/underline.svg'
-import Italic from '../assets/editorIcons/italic.svg'
+import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
-
-
-export default function RichTextEditor({ editorState, setEditorState, onSave }) {
+export default function RichTextEditor({ editorState, setEditorState, onSave, extraClass, synopsis }) {
     const handleKeyCommand = (command) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
@@ -28,6 +15,10 @@ export default function RichTextEditor({ editorState, setEditorState, onSave }) 
         setEditorState(RichUtils.toggleInlineStyle(editorState, style));
     };
 
+    const toggleBlockType = (blockType) => {
+        setEditorState(RichUtils.toggleBlockType(editorState, blockType));
+    };
+
     const saveContent = () => {
         const content = editorState.getCurrentContent();
         const raw = convertToRaw(content);
@@ -35,20 +26,39 @@ export default function RichTextEditor({ editorState, setEditorState, onSave }) 
     };
 
     return (
-        <div className='rounded-2xl bg-(--dark-800) p-5 h-[100%] overflow-y-auto'>
+        <div className={`${extraClass} rounded-2xl bg-(--dark-800) p-5`}>
             <div className='flex'>
-                <button className='btn interaction' onClick={() => toggleInlineStyle('BOLD')}>
-                    <b>B</b>
-                </button>
-                <button className='btn interaction' onClick={() => toggleInlineStyle('UNDERLINE')}>
-                    <u>U</u>
-                </button>
-                <button className='btn interaction' onClick={() => toggleInlineStyle('ITALIC')}>
-                    <i>I</i>
-                </button>
+                {!synopsis ? (
+                    <section className='flex mr-5'>
+                        <button className='btn void font-semibold' onClick={() => toggleBlockType('header-one')}>
+                            H1
+                        </button>
+                        <button className='btn void font-semibold' onClick={() => toggleBlockType('header-two')}>
+                            H2
+                        </button>
+                        <button className='btn void font-semibold' onClick={() => toggleBlockType('header-three')}>
+                            H3
+                        </button>
+                        <button className='btn void font-semibold' onClick={() => toggleBlockType('header-six')}>
+                            P
+                        </button>
+                    </section>
+                ) : (<></>)}
+                <section className='flex'>
+                    <button className='btn void font-semibold' onClick={() => toggleInlineStyle('BOLD')}>
+                        <b>B</b>
+                    </button>
+                    <button className='btn void font-semibold' onClick={() => toggleInlineStyle('UNDERLINE')}>
+                        <u>U</u>
+                    </button>
+                    <button className='btn void font-semibold' onClick={() => toggleInlineStyle('ITALIC')}>
+                        <i>I</i>
+                    </button>
+                </section>
             </div>
             <hr className='my-5' />
-            <Editor className="overflow-y-auto"
+            <Editor
+                className="overflow-y-auto"
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand}
                 onChange={setEditorState}
