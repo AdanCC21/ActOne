@@ -59,6 +59,9 @@ export default function FeedCard({ story, authorName, extraClass }: Props) {
 
     return (
         <article className={`feed-card ${extraClass}`}>
+            <div>
+                <button></button>
+            </div>
             <div onClick={() => {
                 navigator(`/story/${story.id}`);
             }} >

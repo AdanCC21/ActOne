@@ -1,12 +1,34 @@
+version: '3.8'
+
 services:
-  nginx-frontend:
+  frontend:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    ports:
-      - "80:80"
+      context: ./frontend
+    volumes:
+      - frontend-build:/app/dist
     networks:
       - app-network
+
+  api-gateway:
+    build:
+      context: ./backend/api-gateway
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - frontend-build:/usr/share/nginx/html
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+    networks:
+      - app-network
+
+volumes:
+  frontend-build:
 
 networks:
   app-network:
