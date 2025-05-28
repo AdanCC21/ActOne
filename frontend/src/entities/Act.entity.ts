@@ -8,7 +8,7 @@ export class E_Act {
     constructor(id?: number, title?: string, content?: string, act_number?: number) {
         this.id = id ?? 0;
         this.act_number = act_number ?? this.id;
-        this.title = title ?? 'Acto ' + id;
+        this.title = title ?? 'Act ' + id;
         this.author = '';
         this.content = content ?? '';
     }

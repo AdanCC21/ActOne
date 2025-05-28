@@ -59,10 +59,10 @@ export default function LogIn({ }) {
             </header>
 
 
-            <form className="flex flex-col min-h-[60vh] h-fit min-w-[25vw] max-w-[80vw] justify-between p-4 bg-(--dark-300) rounded-2xl"
+            <form className="flex flex-col min-h-[55vh] h-fit min-w-[20vw] max-w-[80vw] justify-between p-4 bg-(--dark-300) rounded-2xl"
                 onSubmit={(e) => { handleSubmit(inputs.email, 'email', inputs.password); e.preventDefault(); }}>
                 <fieldset className="flex flex-col justify-around h-3/4">
-                    <div className="h-1/4 my-5">
+                    <div className="h-1/4 my-3">
                         {alert == "Login" ? (
                             <div className="loader mx-auto">
                             </div>

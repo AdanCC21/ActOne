@@ -12,6 +12,8 @@ import { E_UPD } from '../../entities/UPD.entity'
 
 import FocusMode from '../../assets/icons/fullScreen.svg'
 import tempUser from '../../assets/tempUser.png'
+import addFollow from '../../assets/icons/addFoll.svg'
+import removeFollow from '../../assets/icons/removeFollow.svg'
 import '../../css/story.css'
 
 import { GetStory } from '../../Hooks/HandleStory'
@@ -53,7 +55,7 @@ export default function Story() {
       const commetsFetch = await GetComments(storyFetch.story.id);
       setComments(commetsFetch);
 
-      const acts = storyFetch.acts.filter(current => current.title != 'Sinopsis');
+      const acts = storyFetch.acts.filter(current => current.title != 'Synopsis');
       storyFetch.acts = acts.sort((a: any, b: any) => a.act_number - b.act_number);
       setStory(storyFetch)
 
@@ -107,16 +109,22 @@ export default function Story() {
             <article className='flex flex-col h-[50%] w-[80%] mx-auto my-2'>
               <img src={story.upd.profile_image_url || tempUser}
                 className='w-[200px] rounded-full m-auto aspect-square h-fit object-cover' />
-              <h3 className='text-center font-semibold cursor-pointer hover:underline' onClick={() => { navigator(`/user/${story.upd.id}`) }}>@{story.upd.user_name}</h3>
+              <h3 className='text-center font-semibold cursor-pointer hover:underline' onClick={() => { navigator(`/user/${story.upd.id}`) }}>
+                @{story.upd.user_name}
+              </h3>
               <span className='text-(--gray) text-center '>{story.upd.description}</span>
-              {sessionUpd.id != story.upd.id ? (<>
-                {sessionUpd.following.includes(story.upd.id) ? (
-                  <button className='btn yellow w-fit mx-auto my-2' onClick={() => { handleFollow(false) }}>Unfollow</button>
-                ) : (
-                  <button className='btn yellow w-fit mx-auto my-2' onClick={() => { handleFollow(true) }}>Follow</button>
-                )
-                } </>
-              ) : (<></>)}
+                {sessionUpd.id != story.upd.id ? (<>
+                  {sessionUpd.following.includes(story.upd.id) ? (
+                    <button className='btn w-fit mx-auto my-2' onClick={() => { handleFollow(false) }}>
+                      <img src={removeFollow} style={{width:15}}/>
+                    </button>
+                  ) : (
+                    <button className='btn  w-fit mx-auto my-2' onClick={() => { handleFollow(true) }}>
+                      <img src={addFollow} alt='follow' style={{width:15}}/></button>
+                  )
+                  } </>
+                ) : (<></>)}
+
             </article>
 
 
@@ -124,7 +132,7 @@ export default function Story() {
               <article className='comments my-auto'>
                 <h5 className='font-semibold mb-2'>Comments</h5>
                 <input className='inp-contraste rounded-xl pl-2'
-                  placeholder='comenta aqui'
+                  placeholder='Comment here'
                   value={inputVal}
                   maxLength={30}
                   onChange={(e) => { handleInput(e) }}

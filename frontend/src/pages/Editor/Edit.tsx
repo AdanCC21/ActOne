@@ -16,15 +16,17 @@ import '../../css/edit.css'
 import '../../css/inputs.css'
 import Modal2 from "../../components/Modal2";
 import { HandleSession, UpdateSession } from "../../Hooks/HandleSession";
+import warning from '../../assets/icons/warning.svg'
 
 export default function Edit({ }) {
     const { title } = useParams();
 
-    const [act, setAct] = useState([new E_Act(0, 'Sinopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed', 0), new E_Act(1)]);
+    const [act, setAct] = useState([new E_Act(0, 'Synopsis', 'Escribe aqui el texto de que se mostrara en la página del Feed', 0), new E_Act(1)]);
     const [storyDetails, setDetails] = useState({ visibility: false, labels: [''] });
     const [currentAct, setCurrent] = useState(0);
     const [suggestions, setSuggestions] = useState({ maxWords: '', badWords: [''], wordMostUsed: [''], intWords: [''] });
     const [modalState, setModal] = useState(false);
+    const [alert, setAlert] = useState('');
 
     // EDITOR
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -100,6 +102,12 @@ export default function Edit({ }) {
         console.log("Contenido guardado:", rawContent);
     };
 
+    const [inpLab, setLabel] = useState('');
+    const handleLabel = (e) => {
+        const { value, name } = e.target;
+        setLabel(value);
+    }
+
     return (
         <div className="overflow-hidden">
             <Header></Header>
@@ -111,14 +119,19 @@ export default function Edit({ }) {
                     <section className="e-editor-st-area">
                         <div className="flex justify-between">
                             {currentAct === 0 ? (
-                                <h5 className="mb-4 text-(--yellow-500)">Sinposis</h5>
+                                <h5 className="mb-4 text-(--yellow-500)">Synopsis</h5>
                             ) : (
-                                <input
-                                    name="title"
-                                    value={act[currentAct].title}
-                                    placeholder="Titulo para tu acto"
-                                    onChange={(e) => { handleChanges(e) }}
-                                    className="inp text-(--yellow-500) w-fit mb-2" />
+                                <div className="flex flex-col">
+                                    <input
+                                        name="title"
+                                        autoComplete="off"
+                                        maxLength={15}
+                                        value={act[currentAct].title}
+                                        placeholder="Title for your act"
+                                        onChange={(e) => { handleChanges(e) }}
+                                        className="inp text-(--yellow-500) w-fit mb-2" />
+                                    <small className="text-(--gray)">{act[currentAct].title.length}/15</small>
+                                </div>
                             )}
                         </div>
                         {currentAct === 0 ? (
@@ -126,7 +139,7 @@ export default function Edit({ }) {
                                 editorState={editorState}
                                 setEditorState={setEditorState}
                                 onSave={handleSave}
-                                extraClass={"max-h-[80%] min-h-[30%] overflow-y-auto"}
+                                extraClass={"max-h-[50%] h-full overflow-y-auto"}
                                 synopsis={true}
                                 maxLength={250}
                             />
@@ -146,7 +159,7 @@ export default function Edit({ }) {
 
                 <div className="flex flex-col w-1/6  mr-[1em]">
                     <div className="e-acts max-h-2/6">
-                        <h4 className="text-(--yellow-500)">Actos</h4>
+                        <h4 className="text-(--yellow-500)">Acts</h4>
                         <ul>
                             {act.map((current, index) => (
                                 <li key={index} className="flex items-center">
@@ -154,7 +167,7 @@ export default function Edit({ }) {
                                         onClick={() => {
                                             setCurrent(index);
                                         }}>{current.title}</span>
-                                    {index > 0 ? (
+                                    {index > 1 ? (
                                         <div className="ml-auto cursor-pointer opacity-20 hover:opacity-100 duration-200 ease-in-out"
                                             onClick={() => { deleteAct(act, setAct, index, currentAct, setCurrent); }} >
                                             <FaRegTrashAlt />
@@ -203,7 +216,7 @@ export default function Edit({ }) {
 
                     </div>
                     <div className="flex w-full mt-4 justify-end">
-                        <button className="btn w-fit mx-3" onClick={() => { handlePublish(); }}>Cancel</button>
+                        <button className="btn w-fit mx-3" onClick={() => { handlePublish(); setAlert('You can save your story privately or simply exit by pressing this text') }}>Cancel</button>
                         <button className="btn yellow w-fit" onClick={() => { handlePublish(); }}>Publish</button>
                     </div>
                 </div>
@@ -211,7 +224,13 @@ export default function Edit({ }) {
             <Modal2 isOpen={modalState} onClose={() => { setModal(false) }}>
                 <form className="flex flex-col" onSubmit={(e) => { e.preventDefault(); }}>
                     <h1 className="mb-10">Last Details</h1>
-
+                    {alert ? (
+                        <button className="btn yellow w-fit h-fit flex mx-auto mb-10" onClick={() => { navigate('/') }}>
+                            <img src={warning} className="w-[20px]"/>
+                            <p className="text-center text-black" >{alert}</p>
+                            <img src={warning} className="w-[20px] "/>
+                        </button>
+                    ) : (<></>)}
                     <fieldset className="mb-5 flex flex-col">
                         <h5 className="text-(--yellow-500)">Visibility</h5>
                         <select className="bg-black px-3 py-2" name="visibility" onChange={(e) => { handleDetails(e) }}>
@@ -221,17 +240,16 @@ export default function Edit({ }) {
                     </fieldset>
                     <hr />
                     <fieldset className="mb-5 flex flex-col">
-                        <h5 className="mt-5 text-(--yellow-500)">
-                            Labels 
-                        </h5>
-                        <input className="inp" placeholder={`Words recomended : ${suggestions.intWords}`} type="text" onChange={(e) => { handleDetails(e) }} onKeyDown={(e) => {
+                        <h5 className="mt-5 text-(--yellow-500)"> Labels </h5>
+                        <span className="mt-2 text-(--gray)" style={{ font: "0.5em" }}>Separate the labels with space or ","</span>
+                        <input maxLength={20} autoComplete="off" className="inp" value={inpLab} placeholder={`Words recomended : ${suggestions.intWords}`} type="text" onChange={(e) => { handleDetails(e); handleLabel(e); }} onKeyDown={(e) => {
                             if (e.key === 'Enter') { handleDetails(e); handleSubmit() }
                         }}></input>
-                        <span className="mt-2 text-(--gray)" style={{font:"0.5em"}}>Separate the labels with space or ","</span>
+                        <small className="text-(--gray) ml-auto mt-2">{inpLab.length}/20</small>
                     </fieldset>
 
                     <div className="flex mt-5">
-                        <button className="ml-auto mr-2 w-fit btn void" onClick={() => { setModal(false) }}>Cancel</button>
+                        <button className="ml-auto mr-2 w-fit btn void" onClick={() => { setModal(false); setAlert("") }}>Cancel</button>
                         <button className="w-fit btn yellow" onClick={() => { handleSubmit() }}>Submit</button>
                     </div>
                 </form>

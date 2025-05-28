@@ -146,6 +146,8 @@ export default function Profile() {
             <> {list.length > 0 ? (
                 <> {list.map((current, index) => {
                     if (current) {
+                        let isTheAuthor = false
+                        if (current.author_id === sessionUser.id) isTheAuthor = true;
                         return (
                             <motion.div
                                 key={index + list}
@@ -153,7 +155,8 @@ export default function Profile() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05, duration: 0.3 }}
                                 className='flex w-full'>
-                                <FeedCard extraClass='w-full my-2' story={current.story} isTheAuthor={true} session={sessionUser} />
+                                <FeedCard extraClass='w-full my-2' edit={true}
+                                    story={current.story} session={sessionUser} />
                             </motion.div>
                         )
                     }
@@ -206,7 +209,7 @@ export default function Profile() {
             {/* Modal de edicion */}
             <Modal2 isOpen={modalState} extraClass='bg-(--dark-300) ' onClose={() => (showModal(!modalState))} >
                 <form className='flex flex-col h-full' onSubmit={(e) => { e.preventDefault() }}>
-                    <h3 className='font-semibold text-center mb-5'>Editar Perfil</h3>
+                    <h3 className='font-semibold text-center mb-5'>Edit Profile</h3>
                     <div className='flex flex-col-reverse justify-between my-4'>
                         <fieldset className='flex flex-col mx-5 mt-8 justify-around'>
                             <section className='flex w-full'>
@@ -255,21 +258,21 @@ export default function Profile() {
             {/* Editor Modal */}
             <Modal2 isOpen={modalEditor} onClose={() => { setModalEdit(false) }} extraClass='max-w-[25vw]'>
                 <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
-                    <label htmlFor='title'><h3 className='text-(--yellow-500) font-semibold my-2'>Titulo</h3></label>
+                    <label htmlFor='title'><h3 className='text-(--yellow-500) font-semibold my-2'>Title</h3></label>
                     {alert ? (
                         <span className='text-red-600'>{alert}</span>
                     ) : (
                         <span className='text-(--gray)'>Use a short title for your story</span>
                     )}
                     <div className='flex flex-col my-2'>
-                        <input id='title' placeholder='Titulo' maxLength={25} className='inp'
+                        <input id='title' placeholder='Title' maxLength={30} className='inp'
                             name='title' value={title} onChange={(e) => { handleTitle(e) }} onKeyDown={(e) => { handleKey(e) }} />
-                        <small className='ml-auto mt-2 mr-2 text-(--gray)'>{title.length} / 25</small>
+                        <small className='ml-auto mt-2 mr-2 text-(--gray)'>{title.length} / 30</small>
                     </div>
 
                     <div className='flex w-full ml-auto mt-5'>
-                        <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setModalEdit(false); setAlert('') }}>Cancelar</button>
-                        <button type='submit' className='btn yellow w-fit ml-3'>Subir</button>
+                        <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setModalEdit(false); setAlert('') }}>Cancel</button>
+                        <button type='submit' className='btn yellow w-fit ml-3'>Continue</button>
                     </div>
                 </form>
             </Modal2>
@@ -298,11 +301,11 @@ export default function Profile() {
                     <section className='w-[80%] h-full'>
                         <nav className='flex h-[6%]  w-fit'>
                             <div className={`px-4 py-2 ${tab === 0 ? 'bg-(--yellow-500) text-black font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer  rounded-t-md transition-all ease-in-out duration-150`}
-                                onClick={() => { setTab(0) }}><p>Historias Publicadas</p></div>
+                                onClick={() => { setTab(0) }}><p>Published stories</p></div>
                             <div className={`px-4 py-2 ${tab === 1 ? 'bg-(--yellow-500) text-black font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
-                                onClick={() => { setTab(1) }}><p>Historias Guardadas</p></div>
+                                onClick={() => { setTab(1) }}><p>Saved stories</p></div>
                             <div className={`px-4 py-2 ${tab === 2 ? 'bg-(--yellow-500) text-black font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer rounded-t-md`}
-                                onClick={() => { setTab(2) }}><p>Me Gusta</p></div>
+                                onClick={() => { setTab(2) }}><p>Likes</p></div>
                         </nav>
                         <article className='story-list p-2 bg-(--dark-400) w-full h-[95%] rounded-b-xl rounded-r-xl overflow-y-auto overflow-x-hidden'>
                             {handleTabs()}

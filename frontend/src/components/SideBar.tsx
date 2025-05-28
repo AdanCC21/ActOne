@@ -35,7 +35,7 @@ export default function SideBar() {
         ) : (
           <>
             <TbLogout2 />
-            <span className="ml-2" onClick={() => { sessionStorage.clear(); navigator('/login'); }}>Iniciar Sesion</span>
+            <span className="ml-2" onClick={() => { sessionStorage.clear(); navigator('/login'); }}>Log In</span>
           </>
         )}
 

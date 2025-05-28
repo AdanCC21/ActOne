@@ -80,6 +80,7 @@ export default function RichTextEditor({ editorState, setEditorState, onSave, ex
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand}
                 onChange={handleEditorChange}
+                spellCheck={true}
             />
         </div>
     );

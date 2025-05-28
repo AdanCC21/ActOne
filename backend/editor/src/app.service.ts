@@ -78,13 +78,15 @@ export class AppService {
     "a", "ante", "bajo", "cabe", "con", "contra", "de", "desde", "durante", "en", "entre",
     "hacia", "hasta", "mediante", "para", "por", "según", "sin", "so", "sobre", "tras",
 
+    "-", "_", "+", "?", "¿", "!", "¡", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "(", ")", ".", ",", "*", ";",
+
     // Adverbios y determinantes comunes
     "aquí", "allí", "ahí", "acá", "allá", "así", "bien", "mal", "muy", "más", "menos", "nada",
     "algo", "todo", "casi", "siempre", "nunca", "jamás", "ya", "todavía", "aún", "también", "tampoco",
     "solo", "solamente", "demasiado", "bastante", "pronto", "luego", "antes", "después", "ahora", "entonces",
 
     // Interrogativos y relativos
-    "qué", "quién", "quiénes", "cual", "cuál", "cuáles", "cuándo", "cómo", "dónde", "por qué", "para qué",
+    "qué", "quién", "quiénes", "cual", "cuál", "cuáles", "cuándo", "cómo", "dónde", "donde", "por qué", "para qué",
     "que", "quien", "cuyo", "cuyos", "cuyas", "cualquiera",
 
     // Indefinidos y cuantificadores
@@ -92,7 +94,7 @@ export class AppService {
     "mucho", "mucha", "muchos", "muchas", "poco", "poca", "pocos", "pocas", "demasiado", "tanto", "tantos",
 
     // Otros
-    "lo", "le", "les", "se", "me", "te", "nos", "os", "sí", "no", "eso", "estos", "esas", "esa", "este", "esta", "aquello", "aquella","habia",
+    "lo", "le", "les", "se", "me", "te", "nos", "os", "sí", "no", "eso", "estos", "esas", "esa", "este", "esta", "aquello", "aquella", "habia",
 
     // Contracciones
     "al", "del",
@@ -110,7 +112,7 @@ export class AppService {
     "infiel", "infidelidad", "engaño", "engañó", "engañar", "traición", "traicionó", "traiciona", "traidor",
     "ruptura", "separación", "rechazo", "abandono", "desprecio", "vergüenza", "culpa", "mentira", "mentiras",
     "odio", "ira", "rencor", "resentimiento", "celos", "envidia", "venganza", "desamor", "confusión", "engañoso",
-    "loca", "loco","traicion"
+    "loca", "loco", "traicion"
 
     // Escándalos y conflictos
     , "escándalo", "escándalos", "chisme", "chismes", "rumor", "rumores", "secreto", "secretos",
@@ -195,7 +197,6 @@ export class AppService {
   MaxWords(text: string, max: number) {
     const words = text
       .toLowerCase()
-      .replace(/[^\w\s]/g, "")
       .split(/\s+/);
 
     if (words.length > max) {
@@ -205,12 +206,18 @@ export class AppService {
   }
 
   WordMostUsed(words: string[]): { palabra: string; cantidad: number } | null {
-    const stopWordsSet = new Set(this.StopWords);
+    const normalize = (str: string) =>
+      str
+        .normalize("NFD")
+        .toLowerCase();
+
+    const stopWordsSet = new Set(this.StopWords.map(normalize));
     const count: Record<string, number> = {};
 
     for (const word of words) {
-      if (word === "" || stopWordsSet.has(word)) continue;
-      count[word] = (count[word] || 0) + 1;
+      const normalized = normalize(word);
+      if (normalized === "" || stopWordsSet.has(normalized) || word.length <= 2) continue;
+      count[normalized] = (count[normalized] || 0) + 1;
     }
 
     let maxPalabra = "";
@@ -226,14 +233,15 @@ export class AppService {
     return maxPalabra ? { palabra: maxPalabra, cantidad: maxCantidad } : null;
   }
 
+
   HaveInterestingWords(words: string[]): string[] {
     const intWordSet = new Set(this.interestingWords.map(word => word.toLowerCase()));
 
     const normalizeWord = (word: string): string =>
       word
         .toLowerCase()
-        .replace(/[^\w\s]/g, "")
         .replace(/(\w)\1{1,}/g, "$1");
+    // .replace(/[^\w\s]/g, "")
 
     const found: string[] = [];
 

@@ -118,7 +118,7 @@ export default function OtherProfile() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05, duration: 0.3 }}
-                                className='flex w-full'>
+                                className='flex w-full px-2'>
                                 <FeedCard extraClass='w-full my-2' story={current.story} session={sessionUser} />
                             </motion.div>
                         )
@@ -203,7 +203,7 @@ export default function OtherProfile() {
                         <section className='w-[80%] h-full'>
                             <nav className='flex h-[6%]  w-fit'>
                                 <div className={`px-4 py-2 ${tab === 0 ? 'bg-(--yellow-500) text-black font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer  rounded-t-md transition-all ease-in-out duration-150`}
-                                    onClick={() => { setTab(0) }}><p>Historias Publicadas</p></div>
+                                    onClick={() => { setTab(0) }}><p>Published stories</p></div>
                             </nav>
                             <article className='story-list p-2 bg-(--dark-400) w-full h-[95%] rounded-b-xl rounded-r-xl overflow-y-auto overflow-x-hidden'>
                                 {handleTabs()}

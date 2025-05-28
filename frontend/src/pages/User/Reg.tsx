@@ -115,7 +115,7 @@ export default function Reg({ }) {
 
 
     const fase1 = () => {
-        return (<form className="flex flex-col h-[60vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
+        return (<form className="flex flex-col h-[60vh] min-w-[20vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
             <fieldset className="flex flex-col justify-around h-3/4 mb-5">
                 {alert ? (
                     <span className='text-red-600 text-center'>{alert}</span>
@@ -173,7 +173,7 @@ export default function Reg({ }) {
 
     const fase2 = () => {
         return (
-            <form className="flex flex-col h-[60vh] min-w-[25vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
+            <form className="flex flex-col h-[60vh] min-w-[20vw] justify-between p-4 bg-(--dark-400) rounded-2xl" onSubmit={(e) => { e.preventDefault(); }}>
                 <legend className="text-center my-5 ">
                     {alert ? (
                         <span className='text-center text-red-600'>{alert}</span>
@@ -184,7 +184,7 @@ export default function Reg({ }) {
                 <fieldset className="flex flex-col  h-[70%] max-h-[80%] my-5">
                     <div className='mb-2'>
                         <label htmlFor="text" >Name</label>
-                        <input className="inp lowercase" name="user_name" value={inputs.user_name} maxLength={10} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
+                        <input className="inp lowercase" name="user_name" value={inputs.user_name} maxLength={12} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
                         <small className='ml-auto text-(--gray) mt-2'>{inputs.user_name.length} / 10</small>
                     </div>
 

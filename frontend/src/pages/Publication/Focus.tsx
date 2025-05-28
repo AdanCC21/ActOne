@@ -94,7 +94,7 @@ export default function Focus() {
                 return
             }
 
-            const acts = result.acts.filter(current => current.title != 'Sinopsis');
+            const acts = result.acts.filter(current => current.title != 'Synopsis');
             result.acts = acts.sort((a, b) => a.act_number - b.act_number);
 
             try {

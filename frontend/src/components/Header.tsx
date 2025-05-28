@@ -88,22 +88,22 @@ export default function Header({ }) {
             <Modal2 isOpen={modalState} onClose={() => { setModal(false) }} extraClass='max-w-[25vw]'>
                 <form className='flex flex-col px-2' onSubmit={(e) => { handleStorie(e); e.preventDefault(); }}>
 
-                    <label htmlFor='title'><h3 className='text-(--yellow-500) font-semibold my-2'>Titulo</h3></label>
+                    <label htmlFor='title'><h3 className='text-(--yellow-500) font-semibold my-2'>Title</h3></label>
                     {alert ? (
                         <span className='text-red-600'>{alert}</span>
                     ) : (
                         <span className='text-(--gray)'>Use a short title for your story</span>
                     )}
                     <div className='flex flex-col my-2'>
-                        <input id='title' placeholder='Titulo' maxLength={25} className='inp'
+                        <input id='title' placeholder='Title' autoComplete='off' maxLength={30} className='inp'
                             name='title' value={title} onChange={(e) => { handleTitle(e) }} onKeyDown={(e) => { handleKey(e) }} />
-                        <small className='ml-auto mt-2 mr-2 text-(--gray)'>{title.length} / 25</small>
+                        <small className='ml-auto mt-2 mr-2 text-(--gray)'>{title.length} / 30</small>
 
                     </div>
 
                     <div className='flex w-full ml-auto mt-5'>
-                        <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setModal(false); setAlert('') }}>Cancelar</button>
-                        <button type='submit' className='btn yellow w-fit ml-3'>Subir</button>
+                        <button type='button' className='btn void w-fit ml-auto ' onClick={() => { setModal(false); setAlert('') }}>Cancel</button>
+                        <button type='submit' className='btn yellow w-fit ml-3'>Continue</button>
                     </div>
                 </form>
             </Modal2>
