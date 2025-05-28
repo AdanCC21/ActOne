@@ -20,7 +20,7 @@ type RegData = {
     },
     user_name: string,
     description: string,
-    profile_image_url:string
+    profile_image_url: string
 }
 
 export default function Reg({ }) {
@@ -35,7 +35,7 @@ export default function Reg({ }) {
         },
         user_name: '',
         description: '',
-        profile_image_url:'',
+        profile_image_url: '',
     });
 
     const [alert, setAlert] = useState("");
@@ -86,8 +86,7 @@ export default function Reg({ }) {
                 } else {
                     setAlert("Wait, error with the upd");
                 }
-                setForm(3);
-                // navigate('/')
+                navigate('/')
             } else {
                 setAlert(backendResult.message)
             };
@@ -185,44 +184,44 @@ export default function Reg({ }) {
                 <fieldset className="flex flex-col  h-[70%] max-h-[80%] my-5">
                     <div className='mb-2'>
                         <label htmlFor="text" >Name</label>
-                        <input className="inp" name="user_name" value={inputs.user_name} maxLength={10} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
+                        <input className="inp lowercase" name="user_name" value={inputs.user_name} maxLength={10} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="adan_gcm"></input>
                         <small className='ml-auto text-(--gray) mt-2'>{inputs.user_name.length} / 10</small>
                     </div>
-                    
+
                     <div className='mb-2'>
                         <label htmlFor="text" >Image URL</label>
-                        <input className="inp" name="profile_image_url" value={inputs.profile_image_url || tempUser} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="URL"></input>
+                        <input className="inp" name="profile_image_url" value={inputs.profile_image_url} onChange={(e) => { handleChanges(e) }} id="nameReg" type="text" placeholder="URL"></input>
                         <small className='ml-auto text-(--gray) mt-2'>Important, only the URL of a public image</small>
                     </div>
 
                     <div className='my-2 h-2/3'>
                         <label htmlFor="text" >Description</label>
-                        <textarea className="inp h-full" style={{ resize: 'none' }} maxLength={100} name="description" value={inputs.description} onChange={(e) => { handleChanges(e) }} onKeyDown={(e) => { HandleKey(e, HandleSubmit) }} id="nameReg" placeholder="adan_gcm" />
+                        <textarea className="inp h-full" style={{ resize: 'none' }} maxLength={100} name="description" value={inputs.description} onChange={(e) => { handleChanges(e) }} onKeyDown={(e) => { HandleKey(e, HandleSubmit) }} id="nameReg" placeholder="Hi, my name is.." />
                         <small className='ml-auto text-(--gray) mt-2'>{inputs.description.length} / 100</small>
                     </div>
                 </fieldset>
 
-                <button className="btn yellow w-fit ml-auto mt-3" type="submit" onClick={() => { HandleSubmit(); }} >Next</button>
+                <button className="btn yellow w-fit ml-auto mt-3" type="submit" onClick={() => { setForm(3) }} >Next</button>
             </form>)
     }
 
     const fase3 = () => {
         return (
-            <div className='flex flex-col bg-(--dark-300) w-fit px-[20px] h-[50vh] rounded-xl'>
+            <div className='flex flex-col bg-(--dark-300) w-[80vw] md:w-[50vw] px-[20px] h-[50vh] rounded-xl'>
                 <h2 className='text-center font-semibold mt-5 mb-0'>Profile Preview</h2>
-                <section className='flex w-full items-center justify-center px-[10px]'>
-                    <article className='flex py-3 justify-center items-center rounded-xl mr-4'>
+                <section className='flex w-full items-center justify-center px-[10px] m-auto'>
+                    <article className='flex w-1/3 py-3 justify-center items-center rounded-xl mr-4'>
                         <img className='w-[250px] rounded-full object-cover aspect-square mx-auto' src={inputs.profile_image_url} alt='profile image' />
                     </article>
-                    <article>
+                    <article className='w-2/3'>
                         <h4 className='font-bold text-(--yellow-400) mt-4'>@{inputs.user_name}</h4>
                         <p className='text-(--gray)'>{inputs.description}</p>
                     </article>
                 </section>
 
                 <div className='flex w-full justify-between  pb-4 mt-auto'>
-                    <button className='btn void' onClick={()=>{setForm(2)}}>Return</button>
-                    <button className='btn yellow' onClick={()=>{navigate('/')}}>Start</button>
+                    <button className='btn void' onClick={() => { setForm(2) }}>Return</button>
+                    <button className='btn yellow' onClick={() => { HandleSubmit(); }}>Start</button>
                 </div>
             </div>
         )

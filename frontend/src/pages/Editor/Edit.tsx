@@ -59,8 +59,8 @@ export default function Edit({ }) {
         setAct(prev =>
             prev.map((a, i) => i === currentAct ? { ...a, content: JSON.stringify(rawContent) } : a)
         );
-        console.log(fullText)
         handleSug(fullText);
+
     }, [editorState]);
 
     const handleChanges = (e: any) => {
@@ -75,7 +75,7 @@ export default function Edit({ }) {
         if (name === 'visibility') {
             value === 'true' ? setDetails(prev => { return { ...prev, visibility: true } }) : setDetails(prev => { return { ...prev, visibility: false } })
         } else {
-            const labelsList = value.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/);
+            const labelsList = value.toLowerCase().replace(/[^\w\s]/g, "").split(/[,\s]+/);
             setDetails(prev => { return { ...prev, labels: labelsList } })
         }
     }
@@ -104,7 +104,7 @@ export default function Edit({ }) {
         <div className="overflow-hidden">
             <Header></Header>
             <main className="edit-main">
-                <div className="e-editor">
+                <div className="e-editor w-5/6">
                     <div className="e-editor-header">
                         <h2 className="font-semibold">{title}</h2>
                     </div>
@@ -126,8 +126,9 @@ export default function Edit({ }) {
                                 editorState={editorState}
                                 setEditorState={setEditorState}
                                 onSave={handleSave}
-                                extraClass={"h-[20vh]"}
+                                extraClass={"max-h-[80%] min-h-[30%] overflow-y-auto"}
                                 synopsis={true}
+                                maxLength={250}
                             />
                         ) : (
                             <RichTextEditor
@@ -136,13 +137,14 @@ export default function Edit({ }) {
                                 onSave={handleSave}
                                 extraClass={"h-full overflow-y-auto"}
                                 synopsis={false}
+                                maxLength={3000}
                             />
                         )}
 
                     </section>
                 </div>
 
-                <div className="flex max-w-[15vw] w-[15vw] flex-col mr-[1em]">
+                <div className="flex flex-col w-1/6  mr-[1em]">
                     <div className="e-acts max-h-2/6">
                         <h4 className="text-(--yellow-500)">Actos</h4>
                         <ul>
@@ -219,10 +221,13 @@ export default function Edit({ }) {
                     </fieldset>
                     <hr />
                     <fieldset className="mb-5 flex flex-col">
-                        <h5 className="mt-5 text-(--yellow-500)">Labels</h5>
-                        <input className="inp" placeholder="Lables" type="text" onChange={(e) => { handleDetails(e) }} onKeyDown={(e) => {
+                        <h5 className="mt-5 text-(--yellow-500)">
+                            Labels 
+                        </h5>
+                        <input className="inp" placeholder={`Words recomended : ${suggestions.intWords}`} type="text" onChange={(e) => { handleDetails(e) }} onKeyDown={(e) => {
                             if (e.key === 'Enter') { handleDetails(e); handleSubmit() }
                         }}></input>
+                        <span className="mt-2 text-(--gray)" style={{font:"0.5em"}}>Separate the labels with space or ","</span>
                     </fieldset>
 
                     <div className="flex mt-5">

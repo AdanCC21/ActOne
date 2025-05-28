@@ -1,7 +1,9 @@
 import 'draft-js/dist/Draft.css';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
+import { useScroll } from 'framer-motion';
+import { useState } from 'react';
 
-export default function RichTextEditor({ editorState, setEditorState, onSave, extraClass, synopsis }) {
+export default function RichTextEditor({ editorState, setEditorState, onSave, extraClass, synopsis, maxLength }) {
     const handleKeyCommand = (command) => {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
@@ -25,12 +27,27 @@ export default function RichTextEditor({ editorState, setEditorState, onSave, ex
         onSave(raw);
     };
 
+    const [alert, setAlert] = useState('');
+
+    const handleEditorChange = (state) => {
+        const content = state.getCurrentContent();
+        const plainText = content.getPlainText('');
+        if (plainText.length <= maxLength) {
+            setEditorState(state);
+            setAlert('')
+        } else {
+            setAlert(`Maximum character limit exceeded. Limit : ${maxLength}`)
+            setEditorState(state);
+        }
+    };
+
     return (
         <div className={`${extraClass} rounded-2xl bg-(--dark-800) p-5`}>
+            
             <div className='flex'>
                 {!synopsis ? (
                     <section className='flex mr-5'>
-                        <button className='btn void font-semibold' onClick={() => toggleBlockType('header-one')}>
+                        {/* <button className='btn void font-semibold' onClick={() => toggleBlockType('header-one')}>
                             H1
                         </button>
                         <button className='btn void font-semibold' onClick={() => toggleBlockType('header-two')}>
@@ -41,7 +58,7 @@ export default function RichTextEditor({ editorState, setEditorState, onSave, ex
                         </button>
                         <button className='btn void font-semibold' onClick={() => toggleBlockType('header-six')}>
                             P
-                        </button>
+                        </button> */}
                     </section>
                 ) : (<></>)}
                 <section className='flex'>
@@ -56,12 +73,13 @@ export default function RichTextEditor({ editorState, setEditorState, onSave, ex
                     </button>
                 </section>
             </div>
+            <span className='text-red-600'> {alert} </span>
             <hr className='my-5' />
             <Editor
                 className="overflow-y-auto"
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand}
-                onChange={setEditorState}
+                onChange={handleEditorChange}
             />
         </div>
     );

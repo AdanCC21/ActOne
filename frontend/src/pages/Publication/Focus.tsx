@@ -8,6 +8,7 @@ import { TbLogout2 } from "react-icons/tb";
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { E_UPD } from '../../entities/UPD.entity';
 import { GetUPD } from '../../Hooks/GetUPD';
+import { motion } from 'framer-motion';
 
 export default function Focus() {
     const { id } = useParams();
@@ -61,7 +62,7 @@ export default function Focus() {
             if (story.acts[currentAct + move]) {
                 const raw = JSON.parse(story.acts[currentAct + move].content);
                 setAct(prev => prev + move);
-                
+
 
                 let firstBlock;
                 if (move > 0) {
@@ -69,10 +70,10 @@ export default function Focus() {
                     setBlock(0);
                 } else {
                     firstBlock = [raw.blocks[raw.blocks.length - 1]]
-                    setBlock(raw.blocks.length-1);
+                    setBlock(raw.blocks.length - 1);
                 }
                 raw.blocks = firstBlock;
-                
+
 
                 const content = convertFromRaw(raw);
                 setEditor(EditorState.createWithContent(content));
@@ -148,28 +149,23 @@ export default function Focus() {
                 ) : (<></>)}
             </nav>
             <main className='m-auto'>
+
                 {!final ? (
-                    <>
-                        {currentAct > 0 ? (
-                            <>
-                                {true ? (
-                                    <button
-                                        className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
-                                        style={{ fontSize: '2em' }}
-                                        onClick={() => { handleBlocks(-1); }}>{`>`}</button>
-                                ) : (<></>)}
-                            </>
-                        ) : (
-                            <>
-                                {currentBlock > 0 ? (
-                                    <button
-                                        className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
-                                        style={{ fontSize: '2em' }}
-                                        onClick={() => { handleBlocks(-1); }}>{`>`}</button>
-                                ) : (<></>)}
-                            </>
-                        )}
-                    </>
+                    <>{currentAct > 0 ? (<>
+                        {true ? (
+                            <button
+                                className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto mb-auto rotate-270'
+                                style={{ fontSize: '2em' }}
+                                onClick={() => { handleBlocks(-1); }}>{`>`}</button>
+                        ) : (<></>)}
+                    </>) : (<>
+                        {currentBlock > 0 ? (
+                            <button
+                                className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-270'
+                                style={{ fontSize: '2em' }}
+                                onClick={() => { handleBlocks(-1); }}>{`>`}</button>
+                        ) : (<></>)}</>
+                    )}</>
                 ) : (
                     <>
                         <button
@@ -180,23 +176,52 @@ export default function Focus() {
                 )}
 
                 {!final ? (
-                    <div className='flex flex-col justify-center my-5 min-h-[40vh]'>
+                    <motion.div
+                        key={`${currentAct}-${currentBlock}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className='flex flex-col justify-center my-5 min-h-[40vh]'>
+
                         {currentAct === 0 ? (
                             <h1>{story.story.title}</h1>
                         ) : (<></>)}
-                        <h5 className='text-(--yellow-800)'>{story.acts[currentAct].title}</h5>
-                        <div className='max-w-[80vw]'>
+                        <motion.h5
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.07, duration: 0.3 }}
+                            className='text-(--yellow-800)'>{story.acts[currentAct].title}</motion.h5>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.12, duration: 0.3 }}
+                            className='max-w-[80vw]'>
                             <Editor editorState={editorState} readOnly={true} onChange={() => { }}></Editor>
-                        </div>
-                        {/* <p>{story.acts[currentAct].content}</p> */}
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
                 ) : (
                     <div className='flex flex-col items-center'>
-                        <h5 className='font-medium mb-3'>Historia hecha por</h5>
-                        <img src={authorUpd.profile_image_url} className='rounded-full object-cover h-[20vh] aspect-square mb-3 mr-4' />
-                        <h2 className='font-bold'>@{authorUpd.user_name}</h2>
-                        <button className='btn void' onClick={() => { navigator(`/story/${id}`) }}>Finalizar</button>
+                        <motion.h5
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className='font-medium mb-3'>Historia hecha por</motion.h5>
+                        <motion.img
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.06, duration: 0.3 }}
+                            src={authorUpd.profile_image_url} className='rounded-full object-cover h-[20vh] aspect-square mb-3 mr-4' />
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1, duration: 0.3 }}
+                            className='font-bold'>@{authorUpd.user_name}</motion.h2>
+                        <motion.button initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 12, y: 0 }}
+                            transition={{ delay: 0.12, duration: 0.3 }} 
+                            className='btn void' 
+                            onClick={() => { navigator(`/story/${id}`) }}>Finalizar</motion.button>
                     </div>
                 )}
                 {final ? (<></>) : (<button className='btn alone text-(--gray) hover:text-white opacity-20 hover:opacity-100 mx-auto rotate-90 '

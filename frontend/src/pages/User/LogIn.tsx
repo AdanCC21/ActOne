@@ -64,12 +64,7 @@ export default function LogIn({ }) {
                 <fieldset className="flex flex-col justify-around h-3/4">
                     <div className="h-1/4 my-5">
                         {alert == "Login" ? (
-                            <div className="max-h-[50px] w-fit mx-auto">
-                                <DotLottieReact
-                                    src="https://lottie.host/d0314f19-be77-48f1-8299-44406cef8edc/ldhSr6NV2l.lottie"
-                                    loop
-                                    autoplay
-                                />
+                            <div className="loader mx-auto">
                             </div>
                         ) : (
                             <>{alert === '' ? (

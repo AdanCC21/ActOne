@@ -111,29 +111,3 @@
     animation: fadeOut 0.2s ease-in-out both;
 }
 
-@keyframes fadeIn {
-    0%{
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    100%{
-        opacity: 1;
-        transform: translateY(0px);
-    }
-}
-
-@keyframes fadeOut {
-    100%{
-        opacity: 0;
-        transform: translateY(-20px);
-        display: none;
-    }
-    90%{
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    0%{
-        opacity: 1;
-        transform: translateY(0px);
-    }
-}

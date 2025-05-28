@@ -8,10 +8,11 @@ import Modal2 from './Modal2'
 
 import searcher from '../assets/icons/searchBlack.svg'
 import tempUser from '../assets/tempUser.png'
-import sun from '../assets/icons/sun.svg'
+import info from '../assets/icons/info.svg'
 import './css/header.css'
 import FeedCard from './FeedCard';
 import MiniCard from './MiniCard';
+import { motion } from 'framer-motion';
 
 
 export default function Header({ }) {
@@ -109,13 +110,23 @@ export default function Header({ }) {
 
             <div className='flex flex-row items-center h-full ml-3 cursor-pointer'>
                 <h3 className='my-auto font-semibold text-(--yellow-500)' onClick={() => { navigate('/') }}>ActOne</h3>
-                {/* <button className='btn void ml-2' onClick={() => { context?.setIsLightMode(!context.isLightMode) }}>
-                    <img src={sun} alt='Change Theme' />
-                </button> */}
             </div>
 
             <div className='h-nav'>
                 <form className='h-nav-search' onSubmit={(e) => { e.preventDefault(); }}>
+                    <div className="relative group w-fit flex mr-5 ">
+                        <img src={info} alt="Descripción" className='my-auto' />
+                        <div
+                            className="absolute top-full mt-2 hidden group-hover:flex bg-(--dark-400) text-sm px-2 py-1 rounded z-10">
+                            <ul className='flex flex-col'>
+                                <li>Title</li>
+                                <li>@User</li>
+                                <li>-Acts Number</li>
+                                <li>~Duration</li>
+                                <li>#Labels</li>
+                            </ul>
+                        </div>
+                    </div>
                     <fieldset className='w-[40vw] items-center justify-center'>
                         <input autoComplete='off' className='inp w-full h-full' id='searcher' placeholder='Search Here'
                             type='text' value={inputSearch} onChange={(e) => { handleSearch(e) }} />
@@ -124,7 +135,7 @@ export default function Header({ }) {
                             <ul>
                                 {searchRes.map((current: any, index) => (
                                     <li className='mb-1  rounded-xl ' onClick={() => { navigate(`/story/${current.id}`) }}>
-                                        <MiniCard story={current}/>
+                                        <MiniCard story={current} />
                                     </li>
                                 ))}
                             </ul>

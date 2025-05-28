@@ -1,6 +1,6 @@
 .btn {
     display: flex;
-    background-color: var(--dark-200);
+    background-color: var(--dark-500);
     cursor: pointer;
 
     padding: 0px 16px;

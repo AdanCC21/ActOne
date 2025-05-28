@@ -6,10 +6,9 @@ import { E_UPD } from '../../entities/UPD.entity';
 import { E_Story } from '../../entities/Story.entity';
 import FeedCard from '../../components/FeedCard'
 
-import Like from '../../assets/void_like.png';
-import VoidMark from '../../assets/mark.png';
-import Comments from '../../assets/comments.svg'
 import tempUser from '../../assets/tempUser.png'
+import addFollow from '../../assets/icons/addFoll.svg'
+import removeFollow from '../../assets/icons/removeFollow.svg'
 
 import { FaRegUser } from "react-icons/fa";
 import { RiUserFollowLine } from "react-icons/ri";
@@ -18,6 +17,8 @@ import { HandleSession, UpdateSession } from '../../Hooks/HandleSession';
 import Modal2 from '../../components/Modal2';
 import { Follow } from '../../Hooks/Follow';
 import FollowList from '../../components/FollowList';
+import { motion } from 'framer-motion';
+import { TbScanPosition } from 'react-icons/tb';
 
 
 export default function OtherProfile() {
@@ -106,21 +107,47 @@ export default function OtherProfile() {
     }, [])
 
 
+    const getList = (list: any) => {
+        return (
+            <> {list.length > 0 ? (
+                <> {list.map((current, index) => {
+                    if (current) {
+                        return (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.05, duration: 0.3 }}
+                                className='flex w-full'>
+                                <FeedCard extraClass='w-full my-2' story={current.story} session={sessionUser} />
+                            </motion.div>
+                        )
+                    }
+                    return (<></>)
+                })} </>
+            ) : (
+                <>
+                    <motion.div
+                        initial={{ opacity: 0, }}
+                        animate={{ opacity: 1, }}
+                        transition={{ duration: 0.5 }}
+                        className='feed-card flex flex-col'>
+                        <span className='m-auto'>Empty...</span>
+                    </motion.div>
+                </>
+            )
+            } </>
+        )
+    }
+
     const handleTabs = () => {
         switch (tab) {
             case 0:
-                return (
-                    pubList.map((current, index) => {
-                        if (current) {
-                            return (
-                                <div key={index} className=' w-full ml-4'>
-                                    <FeedCard extraClass='w-full' story={current.story} />
-                                </div>
-                            )
-                        }
-                        return (<></>)
-                    })
-                )
+                return getList(pubList)
+            case 1:
+                return getList(markedList)
+            case 2:
+                return getList(likedList)
         }
     }
 
@@ -135,50 +162,61 @@ export default function OtherProfile() {
             <Modal2 isOpen={followers} onClose={() => (showfollowers(!followers))}>
                 <FollowList dataList={followersList} sessionUser={sessionUser} handleFollow={handleFollow} title='Followers' extraClass='' />
             </Modal2>
+            {currentUser.id ? (
+                <div className='flex h-(--page-h)'>
+                    <main className='flex m-auto w-[95%] h-[95%] bg-(--dark-200) p-5 rounded-2xl'>
+                        <section className='flex flex-col h-full w-[20%] '>
+                            <article className='flex flex-col h-[60%] items-center'>
+                                <img className='w-[50%] h-fit my-4 aspect-square object-cover rounded-full mx-auto' src={currentUser.profile_image_url || tempUser} />
+                                <h3 className='font-bold'>@{currentUser.user_name}</h3>
+                                <p className='text-(--gray) mb-5'>{currentUser.description !== '' ? (<>{currentUser.description}</>) : (<>No hay descripcion</>)}</p>
+                                {sessionUser.id !== currentUser.id ? (
+                                    <>
+                                        {sessionUser.following.includes(currentUser.id) ? (
+                                            <button className='btn  mx-auto my-3' onClick={() => {
+                                                handleFollow(currentUser.id, false)
+                                            }}>
+                                                <img src={removeFollow} style={{width:20}} alt='Remove Follow' />
+                                                <span className='ml-2'> Unfollow</span>
+                                            </button>
+                                        ) : (
+                                            <button className='btn mx-auto my-3' onClick={() => {
+                                                handleFollow(currentUser.id, true)
+                                            }}>
+                                                <img src={addFollow} style={{width:20}} alt='Add Follow' />
+                                                <span className='ml-2'>Follow</span>
+                                            </button>
+                                        )}
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                            </article>
+                            <ul className='flex mb-3 mx-auto mt-auto flex-wrap text-[#9a9999]'>
+                                <div className='flex mx-auto'>
+                                    <li className='flex items-center mx-5 cursor-pointer' onClick={() => { showfollowers(!followers) }}> <FaRegUser className='h-[15px] mr-2' /> {currentUser.followers.length} Followers </li>
+                                    <li className='flex items-center mx-5 cursor-pointer' onClick={() => { showFollowing(!following) }}> <RiUserFollowLine className='h-[15px] mr-2' /> {currentUser.following.length} Following</li>
+                                </div>
+                            </ul>
+                        </section>
 
-            <div className='flex h-(--page-h)'>
-                <main className='flex m-auto w-[95%] h-[95%] bg-(--dark-200) p-5 rounded-2xl'>
-                    <section className='flex flex-col h-full w-[20%] '>
-                        <article className='flex flex-col h-[60%] my-auto items-center'>
-                            <img className='w-[50%] h-fit my-4 aspect-square object-cover rounded-full mx-auto' src={currentUser.profile_image_url|| tempUser} />
-                            <h4 className='font-bold'>@{currentUser.user_name}</h4>
-                            <p className='text-(--gray)'>{currentUser.description !== '' ? (<>{currentUser.description}</>) : (<>No hay descripcion</>)}</p>
-                            {sessionUser.id !== currentUser.id ? (
-                                <>
-                                    {sessionUser.following.includes(currentUser.id) ? (
-                                        <button className='btn yellow mx-auto my-3' onClick={() => {
-                                            handleFollow(currentUser.id, false)
-                                        }}>Unfollow</button>
-                                    ) : (
-                                        <button className='btn yellow mx-auto my-3' onClick={() => {
-                                            handleFollow(currentUser.id, true)
-                                        }}>Follow</button>
-                                    )
-                                    }
-                                </>
-                            ) : (
-                                <></>
-                            )}
-                        </article>
-                        <ul className='flex mb-3 mx-auto flex-wrap text-[#9a9999]'>
-                            <div className='flex mx-auto'>
-                                <li className='flex items-center mx-5 cursor-pointer' onClick={() => { showfollowers(!followers) }}> <FaRegUser className='h-[15px] mr-2' /> {currentUser.followers.length} </li>
-                                <li className='flex items-center mx-5 cursor-pointer' onClick={() => { showFollowing(!following) }}> <RiUserFollowLine className='h-[15px] mr-2' /> {currentUser.following.length} </li>
-                            </div>
-                        </ul>
-                    </section>
+                        <section className='w-[80%] h-full'>
+                            <nav className='flex h-[6%]  w-fit'>
+                                <div className={`px-4 py-2 ${tab === 0 ? 'bg-(--yellow-500) text-black font-semibold' : 'bg-(--dark-600) text-(--gray)'} cursor-pointer  rounded-t-md transition-all ease-in-out duration-150`}
+                                    onClick={() => { setTab(0) }}><p>Historias Publicadas</p></div>
+                            </nav>
+                            <article className='story-list p-2 bg-(--dark-400) w-full h-[95%] rounded-b-xl rounded-r-xl overflow-y-auto overflow-x-hidden'>
+                                {handleTabs()}
+                            </article>
+                        </section>
+                    </main>
+                </div>
+            ) : (
+                <div className='flex w-screen h-(--page-h) items-center justify-center'>
+                    <div className='loader'></div>
+                </div>
+            )}
 
-                    <section className='w-[80%] h-full'>
-                        <nav className='flex h-[6%]'>
-                            <div className={`px-4 py-2 ${tab === 0 ? 'bg-(--dark-400) text-(--yellow-500) font-semibold' : 'bg-(--dark-800) text-(--gray)'} cursor-pointer  rounded-t-md transition-all ease-in-out duration-150`}
-                                onClick={() => { setTab(0) }}><p>Historias Publicadas</p></div>
-                        </nav>
-                        <article className='grid grid-cols-2 gap-x-5 p-2 bg-(--dark-400) w-full h-[90%] overflow-y-auto overflow-x-hidden'>
-                            {handleTabs()}
-                        </article>
-                    </section>
-                </main>
-            </div>
         </>
     )
 }

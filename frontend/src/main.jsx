@@ -11,6 +11,7 @@ import global from 'global';
 import './css/index.css'
 import './css/buttons.css'
 import './css/font-poppins.css'
+import './css/animations.css'
 window.global = window;
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;

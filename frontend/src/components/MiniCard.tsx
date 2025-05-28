@@ -47,10 +47,12 @@ export default function MiniCard({ story, authorName, extraClass, isTheAuthor, s
 
     // Crear estado para mostrar la sinopsis con Draft.js
     let synopsisState = EditorState.createEmpty();
+    let plainText = ""
     try {
         const raw = JSON.parse(story.synopsis || '{}');
         const content = convertFromRaw(raw);
         synopsisState = EditorState.createWithContent(content);
+        plainText = raw.blocks.map(block => block.text).join(' '); 
     } catch (e) {
         console.error('Error parsing synopsis DraftJS content:', e);
     }
@@ -77,17 +79,8 @@ export default function MiniCard({ story, authorName, extraClass, isTheAuthor, s
         if (!authorName) fetchData();
     }, [])
 
-    const [modalVis, setVisModal] = useState(false);
-    const [deleteModal, setDelete] = useState(false);
-    const [vis, setVis] = useState(false);
-
-    const handleDetails = (e: any) => {
-        const { value } = e.target;
-        value === 'true' ? setVis(true) : setVis(false)
-    }
-
     const updateVisibility = async (storyId: number, newVisibility: boolean) => {
-        const hook = await UpdateStory(storyId, { visibility: newVisibility });
+        UpdateStory(storyId, { visibility: newVisibility });
     }
 
     return (

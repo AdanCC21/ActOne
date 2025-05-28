@@ -86,7 +86,7 @@ export default function FeedCard({ story, authorName, extraClass, isTheAuthor, s
     }
 
     const updateVisibility = async (storyId: number, newVisibility: boolean) => {
-        const hook = await UpdateStory(storyId, { visibility: newVisibility });
+        UpdateStory(storyId, { visibility: newVisibility });
     }
 
     return (
@@ -180,16 +180,26 @@ export default function FeedCard({ story, authorName, extraClass, isTheAuthor, s
                 <Reports
                     extraClass='mx-2 my-auto'
                     func={async () => {
-                        if (sessionUpd && !userPdState.reported.state) {
+                        if (sessionUpd) {
                             const fetchData = await Report(story.author_id, story.id);
                             if (fetchData) {
-                                setPD(prev => ({
-                                    ...prev,
-                                    reported: {
-                                        amount: prev.reported.amount + 1,
-                                        state: !prev.reported.state
-                                    }
-                                }));
+                                if (!userPdState.reported.state) {
+                                    setPD(prev => ({
+                                        ...prev,
+                                        reported: {
+                                            amount: prev.reported.amount + 1,
+                                            state: !prev.reported.state
+                                        }
+                                    }));
+                                } else {
+                                    setPD(prev => ({
+                                        ...prev,
+                                        reported: {
+                                            amount: prev.reported.amount - 1,
+                                            state: !prev.reported.state
+                                        }
+                                    }));
+                                }
                             }
                         }
                     }}
